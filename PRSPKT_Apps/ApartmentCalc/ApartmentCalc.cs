@@ -11,7 +11,7 @@ using Autodesk.Revit.DB.Architecture;
 
 namespace ApartmentCalc
 {
-    [Transaction(TransactionMode.Manual)];
+    [Transaction(TransactionMode.Manual)]
     public class ApartmentCalc : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
