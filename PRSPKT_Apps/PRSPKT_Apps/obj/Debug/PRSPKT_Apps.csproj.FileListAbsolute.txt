@@ -1,0 +1,5 @@
+Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\bin\Debug\PRSPKT_Apps.dll
+Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\bin\Debug\PRSPKT_Apps.pdb
+Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\Debug\PRSPKT_Apps.csprojResolveAssemblyReference.cache
+Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\Debug\PRSPKT_Apps.dll
+Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\Debug\PRSPKT_Apps.pdb
