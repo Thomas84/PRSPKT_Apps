@@ -1,7 +1,0 @@
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\bin\x64\Release\PRSPKT_Apps.dll
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\bin\x64\Release\PRSPKT_Apps.pdb
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\x64\Release\PRSPKT_Apps.dll
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\x64\Release\PRSPKT_Apps.pdb
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\x64\Release\PRSPKT_Apps.g.resources
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\bin\x64\Release\PRSPKT_Apps.addin
-Z:\Q\git\PRSPKT_Apps\PRSPKT_Apps\PRSPKT_Apps\obj\x64\Release\PRSPKT_Apps.csprojResolveAssemblyReference.cache

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>PRSPKT Apps Ribbon</Name>
+    <Assembly>PRSPKT_Apps.dll</Assembly>
+    <AddInId>44bbc378-accf-4ba9-9e72-1f9884b424fa</AddInId>
+    <FullClassName>PRSPKT_Apps.App</FullClassName>
+    <VendorId>PRSPKT</VendorId>
+    <VendorDescription>PRSPKT architects http://prspkt.ru</VendorDescription>
+  </AddIn>
+</RevitAddIns>
