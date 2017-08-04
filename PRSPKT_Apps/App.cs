@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region Namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,15 @@ using Autodesk.Revit.DB;
 using PRSPKT_Apps;
 using Autodesk.Revit.UI;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.IO;
+#endregion
 
 namespace PRSPKT_Apps
 {
-    public class App : IExternalApplication
+    class App : IExternalApplication
     {
+        /*
         static void AddRibbonPanel(UIControlledApplication application)
         {
             // Create a custom ribbon tab
@@ -59,17 +64,111 @@ namespace PRSPKT_Apps
             BitmapImage pb3Image = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/dimAxies.png"));
             pb3.LargeImage = pb3Image;
         }
+        */
 
         public Result OnShutdown(UIControlledApplication application)
         {
-            // do nothing
             return Result.Succeeded;
         }
 
         public Result OnStartup(UIControlledApplication application)
         {
-            AddRibbonPanel(application);
-            return Result.Succeeded;
+            try
+            {
+                // Create the panel for PRSPKT Tools;
+                RibbonPanel PRSPKTpanel = application.CreateRibbonPanel(Tools.LangResMan.GetString("roomFinishes_ribbon_panel_name", Tools.Cult));
+
+                // Create icons in this panel
+                Icons.CreateIcons(PRSPKTpanel);
+
+                return Result.Succeeded;
+            }
+            catch
+            {
+                // Return Failure
+                return Result.Failed;
+            }
+
+        }
+    }
+
+    class Icons
+    {
+        public static void CreateIcons(RibbonPanel PRSPKTpanel)
+        {
+            //Get dll assembly path
+            string DllPath = Assembly.GetExecutingAssembly().Location;
+
+            // Add PRSPKT TotalLength Button
+            string ButtonText = Tools.LangResMan.GetString("totalLength_button_name", Tools.Cult);
+            PushButtonData totalLengthData = new PushButtonData("cmdCurveTotalLength", ButtonText, DllPath, "TotalLength.CurveTotalLength");
+
+            totalLengthData.ToolTip = Tools.LangResMan.GetString("totalLength_toolTip", Tools.Cult);
+            totalLengthData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.totalLength.png");
+            PRSPKTpanel.AddItem(totalLengthData);
+
+            // Add PRSPKT dimAxies Button
+            string dimAxiesButtonText = Tools.LangResMan.GetString("dimAxies_button_name", Tools.Cult);
+            PushButtonData dimAxiesData = new PushButtonData("cmdDimAxies", dimAxiesButtonText, DllPath, "DimAxies.DimAxies");
+            dimAxiesData.ToolTip = Tools.LangResMan.GetString("dimAxies_toolTip", Tools.Cult);
+            dimAxiesData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.dimAxies.png");
+            PRSPKTpanel.AddItem(dimAxiesData);
+
+            // Add PRSPKT ApartmentCalc Button
+            string ApartCalcButtonText = Tools.LangResMan.GetString("apartCalc_button_name", Tools.Cult);
+            PushButtonData apartCalcData = new PushButtonData("cmdApartCalc", ApartCalcButtonText, DllPath, "ApartmentCalc.ApartmentCalc");
+            apartCalcData.ToolTip = Tools.LangResMan.GetString("dimAxies_toolTip", Tools.Cult);
+            apartCalcData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.dimAxies.png");
+
+
+            // Add PRSPKT Rename Apart Rooms Button
+            string ApartRoomsButtonText = Tools.LangResMan.GetString("apartRoomRename_button_name", Tools.Cult);
+            PushButtonData ApartRoomsData = new PushButtonData("cmdRenameApartRooms", ApartRoomsButtonText, DllPath, "RenameApartRooms.RenameApartRooms");
+            ApartRoomsData.ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult);
+            ApartRoomsData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.renameApartRooms.png");
+            PRSPKTpanel.AddItem(ApartRoomsData);
+
+            // Add PRSPKT FloorFinish button
+            string FloorFinishButtonText = Tools.LangResMan.GetString("floorfinish_button_name", Tools.Cult);
+            PushButtonData FloorFinishData = new PushButtonData("cmdFloorFinish", FloorFinishButtonText, DllPath, "RoomFinishes.FloorFinishes");
+            FloorFinishData.ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult);
+            FloorFinishData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.renameApartRooms.png");
+
+            // Add PRSPKT RoomFinish button
+            string RoomFinishesButtonText = Tools.LangResMan.GetString("roomFinishes_button_name", Tools.Cult);
+            PushButtonData RoomsFinishesData = new PushButtonData("cmdRoomFinish",RoomFinishesButtonText, DllPath, "RoomFinishes.RoomsFinishes");
+            RoomsFinishesData.ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult);
+            RoomsFinishesData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.renameApartRooms.png");
+
+            // Group RoomsFinishes button
+            SplitButtonData sbRoomData = new SplitButtonData("room", "PRSPKT_Apps");
+            SplitButton sbRoom = PRSPKTpanel.AddItem(sbRoomData) as SplitButton;
+            sbRoom.AddPushButton(FloorFinishData);
+            sbRoom.AddPushButton(RoomsFinishesData);
+
+        }
+
+        private static ImageSource RetriveImage(string imagePath)
+        {
+            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(imagePath);
+
+            switch (imagePath.Substring(imagePath.Length - 3))
+            {
+                case "jpg":
+                    var jpgDecoder = new System.Windows.Media.Imaging.JpegBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return jpgDecoder.Frames[0];
+                case "bmp": 
+                    var bmpDecoder = new System.Windows.Media.Imaging.BmpBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return bmpDecoder.Frames[0];
+                case "png":
+                    var pngDecoder = new System.Windows.Media.Imaging.PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return pngDecoder.Frames[0];
+                case "ico":
+                    var icoDecoder = new System.Windows.Media.Imaging.IconBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                    return icoDecoder.Frames[0];
+                default:
+                    return null;
+            }
         }
     }
 }
