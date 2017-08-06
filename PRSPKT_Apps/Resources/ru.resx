@@ -138,11 +138,35 @@
   <data name="floorfinish_button_name" xml:space="preserve">
     <value>Полы</value>
   </data>
+  <data name="roomFinishes_all_rooms_radio" xml:space="preserve">
+    <value>Все помещения</value>
+  </data>
+  <data name="roomFinishes_board_height_label" xml:space="preserve">
+    <value>Высота отделочного слоя</value>
+  </data>
   <data name="roomFinishes_button_name" xml:space="preserve">
     <value>Отделка</value>
   </data>
+  <data name="roomFinishes_Cancel_Button" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="roomFinishes_joinWalls" xml:space="preserve">
+    <value>Соединить стены</value>
+  </data>
+  <data name="roomFinishes_OK_Button" xml:space="preserve">
+    <value>OK</value>
+  </data>
   <data name="roomFinishes_ribbon_panel_name" xml:space="preserve">
     <value>PRSPKT_Apps</value>
+  </data>
+  <data name="roomFinishes_selected_rooms_radio" xml:space="preserve">
+    <value>Выбранные помещения</value>
+  </data>
+  <data name="roomFinishes_select_wall_label" xml:space="preserve">
+    <value>Выбор помещений</value>
+  </data>
+  <data name="roomFinishes_TaskDialogName" xml:space="preserve">
+    <value>Создание отделки</value>
   </data>
   <data name="roomFinishes_toolTip" xml:space="preserve">
     <value>Создание отделки</value>
@@ -152,5 +176,14 @@
   </data>
   <data name="totalLength_toolTip" xml:space="preserve">
     <value>Подсчет общей длины линий</value>
+  </data>
+  <data name="floorFinishes_heightValueError" xml:space="preserve">
+    <value>Ошибка, Вася!</value>
+  </data>
+  <data name="floorFinishes_TaskDialogName" xml:space="preserve">
+    <value>Полы</value>
+  </data>
+  <data name="roomFinishes_SelectRooms" xml:space="preserve">
+    <value>Выбор помещений</value>
   </data>
 </root>

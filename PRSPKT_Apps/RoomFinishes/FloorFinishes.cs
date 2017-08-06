@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using PRSPKT_Apps;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB;
 using Autodesk.Revit.Attributes;
 
 namespace PRSPKT_Apps.RoomFinishes

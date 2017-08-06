@@ -115,11 +115,47 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Ошибка, Вася!.
+        /// </summary>
+        internal static string floorFinishes_heightValueError {
+            get {
+                return ResourceManager.GetString("floorFinishes_heightValueError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на PRSPKT_Apps.
         /// </summary>
         internal static string floorFinishes_ribbon_panel_name {
             get {
                 return ResourceManager.GetString("floorFinishes_ribbon_panel_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Полы.
+        /// </summary>
+        internal static string floorFinishes_TaskDialogName {
+            get {
+                return ResourceManager.GetString("floorFinishes_TaskDialogName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Все помещения.
+        /// </summary>
+        internal static string roomFinishes_all_rooms_radio {
+            get {
+                return ResourceManager.GetString("roomFinishes_all_rooms_radio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Высота отделочного слоя.
+        /// </summary>
+        internal static string roomFinishes_board_height_label {
+            get {
+                return ResourceManager.GetString("roomFinishes_board_height_label", resourceCulture);
             }
         }
         
@@ -133,11 +169,74 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Отмена.
+        /// </summary>
+        internal static string roomFinishes_Cancel_Button {
+            get {
+                return ResourceManager.GetString("roomFinishes_Cancel_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Соединить стены.
+        /// </summary>
+        internal static string roomFinishes_joinWalls {
+            get {
+                return ResourceManager.GetString("roomFinishes_joinWalls", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на OK.
+        /// </summary>
+        internal static string roomFinishes_OK_Button {
+            get {
+                return ResourceManager.GetString("roomFinishes_OK_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на PRSPKT_Apps.
         /// </summary>
         internal static string roomFinishes_ribbon_panel_name {
             get {
                 return ResourceManager.GetString("roomFinishes_ribbon_panel_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выбор помещений.
+        /// </summary>
+        internal static string roomFinishes_select_wall_label {
+            get {
+                return ResourceManager.GetString("roomFinishes_select_wall_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выбранные помещения.
+        /// </summary>
+        internal static string roomFinishes_selected_rooms_radio {
+            get {
+                return ResourceManager.GetString("roomFinishes_selected_rooms_radio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выбор помещений.
+        /// </summary>
+        internal static string roomFinishes_SelectRooms {
+            get {
+                return ResourceManager.GetString("roomFinishes_SelectRooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Создание отделки.
+        /// </summary>
+        internal static string roomFinishes_TaskDialogName {
+            get {
+                return ResourceManager.GetString("roomFinishes_TaskDialogName", resourceCulture);
             }
         }
         

@@ -23,7 +23,7 @@ namespace ApartmentCalc
 
             int roundCount = 2; // Округлить до __ знаков
             string lookingFor = "Этаж 1";
-            string msg = "";
+            //string msg = "";
 
             IList<Room> roomList = new FilteredElementCollector(doc)
                 .OfClass(typeof(SpatialElement))
@@ -56,7 +56,7 @@ namespace ApartmentCalc
                 return Result.Succeeded;
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 return Result.Failed;

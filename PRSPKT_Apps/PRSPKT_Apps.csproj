@@ -115,9 +115,10 @@
       <DependentUpon>ru.resx</DependentUpon>
     </Compile>
     <Compile Include="RoomFinishes\FloorFinishes.cs" />
-    <Compile Include="RoomFinishes\FloorFinishesControl.xaml.cs">
-      <DependentUpon>FloorFinishesControl.xaml</DependentUpon>
+    <Compile Include="RoomFinishes\FloorsFinishesControl.xaml.cs">
+      <DependentUpon>FloorsFinishesControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RoomFinishes\RoomSelectionFilter.cs" />
     <Compile Include="RoomFinishes\RoomsFinishes.cs" />
     <Compile Include="RoomFinishes\RoomsFinishesControl.xaml.cs">
       <DependentUpon>RoomsFinishesControl.xaml</DependentUpon>
@@ -142,7 +143,7 @@
     <Resource Include="Resources\totalLength.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="RoomFinishes\FloorFinishesControl.xaml">
+    <Page Include="RoomFinishes\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -75,8 +75,15 @@ namespace PRSPKT_Apps
         {
             try
             {
+                // Define localisation values
+                Tools.GetLocalisationValues();
+
+                // Create a custom ribbon tab
+                const string tabName = "PRSPKT Apps";
+                application.CreateRibbonTab(tabName);
+
                 // Create the panel for PRSPKT Tools;
-                RibbonPanel PRSPKTpanel = application.CreateRibbonPanel(Tools.LangResMan.GetString("roomFinishes_ribbon_panel_name", Tools.Cult));
+                RibbonPanel PRSPKTpanel = application.CreateRibbonPanel(tabName, Tools.LangResMan.GetString("roomFinishes_ribbon_panel_name", Tools.Cult));
 
                 // Create icons in this panel
                 Icons.CreateIcons(PRSPKTpanel);
