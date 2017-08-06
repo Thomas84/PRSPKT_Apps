@@ -70,6 +70,15 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Подсчет квартирографии для текущего вида.
+        /// </summary>
+        internal static string apartCalc_toolTip {
+            get {
+                return ResourceManager.GetString("apartCalc_toolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Переименовать помещения.
         /// </summary>
         internal static string apartRoomRename_button_name {
@@ -111,6 +120,15 @@ namespace PRSPKT_Apps.Resources {
         internal static string floorfinish_button_name {
             get {
                 return ResourceManager.GetString("floorfinish_button_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Создание полов.
+        /// </summary>
+        internal static string floorfinish_toolTip {
+            get {
+                return ResourceManager.GetString("floorfinish_toolTip", resourceCulture);
             }
         }
         

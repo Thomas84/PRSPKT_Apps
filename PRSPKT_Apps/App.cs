@@ -124,8 +124,8 @@ namespace PRSPKT_Apps
             // Add PRSPKT ApartmentCalc Button
             string ApartCalcButtonText = Tools.LangResMan.GetString("apartCalc_button_name", Tools.Cult);
             PushButtonData apartCalcData = new PushButtonData("cmdApartCalc", ApartCalcButtonText, DllPath, "ApartmentCalc.ApartmentCalc");
-            apartCalcData.ToolTip = Tools.LangResMan.GetString("dimAxies_toolTip", Tools.Cult);
-            apartCalcData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.dimAxies.png");
+            apartCalcData.ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult);
+            apartCalcData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.apartCalc.png");
 
 
             // Add PRSPKT Rename Apart Rooms Button
@@ -138,14 +138,14 @@ namespace PRSPKT_Apps
             // Add PRSPKT FloorFinish button
             string FloorFinishButtonText = Tools.LangResMan.GetString("floorfinish_button_name", Tools.Cult);
             PushButtonData FloorFinishData = new PushButtonData("cmdFloorFinish", FloorFinishButtonText, DllPath, "RoomFinishes.FloorFinishes");
-            FloorFinishData.ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult);
-            FloorFinishData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.renameApartRooms.png");
+            FloorFinishData.ToolTip = Tools.LangResMan.GetString("floorfinish_toolTipr", Tools.Cult);
+            FloorFinishData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.floorFinish.png");
 
             // Add PRSPKT RoomFinish button
             string RoomFinishesButtonText = Tools.LangResMan.GetString("roomFinishes_button_name", Tools.Cult);
             PushButtonData RoomsFinishesData = new PushButtonData("cmdRoomFinish",RoomFinishesButtonText, DllPath, "RoomFinishes.RoomsFinishes");
-            RoomsFinishesData.ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult);
-            RoomsFinishesData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.renameApartRooms.png");
+            RoomsFinishesData.ToolTip = Tools.LangResMan.GetString("roomFinishes_toolTip", Tools.Cult);
+            RoomsFinishesData.LargeImage = RetriveImage("PRSPKT_Apps.Resources.roomFinish.png");
 
             // Group RoomsFinishes button
             SplitButtonData sbRoomData = new SplitButtonData("room", "PRSPKT_Apps");

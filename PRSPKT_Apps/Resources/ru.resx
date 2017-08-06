@@ -186,4 +186,10 @@
   <data name="roomFinishes_SelectRooms" xml:space="preserve">
     <value>Выбор помещений</value>
   </data>
+  <data name="apartCalc_toolTip" xml:space="preserve">
+    <value>Подсчет квартирографии для текущего вида</value>
+  </data>
+  <data name="floorfinish_toolTip" xml:space="preserve">
+    <value>Создание полов</value>
+  </data>
 </root>

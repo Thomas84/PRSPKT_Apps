@@ -127,6 +127,9 @@
     <Compile Include="TotalLength\CurveTotalLength.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\floorFinish.png" />
+    <Resource Include="Resources\roomFinish.png" />
+    <Resource Include="Resources\apartCalc.png" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

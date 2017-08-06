@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
+using PRSPKT_Apps.ApartmentCalc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using PRSPKT_Apps.ApartmentCalc;
-using System.Threading.Tasks;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB.Architecture;
+using System.Windows.Forms;
 
 namespace ApartmentCalc
 {
@@ -72,13 +71,13 @@ namespace ApartmentCalc
                         // Площадь квартиры ОБЩАЯ
                         m_CommonArea = (from element in groupGroup
                                         let m_type = element.LookupParameter("Тип помещения").AsInteger()
-                                        select acceptKoef(m_type, element.Area, roundCount)).Sum(),
+                                        select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
 
                         // Площадь квартиры ЖИЛАЯ
                         m_LivingArea = (from element in groupGroup
                                         let m_type = element.LookupParameter("Тип помещения").AsInteger()
                                         where m_type == 1
-                                        select acceptKoef(m_type, element.Area, roundCount)).Sum(),
+                                        select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
                         //				                select Math.Round(koef*Math.Round(element.Area*0.09290304,roundCount),roundCount)).Sum(),
                         // Количество жилых комнат в квартире
                         m_Count = (from element in groupGroup
@@ -88,7 +87,7 @@ namespace ApartmentCalc
                         m_Area = (from element in groupGroup
                                   let m_type = element.LookupParameter("Тип помещения").AsInteger()
                                   where m_type < 3
-                                  select acceptKoef(m_type, element.Area, roundCount)).Sum(),
+                                  select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
                     };
                 //TODO Добавить внесение полученных данных в Revit обратно
                 using (Transaction t = new Transaction(doc, "Квартирография"))
@@ -111,25 +110,22 @@ namespace ApartmentCalc
                     foreach (Room room in roomList.Where(r => r.Level.Name == lookingFor && r.LookupParameter("Тип помещения").AsInteger() != 5 && r.Area > 0))
                     {
                         int RoomType = room.LookupParameter("Тип помещения").AsInteger();
-                        room.LookupParameter("Площадь с коэффициентом").Set(acceptKoef(RoomType, room.Area, roundCount));
+                        room.LookupParameter("Площадь с коэффициентом").Set(AcceptKoef(RoomType, room.Area, roundCount));
                         room.LookupParameter("Коэффициент площади").Set(RoomKoef(RoomType));
                     }
                     t.Commit();
                 }
-
-
-
                 TaskDialog.Show("Message", msg);
-
-
+                return Result.Succeeded;
             }
             else
                 askUser.Close();
+            return Result.Failed;
 
 
         }
 
-        private double acceptKoef(int type, double area, int round)
+        private double AcceptKoef(int type, double area, int round)
         {
             return Math.Round(RoomKoef(type) * Math.Round(area * 0.09290304, round), round);
         }
@@ -157,18 +153,6 @@ namespace ApartmentCalc
             }
             return k;
 
-        }
-            try
-            {
-
-                return Result.Succeeded;
-
-            }
-            catch (Exception)
-            {
-
-                return Result.Failed;
-            }
         }
     }
 }
