@@ -121,8 +121,6 @@ namespace ApartmentCalc
             else
                 askUser.Close();
             return Result.Failed;
-
-
         }
 
         private double AcceptKoef(int type, double area, int round)
@@ -152,7 +150,6 @@ namespace ApartmentCalc
                     break;
             }
             return k;
-
         }
     }
 }
