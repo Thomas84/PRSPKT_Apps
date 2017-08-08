@@ -19,7 +19,7 @@ namespace PRSPKT_Apps.RoomFinishes
         private UIDocument _UIDoc;
 
         private FloorType _selectedFloorType;
-        public FloorType SelectedWallType
+        public FloorType SelectedFloorType
         {
             get { return _selectedFloorType; }
         }

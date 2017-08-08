@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PRSPKT_Apps;
-using Autodesk.Revit.UI;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.Attributes;
-using Autodesk.Revit.DB.Architecture;
 
 namespace PRSPKT_Apps.RoomFinishes
 {
@@ -85,11 +82,44 @@ namespace PRSPKT_Apps.RoomFinishes
                             string name = tempRoom.Name;
 
                             SpatialElementBoundaryOptions opt = new SpatialElementBoundaryOptions();
-                            IList<IList<BoundarySegment>> boundarySegment = tempRoom.GetBoundarySegments(opt);
+                            IList<IList<BoundarySegment>> boundarySegments = tempRoom.GetBoundarySegments(opt);
+
+                            CurveArray curveArray = new CurveArray();
+                            if (boundarySegments.Count != 0)
+                            {
+                                foreach (BoundarySegment boundSegment in boundarySegments.First())
+                                {
+                                    curveArray.Append(boundSegment.GetCurve());
+                                }
+
+                                // Retrieve room info
+                                Level roomLevel = _doc.GetElement(tempRoom.LevelId) as Level;
+                                Parameter param = tempRoom.get_Parameter(BuiltInParameter.ROOM_HEIGHT);
+                                double rmHeight = param.AsDouble();
+
+                                if (curveArray.Size != 0)
+                                {
+                                    System.Threading.Thread.Sleep(1000);
+                                    Floor floor = _doc.Create.NewFloor(curveArray, flType, roomLevel, false);
+
+                                    // Change some param on the floor
+                                    param = floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM);
+                                    param.Set(height);
+                                }
+                            }
                         }
                     }
                 }
+                t.Commit();
+            }
+            else
+            {
+                t.RollBack();
             }
         }
+
+
+
     }
+
 }
