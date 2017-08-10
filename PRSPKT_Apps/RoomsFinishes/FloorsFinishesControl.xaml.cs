@@ -8,7 +8,7 @@ using System.Linq;
 using System.Windows;
 #endregion
 
-namespace PRSPKT_Apps.RoomFinishes
+namespace PRSPKT_Apps.RoomsFinishes
 {
     /// <summary>
     /// Логика взаимодействия для FloorFinishesControl.xaml
@@ -45,28 +45,29 @@ namespace PRSPKT_Apps.RoomFinishes
 
         public FloorsFinishesControl(UIDocument UIDoc)
         {
+
             InitializeComponent();
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
 
             // Fill out Text in form
 
-            this.Title = "Rooms Finishes";
-            this.all_rooms_radio.Content = "Все помещения";
-            this.floor_height_radio.Content = "Высота ";
-            this.height_param_radio.Content = "Параметр";
-            this.groupboxName.Header = "Группа параметров";
-            this.select_floor_label.Content = "Пол";
-            this.selected_rooms_radio.Content = "Выбранные помещения";
-            this.Ok_Button.Content = "OK";
-            this.Cancel_Button.Content = "Cancel";
+            this.Title = Tools.GetResourceManager("floorFinishes_TaskDialogName");
+            this.all_rooms_radio.Content = Tools.GetResourceManager("floorFinishes_all_rooms_radio");
+            this.floor_height_radio.Content = Tools.GetResourceManager("floorFinishes_height_label");
+            this.height_param_radio.Content = Tools.GetResourceManager("floorFinishes_height_param_label");
+            this.groupboxName.Header = Tools.GetResourceManager("floorFinishes_groupboxName");
+            this.select_floor_label.Content = Tools.GetResourceManager("floorFinishes_select_floor_label");
+            this.selected_rooms_radio.Content = Tools.GetResourceManager("floorFinishes_SelectedRooms");
+            this.Ok_Button.Content = Tools.GetResourceManager("roomFinishes_OK_Button");
+            this.Cancel_Button.Content = Tools.GetResourceManager("roomFinishes_Cancel_Button");
 
             // Select the floor type in the document
-            IEnumerable<FloorType> floorTypes = from elem in new FilteredElementCollector(_doc).OfClass(typeof(FloorType))
+            IEnumerable <FloorType> floorTypes = from elem in new FilteredElementCollector(_doc).OfClass(typeof(FloorType))
                                                 let type = elem as FloorType
                                                 let typeName = type.Name
                                                 where type.IsFoundationSlab == false
-                                                where typeName.Contains("Пол")
+                                                //where typeName.Contains("Пол")
                                                 select type;
             floorTypes = floorTypes.OrderBy(floorType => floorType.Name);
 

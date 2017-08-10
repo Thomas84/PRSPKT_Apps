@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PRSPKT_Apps.Resources {
-    using System;
-    
-    
+namespace PRSPKT_Apps.Resources
+{
+
+
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
@@ -97,7 +97,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Проставить размеры.
+        ///   Ищет локализованную строку, похожую на Размеры в осях.
         /// </summary>
         internal static string dimAxies_button_name {
             get {
@@ -124,7 +124,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Создание полов.
+        ///   Ищет локализованную строку, похожую на Создание отделочных полов.
         /// </summary>
         internal static string floorfinish_toolTip {
             get {
@@ -133,11 +133,56 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Ошибка, Вася!.
+        ///   Ищет локализованную строку, похожую на Все помещения.
+        /// </summary>
+        internal static string floorFinishes_all_rooms_radio {
+            get {
+                return ResourceManager.GetString("floorFinishes_all_rooms_radio", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Уровень пола.
+        /// </summary>
+        internal static string floorFinishes_groupboxName {
+            get {
+                return ResourceManager.GetString("floorFinishes_groupboxName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на По значению.
+        /// </summary>
+        internal static string floorFinishes_height_label {
+            get {
+                return ResourceManager.GetString("floorFinishes_height_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на По параметру.
+        /// </summary>
+        internal static string floorFinishes_height_param_label {
+            get {
+                return ResourceManager.GetString("floorFinishes_height_param_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Введите значение уровня пола:.
         /// </summary>
         internal static string floorFinishes_heightValueError {
             get {
                 return ResourceManager.GetString("floorFinishes_heightValueError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Помещений нет в проекте.
+        /// </summary>
+        internal static string floorFinishes_noRoomError {
+            get {
+                return ResourceManager.GetString("floorFinishes_noRoomError", resourceCulture);
             }
         }
         
@@ -151,7 +196,25 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Полы.
+        ///   Ищет локализованную строку, похожую на Выберите тип пола:.
+        /// </summary>
+        internal static string floorFinishes_select_floor_label {
+            get {
+                return ResourceManager.GetString("floorFinishes_select_floor_label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выбранные помещения.
+        /// </summary>
+        internal static string floorFinishes_SelectedRooms {
+            get {
+                return ResourceManager.GetString("floorFinishes_SelectedRooms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Создание полов.
         /// </summary>
         internal static string floorFinishes_TaskDialogName {
             get {
@@ -160,7 +223,70 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Все помещения.
+        ///   Ищет локализованную строку, похожую на Отделочные полы.
+        /// </summary>
+        internal static string floorFinishes_transactionName {
+            get {
+                return ResourceManager.GetString("floorFinishes_transactionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Операция прервана по неизвестным причинам..
+        /// </summary>
+        internal static string floorFinishes_unexpectedError {
+            get {
+                return ResourceManager.GetString("floorFinishes_unexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Bottom Elevation Max.
+        /// </summary>
+        internal static string levelTag_bottom_elevation_max {
+            get {
+                return ResourceManager.GetString("levelTag_bottom_elevation_max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Bottom Elevation Min.
+        /// </summary>
+        internal static string levelTag_bottom_elevation_min {
+            get {
+                return ResourceManager.GetString("levelTag_bottom_elevation_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Уровень.
+        /// </summary>
+        internal static string levelTag_parameter_group {
+            get {
+                return ResourceManager.GetString("levelTag_parameter_group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Top Elevation Max.
+        /// </summary>
+        internal static string levelTag_top_elevation_max {
+            get {
+                return ResourceManager.GetString("levelTag_top_elevation_max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Top Elevation Min.
+        /// </summary>
+        internal static string levelTag_top_elevation_min {
+            get {
+                return ResourceManager.GetString("levelTag_top_elevation_min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Все помещения на текущем виде.
         /// </summary>
         internal static string roomFinishes_all_rooms_radio {
             get {
@@ -178,7 +304,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Отделка.
+        ///   Ищет локализованную строку, похожую на Отделочная стена.
         /// </summary>
         internal static string roomFinishes_button_name {
             get {
@@ -192,6 +318,15 @@ namespace PRSPKT_Apps.Resources {
         internal static string roomFinishes_Cancel_Button {
             get {
                 return ResourceManager.GetString("roomFinishes_Cancel_Button", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Введите высоту отделочной слоя (стены):.
+        /// </summary>
+        internal static string roomFinishes_heightValueError {
+            get {
+                return ResourceManager.GetString("roomFinishes_heightValueError", resourceCulture);
             }
         }
         
@@ -214,7 +349,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на PRSPKT_Apps.
+        ///   Ищет локализованную строку, похожую на Помещения.
         /// </summary>
         internal static string roomFinishes_ribbon_panel_name {
             get {
@@ -268,7 +403,43 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Общая длина.
+        ///   Ищет локализованную строку, похожую на Создание отделочный стен.
+        /// </summary>
+        internal static string roomFinishes_transactionName {
+            get {
+                return ResourceManager.GetString("roomFinishes_transactionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Операция прервана по неизвестным причинам..
+        /// </summary>
+        internal static string roomFinishes_unexpectedError {
+            get {
+                return ResourceManager.GetString("roomFinishes_unexpectedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Операция не будет работать с этим типом стены (Vertically compound structure)..
+        /// </summary>
+        internal static string roomFinishes_verticalCompoundError {
+            get {
+                return ResourceManager.GetString("roomFinishes_verticalCompoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Инструментики.
+        /// </summary>
+        internal static string tools_ribbon_panel_name {
+            get {
+                return ResourceManager.GetString("tools_ribbon_panel_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сумма длин.
         /// </summary>
         internal static string totalLength_button_name {
             get {

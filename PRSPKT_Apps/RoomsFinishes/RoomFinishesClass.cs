@@ -1,17 +1,14 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
-using PRSPKT_Apps;
-using PRSPKT_Apps.RoomFinishes;
 using System;
 using System.Collections.Generic;
 
-namespace RoomFinishes
+namespace PRSPKT_Apps.RoomsFinishes
 {
     [Transaction(TransactionMode.Manual)]
-    public class RoomsFinishes : IExternalCommand
+    public class RoomFinishesClass : IExternalCommand
 
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -64,7 +61,7 @@ namespace RoomFinishes
             // Load the selection form
             RoomsFinishesControl userControl = new RoomsFinishesControl(uiDoc);
             userControl.InitializeComponent();
-
+            /*
             if (userControl.ShowDialog() == true)
             {
                 // Select wall types
@@ -169,6 +166,7 @@ namespace RoomFinishes
             {
                 t.RollBack();
             }
+            */
 
         }
 

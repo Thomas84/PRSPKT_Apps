@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRSPKT_Apps
 {
@@ -14,6 +11,12 @@ namespace PRSPKT_Apps
         // Define CultureInfo
         public static ResourceManager LangResMan;
         public static CultureInfo Cult;
+
+        public static string GetResourceManager(string path)
+        {
+            string Path = path;
+            return Tools.LangResMan.GetString(Path, Tools.Cult);
+        }
 
         public static void GetLocalisationValues()
         {
@@ -25,9 +28,8 @@ namespace PRSPKT_Apps
         {
             // Check the string value
             string heightValueString = text;
-            double length;
 
-            if (UnitFormatUtils.TryParse(units, UnitType.UT_Length, heightValueString, out length))
+            if (UnitFormatUtils.TryParse(units, UnitType.UT_Length, heightValueString, out double length))
             {
                 return length;
             }

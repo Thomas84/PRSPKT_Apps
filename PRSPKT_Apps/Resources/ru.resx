@@ -127,7 +127,7 @@
     <value>Переименовать помещения квартиры на текущем виде</value>
   </data>
   <data name="dimAxies_button_name" xml:space="preserve">
-    <value>Проставить размеры</value>
+    <value>Размеры в осях</value>
   </data>
   <data name="dimAxies_toolTip" xml:space="preserve">
     <value>Проставить размеры в осях</value>
@@ -139,13 +139,13 @@
     <value>Полы</value>
   </data>
   <data name="roomFinishes_all_rooms_radio" xml:space="preserve">
-    <value>Все помещения</value>
+    <value>Все помещения на текущем виде</value>
   </data>
   <data name="roomFinishes_board_height_label" xml:space="preserve">
     <value>Высота отделочного слоя</value>
   </data>
   <data name="roomFinishes_button_name" xml:space="preserve">
-    <value>Отделка</value>
+    <value>Отделочная стена</value>
   </data>
   <data name="roomFinishes_Cancel_Button" xml:space="preserve">
     <value>Отмена</value>
@@ -157,7 +157,7 @@
     <value>OK</value>
   </data>
   <data name="roomFinishes_ribbon_panel_name" xml:space="preserve">
-    <value>PRSPKT_Apps</value>
+    <value>Помещения</value>
   </data>
   <data name="roomFinishes_selected_rooms_radio" xml:space="preserve">
     <value>Выбранные помещения</value>
@@ -172,16 +172,16 @@
     <value>Создание отделки</value>
   </data>
   <data name="totalLength_button_name" xml:space="preserve">
-    <value>Общая длина</value>
+    <value>Сумма длин</value>
   </data>
   <data name="totalLength_toolTip" xml:space="preserve">
     <value>Подсчет общей длины линий</value>
   </data>
   <data name="floorFinishes_heightValueError" xml:space="preserve">
-    <value>Ошибка, Вася!</value>
+    <value>Введите значение уровня пола:</value>
   </data>
   <data name="floorFinishes_TaskDialogName" xml:space="preserve">
-    <value>Полы</value>
+    <value>Создание полов</value>
   </data>
   <data name="roomFinishes_SelectRooms" xml:space="preserve">
     <value>Выбор помещений</value>
@@ -190,6 +190,63 @@
     <value>Подсчет квартирографии для текущего вида</value>
   </data>
   <data name="floorfinish_toolTip" xml:space="preserve">
-    <value>Создание полов</value>
+    <value>Создание отделочных полов</value>
+  </data>
+  <data name="floorFinishes_groupboxName" xml:space="preserve">
+    <value>Уровень пола</value>
+  </data>
+  <data name="floorFinishes_height_label" xml:space="preserve">
+    <value>По значению</value>
+  </data>
+  <data name="floorFinishes_height_param_label" xml:space="preserve">
+    <value>По параметру</value>
+  </data>
+  <data name="floorFinishes_noRoomError" xml:space="preserve">
+    <value>Помещений нет в проекте</value>
+  </data>
+  <data name="floorFinishes_select_floor_label" xml:space="preserve">
+    <value>Выберите тип пола:</value>
+  </data>
+  <data name="floorFinishes_transactionName" xml:space="preserve">
+    <value>Отделочные полы</value>
+  </data>
+  <data name="floorFinishes_unexpectedError" xml:space="preserve">
+    <value>Операция прервана по неизвестным причинам.</value>
+  </data>
+  <data name="levelTag_bottom_elevation_max" xml:space="preserve">
+    <value>Bottom Elevation Max</value>
+  </data>
+  <data name="levelTag_bottom_elevation_min" xml:space="preserve">
+    <value>Bottom Elevation Min</value>
+  </data>
+  <data name="levelTag_parameter_group" xml:space="preserve">
+    <value>Уровень</value>
+  </data>
+  <data name="levelTag_top_elevation_max" xml:space="preserve">
+    <value>Top Elevation Max</value>
+  </data>
+  <data name="levelTag_top_elevation_min" xml:space="preserve">
+    <value>Top Elevation Min</value>
+  </data>
+  <data name="roomFinishes_heightValueError" xml:space="preserve">
+    <value>Введите высоту отделочной слоя (стены):</value>
+  </data>
+  <data name="roomFinishes_transactionName" xml:space="preserve">
+    <value>Создание отделочный стен</value>
+  </data>
+  <data name="roomFinishes_unexpectedError" xml:space="preserve">
+    <value>Операция прервана по неизвестным причинам.</value>
+  </data>
+  <data name="roomFinishes_verticalCompoundError" xml:space="preserve">
+    <value>Операция не будет работать с этим типом стены (Vertically compound structure).</value>
+  </data>
+  <data name="tools_ribbon_panel_name" xml:space="preserve">
+    <value>Инструментики</value>
+  </data>
+  <data name="floorFinishes_all_rooms_radio" xml:space="preserve">
+    <value>Все помещения</value>
+  </data>
+  <data name="floorFinishes_SelectedRooms" xml:space="preserve">
+    <value>Выбранные помещения</value>
   </data>
 </root>

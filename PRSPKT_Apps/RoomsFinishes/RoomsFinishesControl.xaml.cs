@@ -1,26 +1,14 @@
 ﻿#region Namespaces
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
-using Autodesk.Revit.DB.Architecture;
-using System.Globalization;
-using System.Resources;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 #endregion
 
-namespace PRSPKT_Apps.RoomFinishes
+namespace PRSPKT_Apps.RoomsFinishes
 {
     /// <summary>
     /// Логика взаимодействия для RoomsFinishesControl.xaml
@@ -69,14 +57,14 @@ namespace PRSPKT_Apps.RoomFinishes
             _UIDoc = UIDoc;
 
             //Fill out Text in form
-            this.Title = Tools.LangResMan.GetString("roomFinishes_TaskDialogName", Tools.Cult);
-            this.all_rooms_radio.Content = Tools.LangResMan.GetString("roomFinishes_all_rooms_radio", Tools.Cult);
-            this.board_height_label.Content = Tools.LangResMan.GetString("roomFinishes_board_height_label", Tools.Cult);
-            this.select_wall_label.Content = Tools.LangResMan.GetString("roomFinishes_select_wall_label", Tools.Cult);
-            this.selected_rooms_radio.Content = Tools.LangResMan.GetString("roomFinishes_selected_rooms_radio", Tools.Cult);
-            this.Cancel_Button.Content = Tools.LangResMan.GetString("roomFinishes_Cancel_Button", Tools.Cult);
-            this.Ok_Button.Content = Tools.LangResMan.GetString("roomFinishes_OK_Button", Tools.Cult);
-            this.join_checkbox_label.Content = Tools.LangResMan.GetString("roomFinishes_joinWalls", Tools.Cult);
+            this.Title = Tools.GetResourceManager("roomFinishes_TaskDialogName");
+            this.all_rooms_radio.Content = Tools.GetResourceManager("roomFinishes_all_rooms_radio");
+            this.board_height_label.Content = Tools.GetResourceManager("roomFinishes_board_height_label");
+            this.select_wall_label.Content = Tools.GetResourceManager("roomFinishes_select_wall_label");
+            this.selected_rooms_radio.Content = Tools.GetResourceManager("roomFinishes_selected_rooms_radio");
+            this.Cancel_Button.Content = Tools.GetResourceManager("roomFinishes_Cancel_Button");
+            this.Ok_Button.Content = Tools.GetResourceManager("roomFinishes_OK_Button");
+            this.join_checkbox_label.Content = Tools.GetResourceManager("roomFinishes_joinWalls");
             this.Height_TextBox.Text = "2950.0";
 
 
@@ -85,7 +73,7 @@ namespace PRSPKT_Apps.RoomFinishes
                          let type = elem as WallType
                          let typeName = type.Name
                          where type.Kind == WallKind.Basic
-                         where typeName.Contains("Отделка") || typeName.Contains("(ОС-")
+                         //where typeName.Contains("Отделка") || typeName.Contains("(ОС-")
                          select type;
 
             _wallTypes = _wallTypes.OrderBy(wallType => wallType.Name);
@@ -119,8 +107,8 @@ namespace PRSPKT_Apps.RoomFinishes
             }
             else
             {
-                TaskDialog.Show(Tools.LangResMan.GetString("roomFinishes_TaskDialogName", Tools.Cult),
-                    Tools.LangResMan.GetString("roomFinishes_heightValueError", Tools.Cult), TaskDialogCommonButtons.Close, TaskDialogResult.Close);
+                TaskDialog.Show(Tools.GetResourceManager("roomFinishes_TaskDialogName"),
+                    Tools.GetResourceManager("roomFinishes_heightValueError"), TaskDialogCommonButtons.Close, TaskDialogResult.Close);
                 this.Activate();
             }
         }
@@ -159,14 +147,12 @@ namespace PRSPKT_Apps.RoomFinishes
                     // Create a selection filter on rooms
                     ISelectionFilter filter = new RoomSelectionFilter();
                     IList<Reference> refList = _UIDoc.Selection.PickObjects(ObjectType.Element, filter,
-                        Tools.LangResMan.GetString("roomFinishes_SelectRooms", Tools.Cult));
+                        Tools.GetResourceManager("roomFinishes_SelectRooms"));
                     foreach (Reference r in refList)
                     {
                         tempList.Add(_doc.GetElement(r) as Room);
                     }
-
                     ModelRooms = tempList;
-
                 }
             }
 
@@ -205,10 +191,10 @@ namespace PRSPKT_Apps.RoomFinishes
                     catch
                     {
 
-                        throw new ErrorMessageException(Tools.LangResMan.GetString("roomFinishes_verticalCompoundError", Tools.Cult));
+                        throw new ErrorMessageException(Tools.GetResourceManager("roomFinishes_verticalCompoundError"));
                     }
                 }
-                else throw new ErrorMessageException(Tools.LangResMan.GetString("roomFinishes_verticalCompoundError", Tools.Cult));
+                else throw new ErrorMessageException(Tools.GetResourceManager("roomFinishes_verticalCompoundError"));
                 layerIndex++;
             }
             newWallType.SetCompoundStructure(compoundStructure);
@@ -231,11 +217,24 @@ namespace PRSPKT_Apps.RoomFinishes
             }
             else
             {
-                TaskDialog.Show(Tools.LangResMan.GetString("roomFinishes_TaskDialogName", Tools.Cult),
-                    Tools.LangResMan.GetString("roomFinishes_heightValueError", Tools.Cult), TaskDialogCommonButtons.Close, TaskDialogResult.Close);
+                TaskDialog.Show(Tools.GetResourceManager("roomFinishes_TaskDialogName"),
+                    Tools.GetResourceManager("roomFinishes_heightValueError"), TaskDialogCommonButtons.Close, TaskDialogResult.Close);
                 this.Activate();
             }
         }
     }
 
+    internal class RoomSelectionFilter : ISelectionFilter
+    {
+        public bool AllowElement(Element elem)
+        {
+            if (elem.Category.Id.IntegerValue == (int)BuiltInCategory.OST_Rooms) { return true; }
+            return false;
+        }
+
+        public bool AllowReference(Reference reference, XYZ position)
+        {
+            return false;
+        }
+    }
 }

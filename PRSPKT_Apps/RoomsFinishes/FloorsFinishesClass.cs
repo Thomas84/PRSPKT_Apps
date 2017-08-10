@@ -4,12 +4,13 @@ using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
+//using RoomFinishes;
 using System.Linq;
 
-namespace PRSPKT_Apps.RoomFinishes
+namespace PRSPKT_Apps.RoomsFinishes
 {
     [Transaction(TransactionMode.Manual)]
-    public class FloorFinishes : IExternalCommand
+    public class FloorsFinishesClass : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -47,15 +48,17 @@ namespace PRSPKT_Apps.RoomFinishes
         private void FloorFinish(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
-            t.Start(Tools.LangResMan.GetString("floorFinishes_transactionName", Tools.Cult));
+            
+            t.Start(Tools.GetResourceManager("floorFinishes_transactionName"));
 
             // Load the selection form
-
+            
             FloorsFinishesControl userControl = new FloorsFinishesControl(UIdoc);
             userControl.InitializeComponent();
 
             if (userControl.ShowDialog() == true)
             {
+               
                 // Select floor types
                 FloorType flType = userControl.SelectedFloorType;
 
