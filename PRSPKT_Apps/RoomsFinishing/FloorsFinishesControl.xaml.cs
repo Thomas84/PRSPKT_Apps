@@ -3,6 +3,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using PRSPKT_Apps;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -63,7 +64,7 @@ namespace PRSPKT_Apps.RoomsFinishes
             this.Cancel_Button.Content = Tools.GetResourceManager("roomFinishes_Cancel_Button");
 
             // Select the floor type in the document
-            IEnumerable <FloorType> floorTypes = from elem in new FilteredElementCollector(_doc).OfClass(typeof(FloorType))
+            IEnumerable<FloorType> floorTypes = from elem in new FilteredElementCollector(_doc).OfClass(typeof(FloorType))
                                                 let type = elem as FloorType
                                                 let typeName = type.Name
                                                 where type.IsFoundationSlab == false

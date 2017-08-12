@@ -1,11 +1,13 @@
 ﻿using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB.Events;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
 
-namespace PRSPKT_Apps.RoomsFinishes
+namespace RoomsFinishes
 {
     [Transaction(TransactionMode.Manual)]
     public class RoomFinishesClass : IExternalCommand
@@ -25,6 +27,7 @@ namespace PRSPKT_Apps.RoomsFinishes
                 try
                 {
                     RoomFinish(uiDoc, t);
+                    // Unsubscripbe to the FailuresProcessing Event
                     uiApp.Application.FailuresProcessing -= FailuresProcessing;
                     return Result.Succeeded;
 
@@ -32,7 +35,10 @@ namespace PRSPKT_Apps.RoomsFinishes
                 catch (OperationCanceledException exceptionCancelled)
                 {
                     message = exceptionCancelled.Message;
-                    if (t.HasStarted()) t.RollBack();
+                    if (t.HasStarted())
+                    {
+                        t.RollBack();
+                    }
                     uiApp.Application.FailuresProcessing -= FailuresProcessing;
                     return Result.Cancelled;
                 }
@@ -43,9 +49,9 @@ namespace PRSPKT_Apps.RoomsFinishes
                     uiApp.Application.FailuresProcessing -= FailuresProcessing;
                     return Result.Failed;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    message = Tools.LangResMan.GetString("roomFinishes_unexpectedError", Tools.Cult);
+                    message = Tools.LangResMan.GetString("roomFinishes_unexpectedError", Tools.Cult) + ex.Message;
                     if (t.HasStarted()) t.RollBack();
                     uiApp.Application.FailuresProcessing -= FailuresProcessing;
                     return Result.Failed;
@@ -59,9 +65,9 @@ namespace PRSPKT_Apps.RoomsFinishes
             t.Start(Tools.LangResMan.GetString("roomFinishes_transactionName", Tools.Cult));
 
             // Load the selection form
-            RoomsFinishesControl userControl = new RoomsFinishesControl(uiDoc);
+            PRSPKT_Apps.RoomsFinishes.RoomsFinishesControl userControl = new PRSPKT_Apps.RoomsFinishes.RoomsFinishesControl(uiDoc);
             userControl.InitializeComponent();
-            /*
+
             if (userControl.ShowDialog() == true)
             {
                 // Select wall types
@@ -81,8 +87,10 @@ namespace PRSPKT_Apps.RoomsFinishes
                 {
                     ElementId roomLevelId = currentRoom.LevelId;
 
-                    SpatialElementBoundaryOptions opt = new SpatialElementBoundaryOptions();
-                    opt.SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish;
+                    SpatialElementBoundaryOptions opt = new SpatialElementBoundaryOptions()
+                    {
+                        SpatialElementBoundaryLocation = SpatialElementBoundaryLocation.Finish
+                    };
                     IList<IList<BoundarySegment>> boundarySegmentArray = currentRoom.GetBoundarySegments(opt);
                     if (null == boundarySegmentArray)
                     {
@@ -139,7 +147,7 @@ namespace PRSPKT_Apps.RoomsFinishes
 
                 Wall.ChangeTypeId(doc, finishesDictionary.Keys, finishLayer.Id);
 
-                // Joint both wall
+                // Join both wall
                 if (userControl.JoinWall)
                 {
                     foreach (ElementId finishId in finishesDictionary.Keys)
@@ -166,7 +174,7 @@ namespace PRSPKT_Apps.RoomsFinishes
             {
                 t.RollBack();
             }
-            */
+
 
         }
 

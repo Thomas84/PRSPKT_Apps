@@ -2,12 +2,12 @@
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
-//using RoomFinishes;
 using System.Linq;
 
-namespace PRSPKT_Apps.RoomsFinishes
+namespace RoomsFinishes
 {
     [Transaction(TransactionMode.Manual)]
     public class FloorsFinishesClass : IExternalCommand
@@ -42,23 +42,32 @@ namespace PRSPKT_Apps.RoomsFinishes
                     }
                     return Result.Failed;
                 }
+                catch (Exception ex)
+                {
+                    message = Tools.GetResourceManager("floorFinishes_unexpectedError") + ex.Message;
+                    if (t.HasStarted())
+                    {
+                        t.RollBack();
+                    }
+                    return Result.Failed;
+                }
             }
         }
 
         private void FloorFinish(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
-            
+
             t.Start(Tools.GetResourceManager("floorFinishes_transactionName"));
 
             // Load the selection form
-            
-            FloorsFinishesControl userControl = new FloorsFinishesControl(UIdoc);
+
+            PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl userControl = new PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl(UIdoc);
             userControl.InitializeComponent();
 
             if (userControl.ShowDialog() == true)
             {
-               
+
                 // Select floor types
                 FloorType flType = userControl.SelectedFloorType;
 
