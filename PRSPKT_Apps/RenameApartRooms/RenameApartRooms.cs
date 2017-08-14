@@ -70,6 +70,9 @@ namespace RenameApartRooms
                             case "Лоджия":
                                 _roomNumber.Set("Л-я");
                                 break;
+                            case "Терраса":
+                                _roomNumber.Set("Тер.");
+                                break;
                             default:
                                 _roomNumber.Set("ХХХ");
                                 break;
