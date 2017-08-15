@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d"
-             d:DesignHeight="500" d:DesignWidth="300"
+             xmlns:local="clr-namespace:PRSPKT_Apps.RoomsFinishes"
+             Height="500" Width="300"
         IsEnabled="True" Title="Create floors finishes" DataContext="{Binding}" ShowInTaskbar="False" 
         WindowStartupLocation="Manual">
     <Window.Resources>
@@ -42,7 +42,7 @@
             <StackPanel Grid.Row="2" Orientation="Vertical" Margin="8,28,0,0">
                 <DockPanel>
                     <RadioButton GroupName="floorHeight" Content="floor_height_radio" Name="floor_height_radio" IsChecked="True"/>
-                    <TextBox  TextWrapping="NoWrap" Text="100 mm" Name="Height_TextBox" Margin="5" LostFocus="Height_TextBox_LostFocus"
+                    <TextBox  TextWrapping="NoWrap" Text="0 mm" Name="Height_TextBox" Margin="5" LostFocus="Height_TextBox_LostFocus"
                               IsEnabled="{Binding ElementName=floor_height_radio, Path=IsChecked}"/>
                 </DockPanel>
                 <DockPanel>

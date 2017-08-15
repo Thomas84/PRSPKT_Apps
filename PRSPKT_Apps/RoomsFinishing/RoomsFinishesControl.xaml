@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="300" 
+             Height="500" Width="300" 
         IsEnabled="True" Title="Create rooms finishes" DataContext="{Binding}" ShowInTaskbar="False" 
         WindowStartupLocation="Manual">
     <Window.Resources>
@@ -27,7 +26,7 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
             <RadioButton Content="all_rooms_radio" Name="all_rooms_radio" IsChecked="True"/>
-            <RadioButton Content="selected_rooms_radio" Name="selected_rooms_radio"/>
+            <RadioButton Content="selected_rooms_radio" Name="selected_rooms_radio" IsChecked="True"/>
         </StackPanel>
         <DockPanel Grid.Row="1">
             <Label DockPanel.Dock="Left" Content="board_height_label" Name="board_height_label"/>
