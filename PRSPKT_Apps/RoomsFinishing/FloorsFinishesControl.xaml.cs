@@ -96,8 +96,6 @@ namespace PRSPKT_Apps.RoomsFinishes
                 paramSelector.IsEnabled = false;
                 height_param_radio.IsEnabled = false;
             }
-
-
         }
 
         private void Ok_Button_Click(object sender, RoutedEventArgs e)

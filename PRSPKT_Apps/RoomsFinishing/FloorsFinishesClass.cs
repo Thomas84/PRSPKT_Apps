@@ -64,7 +64,6 @@ namespace RoomsFinishes
 
             PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl userControl = new PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl(UIdoc);
             userControl.InitializeComponent();
-
             if (userControl.ShowDialog() == true)
             {
 

@@ -99,6 +99,9 @@
     <Compile Include="ApartmentCalc\askUser.Designer.cs">
       <DependentUpon>askUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApartmentCalc\LevelsForm.xaml.cs">
+      <DependentUpon>LevelsForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
@@ -152,6 +155,10 @@
     <Resource Include="Resources\totalLength.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ApartmentCalc\LevelsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoomsFinishing\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
