@@ -62,10 +62,10 @@ namespace RoomsFinishes
 
             // Load the selection form
 
-            PRSPKT_Apps.RoomsFinishing.FloorFinishControl userControl = new PRSPKT_Apps.RoomsFinishing.FloorFinishControl(UIdoc);
-            //            userControl.InitializeComponent();
+            PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl userControl = new PRSPKT_Apps.RoomsFinishes.FloorsFinishesControl(UIdoc);
+            userControl.InitializeComponent();
 
-            if (userControl.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (userControl.ShowDialog() == true)
             {
 
                 // Select floor types

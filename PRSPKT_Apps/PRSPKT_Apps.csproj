@@ -48,6 +48,9 @@
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows, Version=2015.11.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Revit-2017.1.1-x64.Base.2.0.0\lib\net452\AdWindows.dll</HintPath>
@@ -95,6 +98,9 @@
     </Compile>
     <Compile Include="ApartmentCalc\askUser.Designer.cs">
       <DependentUpon>askUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ApartmentCalc\LevelsForm.xaml.cs">
+      <DependentUpon>LevelsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
@@ -155,6 +161,10 @@
     <Resource Include="Resources\totalLength.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ApartmentCalc\LevelsForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoomsFinishing\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -184,6 +194,8 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)PRSPKT_Apps.addin" "$(AppData)\Autodesk\Revit\Addins\2016"
-if $(ConfigurationName) == Debug copy "$(ProjectDir)bin\debug\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2016"</PostBuildEvent>
+if $(ConfigurationName) == Debug copy "$(ProjectDir)bin\debug\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2016"
+copy "$(ProjectDir)PRSPKT_Apps.addin" "$(AppData)\Autodesk\Revit\Addins\2017"
+if $(ConfigurationName) == Debug copy "$(ProjectDir)bin\debug\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2017"</PostBuildEvent>
   </PropertyGroup>
 </Project>

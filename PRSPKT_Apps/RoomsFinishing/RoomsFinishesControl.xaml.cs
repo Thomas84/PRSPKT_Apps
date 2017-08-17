@@ -71,9 +71,9 @@ namespace PRSPKT_Apps.RoomsFinishes
             // Select the wall type in the document
             _wallTypes = from elem in new FilteredElementCollector(_doc).OfClass(typeof(WallType))
                          let type = elem as WallType
-                         //let typeName = type.Name
+                         let typeName = type.Name
                          where type.Kind == WallKind.Basic
-                         //where typeName.Contains("Отделка") || typeName.Contains("(ОС-")
+                         where typeName.Contains("Отделка") || typeName.Contains("(ОС-")
                          select type;
 
             _wallTypes = _wallTypes.OrderBy(wallType => wallType.Name);

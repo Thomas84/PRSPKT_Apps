@@ -1,13 +1,15 @@
-﻿using Autodesk.Revit.Attributes;
+﻿#region Namespaces
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps;
 using PRSPKT_Apps.ApartmentCalc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-
+using System.Windows;
+#endregion
 namespace ApartmentCalc
 {
     [Transaction(TransactionMode.Manual)]
@@ -18,23 +20,65 @@ namespace ApartmentCalc
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
 
-            string msg = "";
-            var askUser = new askUser();
-
-            foreach (Level level in new FilteredElementCollector(doc)
-                     .OfClass(typeof(Level))
-                     .Cast<Level>()
-                     .ToList())
+            using (Transaction t = new Transaction(doc))
             {
-                askUser.cb_Levels.Items.Add(level.Name);
+                try
+                {
+                    RoomCalc(uidoc, t);
+                    return Result.Succeeded;
+                }
+                catch (OperationCanceledException exceptionCancelled)
+                {
+                    message = exceptionCancelled.Message;
+                    if (t.HasStarted())
+                    {
+                        t.RollBack();
+                    }
+                    return Result.Cancelled;
+                }
+                catch (ErrorMessageException errorException)
+                {
+                    message = errorException.Message;
+                    if (t.HasStarted())
+                    {
+                        t.RollBack();
+                    }
+                    return Result.Failed;
+                }
+                catch (Exception ex)
+                {
+                    message = "Неожиданная ошибка: " + ex.Message;
+                    if (t.HasStarted())
+                    {
+                        t.RollBack();
+                    }
+                    return Result.Failed;
+                }
             }
-            IList<Room> roomList = new FilteredElementCollector(doc)
-                .OfClass(typeof(SpatialElement))
-                .OfCategory(BuiltInCategory.OST_Rooms)
-                .Cast<Room>()
-                .ToList();
-            askUser.ShowDialog();
-            if (askUser.DialogResult == DialogResult.OK)
+        }
+
+        private void RoomCalc(UIDocument uidoc, Transaction t)
+        {
+            Document _doc = uidoc.Document;
+            t.Start("Квартирография");
+            string msg = "";
+
+            // Load user form
+            LevelsForm LevelsWindow = new LevelsForm(uidoc);
+            LevelsWindow.InitializeComponent();
+
+            // Select Rooms in model
+            IList<Room> ModelRooms = LevelsWindow.SelectedRooms;
+
+            //IList<Room> roomList = new FilteredElementCollector(_doc)
+            //    .OfClass(typeof(SpatialElement))
+            //    .OfCategory(BuiltInCategory.OST_Rooms)
+            //    .Cast<Room>()
+            //    .ToList();
+
+            LevelsWindow.ShowDialog();
+
+            if (LevelsWindow.DialogResult == true)
             {
                 //			double koef = 1;
 
@@ -51,16 +95,14 @@ namespace ApartmentCalc
                 //			string outApartArea = "Площадь квартиры";
 
                 //			double karea;
-
-                string lookingFor = askUser.cb_Levels.SelectedItem.ToString();
+                string lookingFor = LevelsWindow.SelectedLevel.Name;
 
                 // Список комнат на __ уровне
                 var query =
-                    from element in roomList
-                    where element.Level != null
-                    where element.Level.Name == lookingFor
+                    from element in ModelRooms
+                    //where element.Level.Name == lookingFor
                     where element.LookupParameter("Тип помещения").AsInteger() != 5
-                    where element.Area > 0
+                    //where element.Area > 0
                     let myGroup = element.LookupParameter("Номер квартиры").AsString()
                     group element by myGroup into groupGroup
                     orderby groupGroup.Key
@@ -90,43 +132,42 @@ namespace ApartmentCalc
                                   select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
                     };
                 //TODO Добавить внесение полученных данных в Revit обратно
-                using (Transaction t = new Transaction(doc, "Квартирография"))
+                foreach (var outerGroup in query.GroupBy(x => x.m_Group))
                 {
-                    t.Start();
-                    foreach (var outerGroup in query.GroupBy(x => x.m_Group))
+                    msg += "\r\n" + "Квартира " + outerGroup.Key + "\r\n";
+                    foreach (var element in outerGroup)
                     {
-                        msg += "\r\n" + "Квартира " + outerGroup.Key + "\r\n";
-                        foreach (var element in outerGroup)
-                        {
 
-                            msg += "Количество комнат = " + element.m_Count + " шт. \r\n";
-                            msg += "Жилая площадь = " + element.m_LivingArea + " м2 \r\n";
-                            msg += "Площадь квартиры = " + element.m_Area + " м2 \r\n";
-                            msg += "Общая площадь = " + element.m_CommonArea + " м2 \r\n";
-                        }
+                        msg += "Количество комнат = " + element.m_Count + " шт. \r\n";
+                        msg += "Жилая площадь = " + element.m_LivingArea + " м2 \r\n";
+                        msg += "Площадь квартиры = " + element.m_Area + " м2 \r\n";
+                        msg += "Общая площадь = " + element.m_CommonArea + " м2 \r\n";
                     }
-
-                    // Назначить помещениям коэффициент и площадь с коэффициентом
-                    foreach (Room room in roomList.Where(r => r.Level.Name == lookingFor && r.LookupParameter("Тип помещения").AsInteger() != 5 && r.Area > 0))
-                    {
-                        int RoomType = room.LookupParameter("Тип помещения").AsInteger();
-                        room.LookupParameter("Площадь с коэффициентом").Set(AcceptKoef(RoomType, room.Area, roundCount));
-                        room.LookupParameter("Коэффициент площади").Set(RoomKoef(RoomType));
-                    }
-                    t.Commit();
                 }
+
+                // Назначить помещениям коэффициент и площадь с коэффициентом
+                foreach (Room room in ModelRooms
+                    .Where(r => r.Level.Name == lookingFor && r.LookupParameter("Тип помещения").AsInteger() != 5 && r.Area > 0))
+                {
+                    int RoomType = room.LookupParameter("Тип помещения").AsInteger();
+                    room.LookupParameter("Площадь с коэффициентом").Set(AcceptKoef(RoomType, room.Area, roundCount));
+                    room.LookupParameter("Коэффициент площади").Set(RoomKoef(RoomType));
+                }
+                t.Commit();
                 TaskDialog.Show("Message", msg);
-                return Result.Succeeded;
             }
             else
-                askUser.Close();
-            return Result.Failed;
+            {
+                t.RollBack();
+            }
+            //LevelsWindow.Close();
         }
 
         private double AcceptKoef(int type, double area, int round)
         {
             return Math.Round(RoomKoef(type) * Math.Round(area * 0.09290304, round), round);
         }
+
 
         private double RoomKoef(int type)
         {
@@ -143,7 +184,7 @@ namespace ApartmentCalc
                     k = 0.3;
                     break;
                 case 6:
-                    k = 0.7;
+                    k = 0.3;
                     break;
                 default:
                     k = 1;

@@ -13,7 +13,7 @@ namespace RenameApartRooms
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            
+
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
 
@@ -33,46 +33,25 @@ namespace RenameApartRooms
                     {
                         string _roomName = room.LookupParameter("Имя").AsString();
                         Parameter _roomNumber = room.LookupParameter("Номер");
+                        Parameter RoomType = room.LookupParameter("Тип помещения");
                         switch (_roomName)
                         {
-                            case "Кухня":
-                                _roomNumber.Set("К-я");
-                                break;
+                            case "Кухня": _roomNumber.Set("К-я"); break;
                             case "Гардероб":
-                            case "Гардеробная":
-                                _roomNumber.Set("Гр");
-                                break;
-                            case "Гостиная":
-                                _roomNumber.Set("Г-я");
-                                break;
+                            case "Гардеробная": _roomNumber.Set("Гр"); break;
+                            case "Гостиная": _roomNumber.Set("Г-я"); break;
                             case "Спальня":
-                            case "Спальная":
-                                _roomNumber.Set("Сп");
-                                break;
-                            case "Прихожая":
-                                _roomNumber.Set("П-я");
-                                break;
-                            case "Ванная":
-                                _roomNumber.Set("В-я");
-                                break;
-                            case "Кладовая":
-                                _roomNumber.Set("Кл");
-                                break;
-                            case "Коридор":
-                                _roomNumber.Set("К-р");
-                                break;
-                            case "Санузел":
-                                _roomNumber.Set("С/у");
-                                break;
-                            case "Балкон":
-                                _roomNumber.Set("Б-н");
-                                break;
-                            case "Лоджия":
-                                _roomNumber.Set("Л-я");
-                                break;
-                            default:
-                                _roomNumber.Set("ХХХ");
-                                break;
+                            case "Спальная": _roomNumber.Set("Сп"); break;
+                            case "Прихожая": _roomNumber.Set("П-я"); break;
+                            case "Ванная": _roomNumber.Set("В-я"); break;
+                            case "Кладовая": _roomNumber.Set("Кл"); break;
+                            case "Коридор": _roomNumber.Set("К-р"); break;
+                            case "Санузел": _roomNumber.Set("С/у"); break;
+                            case "Балкон": _roomNumber.Set("Б-н"); break;
+                            case "Лоджия": _roomNumber.Set("Л-я"); break;
+                            case "Терраса": _roomNumber.Set("Тер."); break;
+                            case "Веранда": _roomNumber.Set("В"); break;
+                            default: _roomNumber.Set("ХХХ"); break;
                         }
                     }
                     t.Commit();

@@ -163,7 +163,7 @@
     <value>Выбранные помещения</value>
   </data>
   <data name="roomFinishes_select_wall_label" xml:space="preserve">
-    <value>Выбор помещений</value>
+    <value>Выберите тип отделки:</value>
   </data>
   <data name="roomFinishes_TaskDialogName" xml:space="preserve">
     <value>Создание отделки</value>

@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PRSPKT_Apps.Resources
-{
-
-
+namespace PRSPKT_Apps.Resources {
+    using System;
+    
+    
     /// <summary>
     ///   Класс ресурса со строгой типизацией для поиска локализованных строк и т.д.
     /// </summary>
@@ -358,7 +358,7 @@ namespace PRSPKT_Apps.Resources
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Выбор помещений.
+        ///   Ищет локализованную строку, похожую на Выберите тип отделки:.
         /// </summary>
         internal static string roomFinishes_select_wall_label {
             get {

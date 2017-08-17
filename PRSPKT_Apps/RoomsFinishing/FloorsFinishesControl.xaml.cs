@@ -68,7 +68,7 @@ namespace PRSPKT_Apps.RoomsFinishes
                                                 let type = elem as FloorType
                                                 let typeName = type.Name
                                                 where type.IsFoundationSlab == false
-                                                //where typeName.Contains("Пол")
+                                                where typeName.Contains("Пол")
                                                 select type;
             floorTypes = floorTypes.OrderBy(floorType => floorType.Name);
 
@@ -96,8 +96,6 @@ namespace PRSPKT_Apps.RoomsFinishes
                 paramSelector.IsEnabled = false;
                 height_param_radio.IsEnabled = false;
             }
-
-
         }
 
         private void Ok_Button_Click(object sender, RoutedEventArgs e)
