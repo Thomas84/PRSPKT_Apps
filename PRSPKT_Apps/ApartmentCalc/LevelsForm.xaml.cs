@@ -1,18 +1,7 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using PRSPKT_Apps;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
@@ -88,7 +77,7 @@ namespace PRSPKT_Apps.ApartmentCalc
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Name == _selectedLevel.Name)
+                    .Where(room => room.Level.Name == _selectedLevel.Name)
                     .ToList();
             return ModelRooms;
         }
