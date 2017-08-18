@@ -169,7 +169,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Введите значение уровня пола:.
+        ///   Ищет локализованную строку, похожую на Введите значение уровня пола.
         /// </summary>
         internal static string floorFinishes_heightValueError {
             get {

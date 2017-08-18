@@ -178,7 +178,7 @@
     <value>Подсчет общей длины линий</value>
   </data>
   <data name="floorFinishes_heightValueError" xml:space="preserve">
-    <value>Введите значение уровня пола:</value>
+    <value>Введите значение уровня пола</value>
   </data>
   <data name="floorFinishes_TaskDialogName" xml:space="preserve">
     <value>Создание полов</value>
