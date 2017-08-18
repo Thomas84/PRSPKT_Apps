@@ -75,6 +75,7 @@ namespace ApartmentCalc
                 //			double koef = 1;
 
                 int roundCount = 2; // Округлить до __ знаков
+                string lookingFor = userControl.SelectedLevel.Name;
 
                 //			int count = 0;
                 //
@@ -87,9 +88,10 @@ namespace ApartmentCalc
                 //			string outApartArea = "Площадь квартиры";
 
                 //			double karea;
-                string lookingFor = userControl.SelectedLevel.Name;
 
                 // Список комнат на __ уровне
+
+
                 var query =
                     from element in ModelRooms
                         //where element.Level.Name == lookingFor
