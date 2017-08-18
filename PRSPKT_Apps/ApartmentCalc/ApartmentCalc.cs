@@ -4,7 +4,6 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using PRSPKT_Apps;
-using PRSPKT_Apps.ApartmentCalc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +16,14 @@ namespace ApartmentCalc
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIDocument uidoc = commandData.Application.ActiveUIDocument;
-            Document doc = uidoc.Document;
+            UIDocument UIdoc = commandData.Application.ActiveUIDocument;
+            Document doc = UIdoc.Document;
 
             using (Transaction t = new Transaction(doc))
             {
                 try
                 {
-                    RoomCalc(uidoc, t);
+                    RoomCalc(UIdoc, t);
                     return Result.Succeeded;
                 }
                 catch (OperationCanceledException exceptionCancelled)
@@ -57,29 +56,22 @@ namespace ApartmentCalc
             }
         }
 
-        private void RoomCalc(UIDocument uidoc, Transaction t)
+        private void RoomCalc(UIDocument UIDdoc, Transaction t)
         {
-            Document _doc = uidoc.Document;
+            Document _doc = UIDdoc.Document;
             t.Start("Квартирография");
             string msg = "";
 
             // Load user form
-            LevelsForm LevelsWindow = new LevelsForm(uidoc);
-            LevelsWindow.InitializeComponent();
+            PRSPKT_Apps.ApartmentCalc.LevelsForm userControl = new PRSPKT_Apps.ApartmentCalc.LevelsForm(UIDdoc);
+            userControl.InitializeComponent();
 
-            // Select Rooms in model
-            IList<Room> ModelRooms = LevelsWindow.SelectedRooms;
+            //LevelsWindow.ShowDialog();
 
-            //IList<Room> roomList = new FilteredElementCollector(_doc)
-            //    .OfClass(typeof(SpatialElement))
-            //    .OfCategory(BuiltInCategory.OST_Rooms)
-            //    .Cast<Room>()
-            //    .ToList();
-
-            LevelsWindow.ShowDialog();
-
-            if (LevelsWindow.DialogResult == true)
+            if (userControl.ShowDialog() == true)
             {
+
+                IList<Room> ModelRooms = userControl.SelectedRooms;
                 //			double koef = 1;
 
                 int roundCount = 2; // Округлить до __ знаков
@@ -95,12 +87,12 @@ namespace ApartmentCalc
                 //			string outApartArea = "Площадь квартиры";
 
                 //			double karea;
-                string lookingFor = LevelsWindow.SelectedLevel.Name;
+                string lookingFor = userControl.SelectedLevel.Name;
 
                 // Список комнат на __ уровне
                 var query =
                     from element in ModelRooms
-                    //where element.Level.Name == lookingFor
+                        //where element.Level.Name == lookingFor
                     where element.LookupParameter("Тип помещения").AsInteger() != 5
                     //where element.Area > 0
                     let myGroup = element.LookupParameter("Номер квартиры").AsString()
