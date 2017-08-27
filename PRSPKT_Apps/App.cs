@@ -82,16 +82,24 @@ namespace PRSPKT_Apps
             };
             panel.AddItem(ApartRoomsData);
 
-            // Add PRSPKT ApartmentCalc Button
-            string ApartCalcButtonText = Tools.LangResMan.GetString("apartCalc_button_name", Tools.Cult);
+            // Add PRSPKT ApartmentCalc Button OLD
+            string ApartCalcButtonText = "Квартирография \n (old)";
             PushButtonData apartCalcData = new PushButtonData("cmdApartCalc", ApartCalcButtonText, DllPath, "ApartmentCalc.ApartmentCalc")
             {
                 ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/test_OK.png"))
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc.png"))
             };
             panel.AddItem(apartCalcData);
 
 
+            // Add PRSPKT ApartmentCalc Button New
+            string ApartCalc_P_ButtonText = "Квартирография \n (new)";
+            PushButtonData apartCalc_P_Data = new PushButtonData("cmdApartCalc_P", ApartCalc_P_ButtonText, DllPath, "ApartmentCalc_P.ApartmentCalc_P")
+            {
+                ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc_P.png"))
+            };
+            panel.AddItem(apartCalc_P_Data);
 
             // Add PRSPKT FloorFinish button
             string FloorFinishButtonText = Tools.LangResMan.GetString("floorfinish_button_name", Tools.Cult);

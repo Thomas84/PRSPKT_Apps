@@ -9,10 +9,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 #endregion
-namespace ApartmentCalc
+namespace ApartmentCalc_P
 {
     [Transaction(TransactionMode.Manual)]
-    public class ApartmentCalc : IExternalCommand
+    public class ApartmentCalc_P : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -55,6 +55,9 @@ namespace ApartmentCalc
                 }
             }
         }
+        // TODO: Запилить возможность подсчёта по двухуровневым квартирам
+        // TODO: Запилить возможность дополнительных рулек (округление, выбор параметров)
+        // TODO: Может, запилить возможность сохранения настроек?
 
         private void RoomCalc(UIDocument UIDdoc, Transaction t)
         {
@@ -63,21 +66,23 @@ namespace ApartmentCalc
             //string msg = "";
 
             // Load user form
-            PRSPKT_Apps.ApartmentCalc.LevelsForm userControl = new PRSPKT_Apps.ApartmentCalc.LevelsForm(UIDdoc);
+            PRSPKT_Apps.ApartmentCalc_P.LevelsControl userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
             userControl.InitializeComponent();
 
             //LevelsWindow.ShowDialog();
 
             if (userControl.ShowDialog() == true)
             {
+
                 IList<Room> ModelRooms = userControl.SelectedRooms;
                 //			double koef = 1;
+
                 int roundCount = 2; // Округлить до __ знаков
                 string lookingFor = userControl.SelectedLevel.Name;
 
                 var query =
                     from element in ModelRooms
-                    let myGroup = element.LookupParameter("Номер квартиры").AsString()
+                    let myGroup = element.LookupParameter("П_Номер квартиры").AsString()
                     group element by myGroup into groupGroup
                     from room in groupGroup
                     group room by groupGroup.Key;
@@ -105,7 +110,7 @@ namespace ApartmentCalc
                         Parameter Count_R = _room.LookupParameter("Число комнат");
                         try
                         {
-                            int _type = _room.LookupParameter("Тип помещения").AsInteger();
+                            int _type = _room.LookupParameter("П_Тип помещения").AsInteger();
                             Area_L.Set(area_L_Converted);
                             Area_A.Set(area_A_Converted);
                             Area_C.Set(area_C_Converted);
@@ -138,7 +143,7 @@ namespace ApartmentCalc
 
             foreach (Room tempRoom in list)
             {
-                int _type = tempRoom.LookupParameter("Тип помещения").AsInteger();
+                int _type = tempRoom.LookupParameter("П_Тип помещения").AsInteger();
                 double koef = 1;
                 double area_inn = UnitUtils.ConvertFromInternalUnits(tempRoom.Area, DisplayUnitType.DUT_SQUARE_METERS);
 

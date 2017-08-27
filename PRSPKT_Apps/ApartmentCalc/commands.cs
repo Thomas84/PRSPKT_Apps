@@ -6,6 +6,7 @@ namespace PRSPKT_Apps.ApartmentCalc
 {
     class commands
     {
+        /*
         UIDocument uidoc = this.ActiveUIDocument;
         Document doc = uidoc.Document;
 		using (Transaction t = new Transaction(doc, "Квартирография")) {
@@ -125,11 +126,11 @@ private int ApartCountRoom(IList<Room> rms)
     return _count;
 }
 
-/*private double AcceptKoef(int type, double area, int round)
+private double AcceptKoef(int type, double area, int round)
 {
 	return Math.Round(RoomKoef(type) * Math.Round(area * 0.09290304, round), round);
 	//return Math.Round(RoomKoef(type) * Math.Round(area, round), round);
-}*/
+}
 
 private double RoomKoef(int type)
 {
@@ -152,6 +153,6 @@ private double RoomKoef(int type)
     }
     return k;
 }
-	}
+	}*/
 	}
 }
