@@ -146,26 +146,23 @@
     <Compile Include="TotalLength\CurveTotalLength.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icons.ai" />
-    <Resource Include="Resources\apartCalc_P.png" />
-    <Resource Include="Resources\test_OK.png" />
-    <Resource Include="Resources\floorFinish.png" />
+    <Resource Include="Resources\apartCalc_new.png" />
+    <Resource Include="Resources\apartCalc_old.png" />
     <Resource Include="Resources\roomFinish.png" />
-    <Resource Include="Resources\apartCalc.png" />
+    <Resource Include="Resources\floorFinish.png" />
+    <Resource Include="Resources\totalLength.png" />
+    <Resource Include="Resources\renameApartRooms.png" />
+    <Resource Include="Resources\icons.ai" />
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Resource Include="Resources\dimAxies.png" />
-    <Resource Include="Resources\renameApartRooms.png" />
     <None Include="packages.config" />
     <Content Include="PRSPKT_Apps.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\totalLength.png" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="ApartmentCalc_P\LevelsControl.xaml">

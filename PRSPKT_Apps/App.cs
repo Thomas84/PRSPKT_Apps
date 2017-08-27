@@ -87,7 +87,7 @@ namespace PRSPKT_Apps
             PushButtonData apartCalcData = new PushButtonData("cmdApartCalc", ApartCalcButtonText, DllPath, "ApartmentCalc.ApartmentCalc")
             {
                 ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc.png"))
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc_old.png"))
             };
             panel.AddItem(apartCalcData);
 
@@ -97,7 +97,7 @@ namespace PRSPKT_Apps
             PushButtonData apartCalc_P_Data = new PushButtonData("cmdApartCalc_P", ApartCalc_P_ButtonText, DllPath, "ApartmentCalc_P.ApartmentCalc_P")
             {
                 ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc_P.png"))
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc_new.png"))
             };
             panel.AddItem(apartCalc_P_Data);
 
