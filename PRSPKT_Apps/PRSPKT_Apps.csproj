@@ -99,6 +99,7 @@
     <Compile Include="ApartmentCalc\askUser.Designer.cs">
       <DependentUpon>askUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="ApartmentCalc\commands.cs" />
     <Compile Include="ApartmentCalc\LevelsForm.xaml.cs">
       <DependentUpon>LevelsForm.xaml</DependentUpon>
     </Compile>

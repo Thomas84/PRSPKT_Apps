@@ -77,84 +77,101 @@ namespace ApartmentCalc
                 int roundCount = 2; // Округлить до __ знаков
                 string lookingFor = userControl.SelectedLevel.Name;
 
-                //			int count = 0;
-                //
-                //			string outApartNumber = "Номер квартиры";
-                //			string outApartAreaLiving = "Площадь квартиры Жилая";
-                //			string outApartAreaCommon = "Площадь квартиры Общая";
-                //			string outApartRoomCount = "Число комнат";
-                //			string outRoomIndex = "Индекс помещения";
-                //			string outRoomKoef = "Площадь с коэффициентом";
-                //			string outApartArea = "Площадь квартиры";
-
-                //			double karea;
-
-                // Список комнат на __ уровне
-
-
                 var query =
                     from element in ModelRooms
-                        //where element.Level.Name == lookingFor
-                    where element.LookupParameter("Тип помещения").AsInteger() != 5
-                    //where element.Area > 0
                     let myGroup = element.LookupParameter("Номер квартиры").AsString()
                     group element by myGroup into groupGroup
-                    orderby groupGroup.Key
-                    select new
-                    {
-                        // Номер квартиры
-                        m_Group = groupGroup.Key,
-                        // Площадь квартиры ОБЩАЯ
-                        m_CommonArea = (from element in groupGroup
-                                        let m_type = element.LookupParameter("Тип помещения").AsInteger()
-                                        select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
+                    from room in groupGroup
+                    group room by groupGroup.Key;
 
-                        // Площадь квартиры ЖИЛАЯ
-                        m_LivingArea = (from element in groupGroup
-                                        let m_type = element.LookupParameter("Тип помещения").AsInteger()
-                                        where m_type == 1
-                                        select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
-                        //				                select Math.Round(koef*Math.Round(element.Area*0.09290304,roundCount),roundCount)).Sum(),
-                        // Количество жилых комнат в квартире
-                        m_Count = (from element in groupGroup
-                                   where element.LookupParameter("Тип помещения").AsInteger() == 1
-                                   select element).Count(),
-                        // Площадь квартиры (без балконов и лоджий)
-                        m_Area = (from element in groupGroup
-                                  let m_type = element.LookupParameter("Тип помещения").AsInteger()
-                                  where m_type < 3
-                                  select AcceptKoef(m_type, element.Area, roundCount)).Sum(),
-                    };
-                //TODO Добавить внесение полученных данных в Revit обратно
-                foreach (var outerGroup in query.GroupBy(x => x.m_Group))
+                foreach (var apart in query)
                 {
-                    msg += "\r\n" + "Квартира " + outerGroup.Key + "\r\n";
-                    foreach (var element in outerGroup)
-                    {
+                    //msg += "Квартира " + apart.Key + "\r\n";
+                    List<double> area_list = ApartAreas(apart.ToList(), roundCount);
+                    double area_L = area_list[0]; // Жилая площадь
+                    double area_A = area_list[1]; // Площадь квартиры
+                    double area_C = area_list[2]; // Общая площадь квартиры
+                    int count_r = (int)area_list[3]; // Количество жилых комнат
 
-                        msg += "Количество комнат = " + element.m_Count + " шт. \r\n";
-                        msg += "Жилая площадь = " + element.m_LivingArea + " м2 \r\n";
-                        msg += "Площадь квартиры = " + element.m_Area + " м2 \r\n";
-                        msg += "Общая площадь = " + element.m_CommonArea + " м2 \r\n";
+                    foreach (var _room in apart)
+                    {
+                        Parameter Area_L = _room.LookupParameter("Площадь квартиры Жилая");
+                        Parameter Area_A = _room.LookupParameter("Площадь квартиры");
+                        Parameter Area_C = _room.LookupParameter("Площадь квартиры Общая");
+                        Parameter Count_R = _room.LookupParameter("Число комнат");
+                        try
+                        {
+                            int _type = _room.LookupParameter("Тип помещения").AsInteger();
+                            Area_L.Set(area_L);
+                            Area_A.Set(area_A);
+                            Area_C.Set(area_C);
+                            Count_R.Set(count_r);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            TaskDialog.Show("Квартирография", "Ошибочка: " + ex.Message);
+                        }
                     }
                 }
-
-                // Назначить помещениям коэффициент и площадь с коэффициентом
-                foreach (Room room in ModelRooms
-                    .Where(r => r.Level.Name == lookingFor && r.LookupParameter("Тип помещения").AsInteger() != 5 && r.Area > 0))
-                {
-                    int RoomType = room.LookupParameter("Тип помещения").AsInteger();
-                    room.LookupParameter("Площадь с коэффициентом").Set(AcceptKoef(RoomType, room.Area, roundCount));
-                    room.LookupParameter("Коэффициент площади").Set(RoomKoef(RoomType));
-                }
                 t.Commit();
-                TaskDialog.Show("Message", msg);
             }
             else
             {
                 t.RollBack();
             }
-            //LevelsWindow.Close();
+        }
+
+        private const double METERS_IN_FEET = 0.3048;
+
+        private List<double> ApartAreas(List<Room> list, int roundCount)
+        {
+            double room_living_sum = 0;
+            double room_apart_sum = 0;
+            double room_common_sum = 0;
+            double room_count = 0;
+            var outlist = new List<double>();
+
+            foreach (Room tempRoom in list)
+            {
+                int _type = tempRoom.LookupParameter("Тип помещения").AsInteger();
+                double koef = 1;
+                double area = Math.Round(tempRoom.Area * Math.Pow(METERS_IN_FEET, 2), 2);
+                switch (_type)
+                {
+                    case 1:
+                        room_living_sum += area;
+                        room_apart_sum += area;
+                        room_count += 1;
+                        break;
+                    case 2:
+                        room_apart_sum += area;
+                        break;
+                    case 5:
+                        koef = 0;
+                        break;
+                    case 3:
+                        koef = 0.5;
+                        break;
+                    case 4:
+                    case 6:
+                        koef = 0.3;
+                        break;
+                    default:
+                        koef = 1;
+                        break;
+                }
+                double karea = Math.Round(tempRoom.Area * Math.Pow(METERS_IN_FEET, 2) * koef, 2);
+                room_common_sum += karea;
+
+                tempRoom.LookupParameter("Площадь с коэффициентом").Set(karea);
+                tempRoom.LookupParameter("Коэффициент площади").Set(koef);
+            }
+            outlist.Add(room_living_sum);
+            outlist.Add(room_apart_sum);
+            outlist.Add(room_common_sum);
+            outlist.Add(room_count);
+            return outlist;
         }
 
         private double AcceptKoef(int type, double area, int round)

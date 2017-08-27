@@ -77,7 +77,8 @@ namespace PRSPKT_Apps.ApartmentCalc
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Level.Name == _selectedLevel.Name)
+                    .Where(room => room.Level.Name == SelectedLevel.Name)
+                    .Where(room => room.LookupParameter("Тип помещения").AsInteger() != 5)
                     .ToList();
             return ModelRooms;
         }
