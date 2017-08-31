@@ -97,13 +97,6 @@
       <DependentUpon>LevelsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="ApartmentCalc\ApartmentCalc.cs" />
-    <Compile Include="ApartmentCalc\askUser.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ApartmentCalc\askUser.Designer.cs">
-      <DependentUpon>askUser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ApartmentCalc\commands.cs" />
     <Compile Include="ApartmentCalc\LevelsForm.xaml.cs">
       <DependentUpon>LevelsForm.xaml</DependentUpon>
     </Compile>

@@ -78,7 +78,6 @@ namespace ApartmentCalc_P
                 //			double koef = 1;
 
                 int roundCount = 2; // Округлить до __ знаков
-                string lookingFor = userControl.SelectedLevel.Name;
 
                 var query =
                     from element in ModelRooms

@@ -4,18 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
-             Height="130" Width="200" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
+             Height="180" Width="200" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
     <Grid Margin="0,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="50*" />
+            <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
 
-        <GroupBox Header="Выберите уровень:" Grid.Row="0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="2">
-            <ComboBox x:Name="Levels_ComboBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+        <GroupBox Header="Выберите уровень:" Grid.Row="0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
+            <ComboBox x:Name="Levels_ComboBox" HorizontalContentAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
         </GroupBox>
-        
-        <Grid Grid.Row="1">
+        <GroupBox Header="Двухуровневые квартиры:" Grid.Row="1">
+            <CheckBox x:Name="Yes_Checkbox" Content="Да" Margin="5"/>
+        </GroupBox>
+            <Grid Grid.Row="2" VerticalAlignment="Bottom" Height="30">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -23,8 +26,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="5,5,5,5" VerticalAlignment="Top" IsDefault="True" Click="OK_Button_Click"/>
-            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="5,5,5,5" VerticalAlignment="Top" IsCancel="True" Click="Cancel_Button_Click"/>
+            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="5,5,5,5" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click"/>
+            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="5,5,5,5" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click"/>
         </Grid>
     </Grid>
 </Window>

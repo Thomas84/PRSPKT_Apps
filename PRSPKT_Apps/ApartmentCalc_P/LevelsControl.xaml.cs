@@ -30,6 +30,11 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _selectedLevel; }
         }
 
+        private Level _nextLevel;
+        public Level NextLevel
+        {
+            get { return _nextLevel; }
+        }
 
         public LevelsControl(UIDocument UIDoc)
         {
@@ -39,6 +44,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
+            Yes_Checkbox.Content = "Да / Нет";
 
             // Find a room
             //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
@@ -51,6 +57,8 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             Levels_ComboBox.ItemsSource = _levels;
             Levels_ComboBox.SelectedItem = Levels_ComboBox.Items[0];
             Levels_ComboBox.DisplayMemberPath = "Name";
+
+
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
@@ -58,6 +66,16 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             if (Levels_ComboBox.SelectedItem != null)
             {
                 _selectedLevel = Levels_ComboBox.SelectedItem as Level;
+
+                if (Yes_Checkbox.IsChecked == true)
+                {
+                    _nextLevel = Levels_ComboBox.Items[Levels_ComboBox.SelectedIndex + 1] as Level;
+                }
+                else
+                {
+                    _nextLevel = Levels_ComboBox.SelectedItem as Level;
+                }
+
                 this.DialogResult = true;
                 this.Close();
 
@@ -78,7 +96,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Level.Name == SelectedLevel.Name)
+                    .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
                     .Where(room => room.LookupParameter("П_Тип помещения").AsInteger() != 5)
                     .ToList();
             return ModelRooms;

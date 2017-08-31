@@ -29,6 +29,11 @@ namespace PRSPKT_Apps.ApartmentCalc
             get { return _selectedLevel; }
         }
 
+        private Level _nextLevel;
+        public Level NextLevel
+        {
+            get { return _nextLevel; }
+        }
 
         public LevelsForm(UIDocument UIDoc)
         {
@@ -38,6 +43,7 @@ namespace PRSPKT_Apps.ApartmentCalc
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
+            Yes_Checkbox.Content = "Да / Нет";
 
             // Find a room
             //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
@@ -57,6 +63,16 @@ namespace PRSPKT_Apps.ApartmentCalc
             if (Levels_ComboBox.SelectedItem != null)
             {
                 _selectedLevel = Levels_ComboBox.SelectedItem as Level;
+
+                if (Yes_Checkbox.IsChecked == true)
+                {
+                    _nextLevel = Levels_ComboBox.Items[Levels_ComboBox.SelectedIndex + 1] as Level;
+                }
+                else
+                {
+                    _nextLevel = Levels_ComboBox.SelectedItem as Level;
+                }
+
                 this.DialogResult = true;
                 this.Close();
 
@@ -77,7 +93,7 @@ namespace PRSPKT_Apps.ApartmentCalc
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Level.Name == SelectedLevel.Name)
+                    .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
                     .Where(room => room.LookupParameter("Тип помещения").AsInteger() != 5)
                     .ToList();
             return ModelRooms;
