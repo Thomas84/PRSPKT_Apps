@@ -82,6 +82,15 @@ namespace PRSPKT_Apps
             };
             panel.AddItem(ApartRoomsData);
 
+            // Add PRSPKT Rename Apart Rooms Button
+            string DoRM_ButtonText = "Rm Сергею ОВ";
+            PushButtonData DoRMdata = new PushButtonData("cmdDoRM", DoRM_ButtonText, DllPath, "Do_Rm.DoRmSergei")
+            {
+                ToolTip = "Проставить Rm_Этаж для Сергея ОВ",
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/DoRM.png"))
+            };
+            panel.AddItem(DoRMdata);
+
             // Add PRSPKT ApartmentCalc Button OLD
             string ApartCalcButtonText = "Квартирография \n (old)";
             PushButtonData apartCalcData = new PushButtonData("cmdApartCalc", ApartCalcButtonText, DllPath, "ApartmentCalc.ApartmentCalc")
