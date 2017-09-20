@@ -36,6 +36,8 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _nextLevel; }
         }
 
+
+
         public SelectLevelsControl(UIDocument UIDoc)
         {
             InitializeComponent();
@@ -54,8 +56,10 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             LevelsListBox.SelectedItem = LevelsListBox.Items[0];
             LevelsListBox.DisplayMemberPath = "Name";
 
+            
 
         }
+       
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -87,13 +91,16 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
         private IList<Room> SelectRooms()
         {
+            var levelsControl = new LevelsControl(_UIDoc);
+            _roomType = levelsControl.txtBoxType.Text;
+
             IList<Room> ModelRooms = new FilteredElementCollector(_doc)
                     .OfClass(typeof(SpatialElement))
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
                     .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
-                    .Where(room => room.LookupParameter("П_Тип помещения").AsInteger() != 5)
+                    .Where(room => room.LookupParameter(RoomType).AsInteger() != 5)
                     .ToList();
             return ModelRooms;
         }

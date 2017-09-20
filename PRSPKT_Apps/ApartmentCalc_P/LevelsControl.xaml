@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
              Height="666" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
     <Grid>
-        <TabControl>
+        <TabControl Margin="5">
             <TabItem Header="Главная">
                 <Grid>
                     <StackPanel Margin="5">
                         <WrapPanel Orientation="Vertical" Height="74">
                             <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
-                            <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="20" VerticalAlignment="Top" Padding="0,5"/>
-                            <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="20" VerticalAlignment="Bottom" Padding="0,5"></Label>
+                            <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
+                            <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="18" VerticalAlignment="Bottom" Padding="0,5" VerticalContentAlignment="Bottom"></Label>
                         </WrapPanel>
                         
                         <Label x:Name="labelAnalyze" Content="Режим анализа помещений" Padding="10" FontSize="18" FontWeight="SemiBold"/>

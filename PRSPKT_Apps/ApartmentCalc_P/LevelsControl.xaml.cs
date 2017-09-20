@@ -32,14 +32,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
-
-            // Find a room
-            //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
-
-            _levels = new FilteredElementCollector(_doc)
-                .OfClass(typeof(Level))
-                .Cast<Level>()
-                .OrderBy(lev => lev.Elevation);
             
         }
 
@@ -47,32 +39,48 @@ namespace PRSPKT_Apps.ApartmentCalc_P
         {
             if (radioSelectedLevels.IsChecked == true)
             {
+                this.DialogResult = true;
+                this.Close();
                 PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
                 userLevelsControl.InitializeComponent();
-                if (userLevelsControl.ShowDialog() == true)
-                {
-                    
-                }
             }
             else if (radioActiveView.IsChecked == true)
             {
-
+                _selectedRooms = ActiveViewRooms();
             }
             else if (radioAllLevels.IsChecked == true)
             {
-
+                _selectedRooms = AllRooms();
             }
 
                 this.DialogResult = true;
                 this.Close();
 
-                // Select rooms
-                _selectedRooms = SelectRooms();
         }
 
-        private IList<Room> SelectRooms()
+        private IList<Room> AllRooms()
         {
-            IList<Room> ModelRooms = new List<Room>();
+            IList<Room> ModelRooms = new FilteredElementCollector(_doc)
+                .OfClass(typeof(SpatialElement))
+                .OfCategory(BuiltInCategory.OST_Rooms)
+                .Cast<Room>()
+                .Where(room => room.Area > 0 && room.LevelId != null)
+                .Where(room => room.LookupParameter(HelpMe.RoomType).AsInteger() != 5)
+                .ToList();
+
+            return ModelRooms;
+        }
+
+        private IList<Room> ActiveViewRooms()
+        {
+
+            IList<Room> ModelRooms = new FilteredElementCollector(_doc, _UIDoc.ActiveView.Id)
+                .OfClass(typeof(SpatialElement))
+                .OfCategory(BuiltInCategory.OST_Rooms)
+                .Cast<Room>()
+                .Where(room => room.Area > 0 && room.LevelId != null)
+                .Where(room => room.LookupParameter(HelpMe.RoomType).AsInteger() != 5)
+                .ToList();
 
             return ModelRooms;
         }
