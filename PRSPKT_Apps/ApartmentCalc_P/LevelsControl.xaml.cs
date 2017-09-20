@@ -24,18 +24,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _selectedRooms; }
         }
 
-        private Level _selectedLevel;
-        public Level SelectedLevel
-        {
-            get { return _selectedLevel; }
-        }
-
-        private Level _nextLevel;
-        public Level NextLevel
-        {
-            get { return _nextLevel; }
-        }
-
         public LevelsControl(UIDocument UIDoc)
         {
             InitializeComponent();
@@ -44,7 +32,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
-            Yes_Checkbox.Content = "Да / Нет";
 
             // Find a room
             //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
@@ -53,52 +40,40 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .OfClass(typeof(Level))
                 .Cast<Level>()
                 .OrderBy(lev => lev.Elevation);
-
-            Levels_ComboBox.ItemsSource = _levels;
-            Levels_ComboBox.SelectedItem = Levels_ComboBox.Items[0];
-            Levels_ComboBox.DisplayMemberPath = "Name";
-
-
+            
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Levels_ComboBox.SelectedItem != null)
+            if (radioSelectedLevels.IsChecked == true)
             {
-                _selectedLevel = Levels_ComboBox.SelectedItem as Level;
+                PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
+                userLevelsControl.InitializeComponent();
+                if (userLevelsControl.ShowDialog() == true)
+                {
+                    
+                }
+            }
+            else if (radioActiveView.IsChecked == true)
+            {
 
-                if (Yes_Checkbox.IsChecked == true)
-                {
-                    _nextLevel = Levels_ComboBox.Items[Levels_ComboBox.SelectedIndex + 1] as Level;
-                }
-                else
-                {
-                    _nextLevel = Levels_ComboBox.SelectedItem as Level;
-                }
+            }
+            else if (radioAllLevels.IsChecked == true)
+            {
+
+            }
 
                 this.DialogResult = true;
                 this.Close();
 
                 // Select rooms
                 _selectedRooms = SelectRooms();
-            }
-            else
-            {
-                TaskDialog.Show("Квартирография", "Ошибочка с уровнем", TaskDialogCommonButtons.Close, TaskDialogResult.Close);
-                this.Activate();
-            }
         }
 
         private IList<Room> SelectRooms()
         {
-            IList<Room> ModelRooms = new FilteredElementCollector(_doc)
-                    .OfClass(typeof(SpatialElement))
-                    .OfCategory(BuiltInCategory.OST_Rooms)
-                    .Cast<Room>()
-                    .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
-                    .Where(room => room.LookupParameter("П_Тип помещения").AsInteger() != 5)
-                    .ToList();
+            IList<Room> ModelRooms = new List<Room>();
+
             return ModelRooms;
         }
 
@@ -107,5 +82,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             DialogResult = false;
             this.Close();
         }
+        
     }
 }

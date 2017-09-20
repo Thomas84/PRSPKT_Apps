@@ -93,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApartmentCalc_P\ApartmentCalc_P.cs" />
+    <Compile Include="ApartmentCalc_P\SelectLevelsControl.xaml.cs">
+      <DependentUpon>SelectLevelsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ApartmentCalc_P\LevelsControl.xaml.cs">
       <DependentUpon>LevelsControl.xaml</DependentUpon>
     </Compile>
@@ -142,6 +145,7 @@
     <Compile Include="TotalLength\CurveTotalLength.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\deleteCorrupt.png" />
     <Resource Include="Resources\printme.png" />
     <Resource Include="Resources\DoRM.png" />
@@ -164,6 +168,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="ApartmentCalc_P\SelectLevelsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="ApartmentCalc_P\LevelsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

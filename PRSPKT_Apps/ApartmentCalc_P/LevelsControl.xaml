@@ -4,30 +4,84 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
-             Height="180" Width="200" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
-    <Grid Margin="0,0,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50*" />
-            <RowDefinition Height="50*" />
-            <RowDefinition Height="40*"/>
-        </Grid.RowDefinitions>
+             Height="666" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Главная">
+                <Grid>
+                    <StackPanel Margin="5">
+                        <WrapPanel Orientation="Vertical" Height="74">
+                            <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                            <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="20" VerticalAlignment="Top" Padding="0,5"/>
+                            <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="20" VerticalAlignment="Bottom" Padding="0,5"></Label>
+                        </WrapPanel>
+                        
+                        <Label x:Name="labelAnalyze" Content="Режим анализа помещений" Padding="10" FontSize="18" FontWeight="SemiBold"/>
+                        <RadioButton x:Name="radioSelectedLevels" Content="Выбранные уровни" Margin="5" IsChecked="True"/>
+                        <RadioButton x:Name="radioAllLevels" Content="Все уровни" Margin="5"/>
+                        <RadioButton x:Name="radioActiveView" Content="Уровень активного вида" Margin="5"/>
+                        <Label x:Name="labelRoomsApart" Content="Комнаты квартир" FontSize="18" Padding="10" FontWeight="SemiBold"/>
+                        <TextBox x:Name="txtBoxRoomsApart" Padding="10" Text="Кухня, Гостиная, Спальня, Коридор, Общая квартира, С/у, Ванная, Балкон, Лоджия" Margin="5" TextWrapping="Wrap"/>
+                        <Label x:Name="labelLiveApart" Content="Жилые комнаты" FontSize="18" Padding="10" FontWeight="SemiBold"/>
+                        <TextBox x:Name="txtBoxLiveApart" Height="40" Padding="10" Text="Гостиная, Спальня, Спальная, Общая комната"/>
+                        <Label x:Name="labelKoef" Content="Коэффициенты" FontSize="18" Grid.Column="0" Padding="10" FontWeight="SemiBold"/>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50*"/>
+                                <ColumnDefinition Width="50"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="txtBoxRow1Name" Padding="5" Text="Лоджия" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtBoxRow1Koef" Padding="5" Text="0.3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+                            <TextBox x:Name="txtBoxRow2Name" Padding="5" Text="Балкон" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"/>
+                            <TextBox x:Name="txtBoxRow2Koef" Padding="5" Text="0.5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
+                        </Grid>
 
-        <GroupBox Header="Выберите уровень:" Grid.Row="0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Left" VerticalContentAlignment="Stretch">
-            <ComboBox x:Name="Levels_ComboBox" HorizontalContentAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"/>
-        </GroupBox>
-        <GroupBox Header="Двухуровневые квартиры:" Grid.Row="1">
-            <CheckBox x:Name="Yes_Checkbox" Content="Да" Margin="5"/>
-        </GroupBox>
-            <Grid Grid.Row="2" VerticalAlignment="Bottom" Height="30">
+
+                    </StackPanel>
+
+            </Grid>
+            </TabItem>
+            <TabItem Header="Дополнительно">
+            <StackPanel Margin="5">
+                <WrapPanel Orientation="Vertical" Height="74">
+                    <Image Name="tab2_logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                    <Label x:Name="tab2_LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="20" VerticalAlignment="Top" Padding="0,5"/>
+                    <Label x:Name="tab2_LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="20" VerticalAlignment="Bottom" Padding="0,5"/>
+                </WrapPanel>
+                    <Label x:Name="labelGlobalParams" Content="Параметры помещений" Padding="10" FontSize="18" FontWeight="SemiBold"/>
+                    <Label x:Name="labelArea" Content="Площадь помещения" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxArea" Text="Площадь" Padding="10,5,5,5"/>
+                    <Label x:Name="labelLevel" Content="Уровень помещения" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxLevel" Text="Уровень" Padding="10,5,5,5"/>
+                    <Label x:Name="labelType" Content="Номер квартиры" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxType" Text="П_Номер квартиры" Padding="10,5,5,5"/>
+
+                    <Label x:Name="labelRoomsParams" Content="Параметры квартир" Padding="10" FontSize="18" FontWeight="SemiBold"/>
+                    <Label x:Name="labelAreaApart" Content="Общая площадь квартиры" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxAreaApart" Text="Общая площадь квартиры" Padding="10,5,5,5"/>
+                    <Label x:Name="labelAreaApartWithKoef" Content="Общая площадь квартиры с коэффициентом" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxAreaApartWithKoef" Text="Общая площадь квартиры с коэффициентом" Padding="10,5,5,5"/>
+                    <Label x:Name="labelAreaLivingApart" Content="Жилая площадь квартиры" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxAreaLivingApart" Text="Жилая площадь квартиры" Padding="10,5,5,5"/>
+                    <Label x:Name="labelApartRoomsCount" Content="Количество комнат в квартире" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxApartRoomsCount" Text="Количество комнат" Padding="10,5,5,5"/>
+
+
+                </StackPanel>
+        </TabItem>
+            
+        </TabControl>
+        <Grid VerticalAlignment="Bottom" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="5,5,5,5" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click"/>
-            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="5,5,5,5" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click"/>
+            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="10" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click" Width="100"/>
+            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="10" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
         </Grid>
     </Grid>
 </Window>
