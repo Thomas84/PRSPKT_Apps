@@ -286,6 +286,24 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Сортировка.
+        /// </summary>
+        internal static string printme_button_name {
+            get {
+                return ResourceManager.GetString("printme_button_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сортировка листов по форматам.
+        /// </summary>
+        internal static string printme_tooltip {
+            get {
+                return ResourceManager.GetString("printme_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Все помещения на текущем виде.
         /// </summary>
         internal static string roomFinishes_all_rooms_radio {
@@ -426,6 +444,15 @@ namespace PRSPKT_Apps.Resources {
         internal static string roomFinishes_verticalCompoundError {
             get {
                 return ResourceManager.GetString("roomFinishes_verticalCompoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Листы.
+        /// </summary>
+        internal static string sheets_ribbon_panel_name {
+            get {
+                return ResourceManager.GetString("sheets_ribbon_panel_name", resourceCulture);
             }
         }
         

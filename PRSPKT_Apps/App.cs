@@ -29,10 +29,13 @@ namespace PRSPKT_Apps
                 // Create the panel for PRSPKT Tools;
                 RibbonPanel RoomPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("roomFinishes_ribbon_panel_name"));
                 RibbonPanel ToolsPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("tools_ribbon_panel_name"));
+                RibbonPanel SheetPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("sheets_ribbon_panel_name"));
+
 
                 // Create icons in this panel
                 Icons.ToolsPanel(ToolsPanel);
                 Icons.RoomsPanel(RoomPanel);
+                Icons.SheetsPanel(SheetPanel);
 
                 return Result.Succeeded;
             }
@@ -67,6 +70,15 @@ namespace PRSPKT_Apps
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/dimAxies.png"))
             };
             panel.AddItem(dimAxiesData);
+
+            // Add PRSPKT Delete Corrupt File
+            string DeleteFileButtonText = "Удалить Corrupt";
+            PushButtonData DeleteFileData = new PushButtonData("cmdDeleteFile", DeleteFileButtonText, DllPath, "DeleteCorruptFile.Command")
+            {
+                ToolTip = "Попытаться удалить файл corrupt с сервера",
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/deleteCorrupt.png"))
+            };
+            panel.AddItem(DeleteFileData);
         }
         public static void RoomsPanel(RibbonPanel panel)
         {
@@ -133,6 +145,17 @@ namespace PRSPKT_Apps
             sbRoom.AddPushButton(RoomsFinishesData);
 
         }
+        public static void SheetsPanel(RibbonPanel panel)
+        {
+            //Add PrintMe button
+            string PrintMeButtonText = Tools.LangResMan.GetString("printme_button_name", Tools.Cult);
+            PushButtonData PrintMeData = new PushButtonData("cmdPrintMe", PrintMeButtonText, DllPath, "PrintMe.PrintMe")
+            {
+                ToolTip = Tools.LangResMan.GetString("printme_tooltip", Tools.Cult),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/printme.png"))
+            };
+            panel.AddItem(PrintMeData);
+        }
 
         private static ImageSource RetriveImage(string imagePath)
         {
@@ -156,5 +179,6 @@ namespace PRSPKT_Apps
                     return null;
             }
         }
+
     }
 }
