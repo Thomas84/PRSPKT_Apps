@@ -249,4 +249,13 @@
   <data name="floorFinishes_SelectedRooms" xml:space="preserve">
     <value>Выбранные помещения</value>
   </data>
+  <data name="printme_button_name" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="printme_tooltip" xml:space="preserve">
+    <value>Сортировка листов по форматам</value>
+  </data>
+  <data name="sheets_ribbon_panel_name" xml:space="preserve">
+    <value>Листы</value>
+  </data>
 </root>

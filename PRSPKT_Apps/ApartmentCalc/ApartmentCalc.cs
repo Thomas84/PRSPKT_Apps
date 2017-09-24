@@ -56,14 +56,14 @@ namespace ApartmentCalc
             }
         }
 
-        private void RoomCalc(UIDocument UIDdoc, Transaction t)
+        private void RoomCalc(UIDocument UIdoc, Transaction t)
         {
-            Document _doc = UIDdoc.Document;
+            Document _doc = UIdoc.Document;
             t.Start("Квартирография");
             //string msg = "";
 
             // Load user form
-            PRSPKT_Apps.ApartmentCalc.LevelsForm userControl = new PRSPKT_Apps.ApartmentCalc.LevelsForm(UIDdoc);
+            PRSPKT_Apps.ApartmentCalc.LevelsForm userControl = new PRSPKT_Apps.ApartmentCalc.LevelsForm(UIdoc);
             userControl.InitializeComponent();
 
             //LevelsWindow.ShowDialog();
