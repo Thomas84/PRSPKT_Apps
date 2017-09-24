@@ -74,7 +74,7 @@ namespace PRSPKT_Apps
             //string DllPath = Assembly.GetExecutingAssembly().Location;
 
             // Add PRSPKT Rename Apart Rooms Button
-            string ApartRoomsButtonText = Tools.LangResMan.GetString("apartRoomRename_button_name", Tools.Cult);
+            string ApartRoomsButtonText = "Переименовать \n помещения";
             PushButtonData ApartRoomsData = new PushButtonData("cmdRenameApartRooms", ApartRoomsButtonText, DllPath, "RenameApartRooms.RenameApartRooms")
             {
                 ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult),
