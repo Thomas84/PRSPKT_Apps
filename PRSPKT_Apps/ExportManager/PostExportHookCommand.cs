@@ -25,7 +25,7 @@ namespace PRSPKT_Apps.ExportManager
 
         public string Name { get => _name; set => _name = value; }
 
-        public static string FormatConfigurationString(ExportManager sheet, string value, string extension)
+        public static string FormatConfigurationString(ExportSheet sheet, string value, string extension)
         {
             string result = value;
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
@@ -71,7 +71,7 @@ namespace PRSPKT_Apps.ExportManager
             return s;
         }
 
-        internal void Run(ExportManager sheet, string extension)
+        internal void Run(ExportSheet sheet, string extension)
         {
             string a = FormatConfigurationString(sheet, this._args, extension);
             if (!string.IsNullOrEmpty(a))

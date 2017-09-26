@@ -110,7 +110,7 @@ namespace PRSPKT_Apps.UserView
                 {
                     if (t.Start() == TransactionStatus.Started)
                     {
-                        foreach (PRSPKT_Apps.ExportManager.ExportSheets sheet in sheets)
+                        foreach (PRSPKT_Apps.ExportManager.ExportSheet sheet in sheets)
                         {
                             message += Create(sheet.Sheet, doc);
                         }

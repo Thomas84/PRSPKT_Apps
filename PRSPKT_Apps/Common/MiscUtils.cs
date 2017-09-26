@@ -1,6 +1,7 @@
 ﻿using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -78,8 +79,56 @@ namespace PRSPKT_Apps.Common
             return true;
         }
 
+        internal static DateTime ToDateTime(string dateValue)
+        {
+            if (string.IsNullOrEmpty(dateValue))
+            {
+                return new DateTime();
+            }
 
+            var date = dateValue.Trim();
+            const string DateDelimiters = @"-.\/_";
+            char[] c = DateDelimiters.ToCharArray();
+            int d2 = date.LastIndexOfAny(c);
+            int d1 = date.IndexOfAny(c);
 
+            try
+            {
+                string year = "";
+                string month = "";
+                string day = "";
+                if (date.Length < d2 + 1)
+                {
+                    year = date.Substring(d2 + 1);
+                }
+                if (date.Length > (d1+1) && (d2 - d1 - 1) < date.Length - (d1 + 1))
+                {
+                    month = date.Substring(d1 + 1, d2 - d1 - 1);
+                }
+                if (date.Length > 0 && d1 <= date.Length)
+                {
+                    day = date.Substring(0, d1);
+                }
+                return new DateTime(Convert.ToInt32(year, CultureInfo.InvariantCulture),
+                    Convert.ToInt32(month, CultureInfo.InvariantCulture),
+                    Convert.ToInt32(day, CultureInfo.InvariantCulture));
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
+                return new DateTime();
+            }
+            catch (FormatException e)
+            {
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
+                return new DateTime();
+            }
+            catch (OverflowException e)
+            {
+                Debug.WriteLine("Error in ToDateTime:" + e.Message);
+                return new DateTime();
+            }
+        }
     }
 
 }
