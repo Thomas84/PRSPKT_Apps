@@ -114,6 +114,8 @@
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
+    <Compile Include="ExportManager\ExportManager.cs" />
+    <Compile Include="ExportManager\PostExportHookCommand.cs" />
     <Compile Include="PrintMe\PrintMe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -158,6 +160,11 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="TotalLength\CurveTotalLength.cs" />
+    <Compile Include="UserView\CameraFromViewCommand.cs" />
+    <Compile Include="UserView\CreateUserViewCommand.cs" />
+    <Compile Include="UserView\RemoveUnderlaysCommands.cs" />
+    <Compile Include="UserView\UserView.cs" />
+    <Compile Include="UserView\ViewUnderlay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\logo.png" />
@@ -221,9 +228,7 @@
       <DependentUpon>FloorFinishControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ExportManager\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterClean">
     <Delete Files="$(AppData)\Autodesk\REVIT\Addins\2016\PRSPKT_Apps.addin" />
