@@ -7,13 +7,19 @@ using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 #endregion
 namespace ApartmentCalc_P
 {
     [Transaction(TransactionMode.Manual)]
     public class ApartmentCalc_P : IExternalCommand
     {
+        private string _apartNumber;
+        private int _roundCount;
+
+        public int RoundCount { get => _roundCount; }
+        public string ApartNumber { get => _apartNumber; }
+
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             UIDocument UIdoc = commandData.Application.ActiveUIDocument;
@@ -66,8 +72,11 @@ namespace ApartmentCalc_P
             //string msg = "";
 
             // Load user form
-            PRSPKT_Apps.ApartmentCalc_P.LevelsControl userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
+            var userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
             userControl.InitializeComponent();
+
+            _apartNumber = userControl.txtBoxApartNum.Text;
+            _roundCount = 2;
 
             //LevelsWindow.ShowDialog();
 
@@ -77,11 +86,11 @@ namespace ApartmentCalc_P
                 IList<Room> ModelRooms = userControl.SelectedRooms;
                 //			double koef = 1;
 
-                int roundCount = 2; // Округлить до __ знаков
+                //int roundCount = 2; // Округлить до __ знаков
 
                 var query =
                     from element in ModelRooms
-                    let myGroup = element.LookupParameter("П_Номер квартиры").AsString()
+                    let myGroup = element.LookupParameter(ApartNumber).AsString()
                     group element by myGroup into groupGroup
                     from room in groupGroup
                     group room by groupGroup.Key;
@@ -90,7 +99,7 @@ namespace ApartmentCalc_P
                 {
                     //msg += "Квартира " + apart.Key + "\r\n";
 
-                    List<double> area_list = ApartAreas(apart.ToList(), roundCount);
+                    List<double> area_list = ApartAreas(apart.ToList(), RoundCount);
                     double area_L = area_list[0]; // Жилая площадь
                     double area_A = area_list[1]; // Площадь квартиры
                     double area_C = area_list[2]; // Общая площадь квартиры

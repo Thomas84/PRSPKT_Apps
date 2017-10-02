@@ -1,11 +1,10 @@
 ﻿
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using PRSPKT_Apps.ApartmentCalc_P;
 
 namespace PRSPKT_Apps.ApartmentCalc_P
 {
@@ -32,7 +31,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
-            
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
@@ -41,7 +39,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             {
                 this.DialogResult = true;
                 this.Close();
-                PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
+                var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
                 userLevelsControl.InitializeComponent();
             }
             else if (radioActiveView.IsChecked == true)
@@ -53,11 +51,14 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 _selectedRooms = AllRooms();
             }
 
-                this.DialogResult = true;
-                this.Close();
+            this.DialogResult = true;
+            this.Close();
 
         }
-
+        /// <summary>
+        /// Collect rooms in entire project file
+        /// </summary>
+        /// <returns></returns>
         private IList<Room> AllRooms()
         {
             IList<Room> ModelRooms = new FilteredElementCollector(_doc)
@@ -65,12 +66,16 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
                 .Where(room => room.Area > 0 && room.LevelId != null)
-                .Where(room => room.LookupParameter(HelpMe.RoomType).AsInteger() != 5)
+                .Where(room => room.LookupParameter(this.txtBoxType.Text).AsInteger() != 5)
                 .ToList();
 
             return ModelRooms;
         }
 
+        /// <summary>
+        /// Collect rooms in active view only
+        /// </summary>
+        /// <returns></returns>
         private IList<Room> ActiveViewRooms()
         {
 
@@ -79,17 +84,22 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
                 .Where(room => room.Area > 0 && room.LevelId != null)
-                .Where(room => room.LookupParameter(HelpMe.RoomType).AsInteger() != 5)
+                .Where(room => room.LookupParameter(this.txtBoxType.Text).AsInteger() != 5)
                 .ToList();
 
             return ModelRooms;
         }
 
+        /// <summary>
+        /// Cancel button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             this.Close();
         }
-        
+
     }
 }

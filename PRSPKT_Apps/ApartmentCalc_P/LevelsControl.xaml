@@ -52,15 +52,15 @@
                     <Label x:Name="tab2_LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="20" VerticalAlignment="Top" Padding="0,5"/>
                     <Label x:Name="tab2_LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="20" VerticalAlignment="Bottom" Padding="0,5"/>
                 </WrapPanel>
-                    <Label x:Name="labelGlobalParams" Content="Параметры помещений" Padding="10" FontSize="18" FontWeight="SemiBold"/>
+                    <Label x:Name="labelGlobalParams" Content="Параметры помещений" Padding="2" FontSize="14" FontWeight="SemiBold"/>
                     <Label x:Name="labelArea" Content="Площадь помещения" FontWeight="Medium" ></Label>
                     <TextBox x:Name="txtBoxArea" Text="Площадь" Padding="10,5,5,5"/>
                     <Label x:Name="labelLevel" Content="Уровень помещения" FontWeight="Medium" ></Label>
                     <TextBox x:Name="txtBoxLevel" Text="Уровень" Padding="10,5,5,5"/>
-                    <Label x:Name="labelType" Content="Номер квартиры" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxType" Text="П_Номер квартиры" Padding="10,5,5,5"/>
+                    <Label x:Name="labelType" Content="Тип помещения" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxType" Text="П_Тип помещения" Padding="10,5,5,5"/>
 
-                    <Label x:Name="labelRoomsParams" Content="Параметры квартир" Padding="10" FontSize="18" FontWeight="SemiBold"/>
+                    <Label x:Name="labelRoomsParams" Content="Параметры квартир" Padding="2" FontSize="14" FontWeight="SemiBold"/>
                     <Label x:Name="labelAreaApart" Content="Общая площадь квартиры" FontWeight="Medium" ></Label>
                     <TextBox x:Name="txtBoxAreaApart" Text="Общая площадь квартиры" Padding="10,5,5,5"/>
                     <Label x:Name="labelAreaApartWithKoef" Content="Общая площадь квартиры с коэффициентом" FontWeight="Medium" ></Label>
@@ -69,6 +69,8 @@
                     <TextBox x:Name="txtBoxAreaLivingApart" Text="Жилая площадь квартиры" Padding="10,5,5,5"/>
                     <Label x:Name="labelApartRoomsCount" Content="Количество комнат в квартире" FontWeight="Medium" ></Label>
                     <TextBox x:Name="txtBoxApartRoomsCount" Text="Количество комнат" Padding="10,5,5,5"/>
+                    <Label x:Name="labelApartNum" Content="Номер квартиры" FontWeight="Medium" ></Label>
+                    <TextBox x:Name="txtBoxApartNum" Text="П_Номер квартиры" Padding="10,5,5,5"/>
 
 
                 </StackPanel>
