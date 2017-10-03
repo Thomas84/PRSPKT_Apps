@@ -13,12 +13,37 @@ namespace ApartmentCalc_P
     [Transaction(TransactionMode.Manual)]
     public class ApartmentCalc_P : IExternalCommand
     {
+        #region initialize variables
         private string _apartNumber;
         private int _roundCount;
+        private string _apartAreaL;
+        private string _apartAreaA;
+        private string _apartAreaC;
+        private string _apartCount;
+        private string _apartAreaLwCoef;
+        private string _apartRoomType;
+        private double _koef;
+        private double _userKoef1;
+        private double _userKoef2;
+        private double _userKoef3;
+        private string _apartAreaKoef;
 
         public int RoundCount { get => _roundCount; }
         public string ApartNumber { get => _apartNumber; }
+        public string ApartArea_L { get => _apartAreaL; }
+        public string ApartArea_A { get => _apartAreaA; }
+        public string ApartArea_C { get => _apartAreaC; }
+        public string ApartCount { get => _apartCount; }
+        public string ApartAreaLwCoef { get => _apartAreaLwCoef; }
+        public string ApartRoomType { get => _apartRoomType; }
+        public double Koeff { get => _koef; }
+        public double UserKoef1 { get => _userKoef1; }
+        public double UserKoef2 { get => _userKoef2; }
+        public double UserKoef3 { get => _userKoef3; }
+        public string ApartAreaKoef { get => _apartAreaKoef; }
+        #endregion
 
+        private const double METERS_IN_FEET = 0.3048;
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -76,17 +101,22 @@ namespace ApartmentCalc_P
             userControl.InitializeComponent();
 
             _apartNumber = userControl.txtBoxApartNum.Text;
-            _roundCount = 2;
-
-            //LevelsWindow.ShowDialog();
+            _roundCount = Int32.Parse(userControl.txtBoxRound.Text);
+            _apartAreaL = userControl.txtBoxAreaLivingApart.Text;
+            _apartAreaA = userControl.txtBoxAreaApart.Text;
+            _apartAreaC = userControl.txtBoxAreaApartC.Text;
+            _apartCount = userControl.txtBoxApartRoomsCount.Text;
+            _apartAreaLwCoef = userControl.txtBoxAreaApartWithKoef.Text;
+            _apartRoomType = userControl.txtBoxType.Text;
+            _userKoef1 = Double.Parse(userControl.txtBoxRow1Koef.Text);
+            _userKoef2 = Double.Parse(userControl.txtBoxRow2Koef.Text);
+            _userKoef3 = Double.Parse(userControl.txtBoxRow3Koef.Text);
+            _apartAreaKoef = userControl.txtBoxAreaKoef.Text;
 
             if (userControl.ShowDialog() == true)
             {
 
                 IList<Room> ModelRooms = userControl.SelectedRooms;
-                //			double koef = 1;
-
-                //int roundCount = 2; // Округлить до __ знаков
 
                 var query =
                     from element in ModelRooms
@@ -112,13 +142,13 @@ namespace ApartmentCalc_P
 
                     foreach (var _room in apart)
                     {
-                        Parameter Area_L = _room.LookupParameter("Площадь квартиры Жилая");
-                        Parameter Area_A = _room.LookupParameter("Площадь квартиры");
-                        Parameter Area_C = _room.LookupParameter("Площадь квартиры Общая");
-                        Parameter Count_R = _room.LookupParameter("Число комнат");
+                        Parameter Area_L = _room.LookupParameter(ApartArea_L);
+                        Parameter Area_A = _room.LookupParameter(ApartArea_A);
+                        Parameter Area_C = _room.LookupParameter(ApartArea_C);
+                        Parameter Count_R = _room.LookupParameter(ApartCount);
                         try
                         {
-                            int _type = _room.LookupParameter("П_Тип помещения").AsInteger();
+                            int _type = _room.LookupParameter(ApartRoomType).AsInteger();
                             Area_L.Set(area_L_Converted);
                             Area_A.Set(area_A_Converted);
                             Area_C.Set(area_C_Converted);
@@ -139,7 +169,6 @@ namespace ApartmentCalc_P
             }
         }
 
-        private const double METERS_IN_FEET = 0.3048;
 
         private List<double> ApartAreas(List<Room> list, int roundCount)
         {
@@ -151,8 +180,8 @@ namespace ApartmentCalc_P
 
             foreach (Room tempRoom in list)
             {
-                int _type = tempRoom.LookupParameter("П_Тип помещения").AsInteger();
-                double koef = 1;
+                int _type = tempRoom.LookupParameter(ApartRoomType).AsInteger();
+                _koef = 1;
                 double area_inn = UnitUtils.ConvertFromInternalUnits(tempRoom.Area, DisplayUnitType.DUT_SQUARE_METERS);
 
                 double area = Math.Round(area_inn, roundCount);
@@ -168,61 +197,33 @@ namespace ApartmentCalc_P
                         room_apart_sum += area;
                         break;
                     case 5:
-                        koef = 0;
+                        _koef = 0;
                         break;
                     case 3:
-                        koef = 0.5;
+                        _koef = UserKoef2;
                         break;
                     case 4:
+                        _koef = UserKoef1;
+                        break;
                     case 6:
-                        koef = 0.3;
+                        _koef = UserKoef3;
                         break;
                     default:
-                        koef = 1;
+                        _koef = 1;
                         break;
                 }
-                double karea = Math.Round(area_inn * koef, roundCount);
+                double karea = Math.Round(area_inn * _koef, roundCount);
                 double karea_converted = UnitUtils.ConvertToInternalUnits(karea, DisplayUnitType.DUT_SQUARE_METERS);
                 room_common_sum += karea;
 
-                tempRoom.LookupParameter("Площадь с коэффициентом").Set(karea_converted);
-                tempRoom.LookupParameter("Коэффициент площади").Set(koef);
+                tempRoom.LookupParameter(ApartAreaLwCoef).Set(karea_converted);
+                tempRoom.LookupParameter(ApartAreaKoef).Set(_koef);
             }
             outlist.Add(room_living_sum);
             outlist.Add(room_apart_sum);
             outlist.Add(room_common_sum);
             outlist.Add(room_count);
             return outlist;
-        }
-
-        private double AcceptKoef(int type, double area, int round)
-        {
-            return Math.Round(RoomKoef(type) * Math.Round(area * 0.09290304, round), round);
-        }
-
-
-        private double RoomKoef(int type)
-        {
-            double k = 1;
-            switch (type)
-            {
-                case 5:
-                    k = 0;
-                    break;
-                case 3:
-                    k = 0.5;
-                    break;
-                case 4:
-                    k = 0.3;
-                    break;
-                case 6:
-                    k = 0.3;
-                    break;
-                default:
-                    k = 1;
-                    break;
-            }
-            return k;
         }
     }
 }

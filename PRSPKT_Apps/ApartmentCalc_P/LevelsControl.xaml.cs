@@ -66,7 +66,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
                 .Where(room => room.Area > 0 && room.LevelId != null)
-                .Where(room => room.LookupParameter(this.txtBoxType.Text).AsInteger() != 5)
+                .Where(room => room.LookupParameter(txtBoxType.Text).AsInteger() != 5)
                 .ToList();
 
             return ModelRooms;
@@ -84,7 +84,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
                 .Where(room => room.Area > 0 && room.LevelId != null)
-                .Where(room => room.LookupParameter(this.txtBoxType.Text).AsInteger() != 5)
+                .Where(room => room.LookupParameter(txtBoxType.Text).AsInteger() != 5)
                 .ToList();
 
             return ModelRooms;
