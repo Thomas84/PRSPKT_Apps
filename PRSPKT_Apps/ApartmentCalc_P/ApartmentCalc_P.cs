@@ -98,21 +98,22 @@ namespace ApartmentCalc_P
             var userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
             userControl.InitializeComponent();
 
-            _apartNumber = userControl.txtBoxApartNum.Text;
-            _roundCount = Int32.Parse(userControl.txtBoxRound.Text);
-            _apartAreaL = userControl.txtBoxAreaLivingApart.Text;
-            _apartAreaA = userControl.txtBoxAreaApart.Text;
-            _apartAreaC = userControl.txtBoxAreaApartC.Text;
-            _apartCount = userControl.txtBoxApartRoomsCount.Text;
-            _apartAreaLwCoef = userControl.txtBoxAreaApartWithKoef.Text;
-            _apartRoomType = userControl.txtBoxType.Text;
-            _userKoef1 = Double.Parse(userControl.txtBoxRow1Koef.Text);
-            _userKoef2 = Double.Parse(userControl.txtBoxRow2Koef.Text);
-            _userKoef3 = Double.Parse(userControl.txtBoxRow3Koef.Text);
-            _apartAreaKoef = userControl.txtBoxAreaKoef.Text;
+            
 
             if (userControl.ShowDialog() == true)
             {
+                _apartNumber = userControl.txtBoxApartNum.Text;
+                _roundCount = Int32.Parse(userControl.txtBoxRound.Text);
+                _apartAreaL = userControl.txtBoxAreaLivingApart.Text;
+                _apartAreaA = userControl.txtBoxAreaApart.Text;
+                _apartAreaC = userControl.txtBoxAreaApartC.Text;
+                _apartCount = userControl.txtBoxApartRoomsCount.Text;
+                _apartAreaLwCoef = userControl.txtBoxAreaApartWithKoef.Text;
+                _apartRoomType = userControl.txtBoxType.Text;
+                _userKoef1 = Double.Parse(userControl.txtBoxRow1Koef.Text);
+                _userKoef2 = Double.Parse(userControl.txtBoxRow2Koef.Text);
+                _userKoef3 = Double.Parse(userControl.txtBoxRow3Koef.Text);
+                _apartAreaKoef = userControl.txtBoxAreaKoef.Text;
 
                 IList<Room> ModelRooms = userControl.SelectedRooms;
 

@@ -36,10 +36,11 @@ namespace PRSPKT_Apps.ApartmentCalc_P
         {
             if (radioSelectedLevels.IsChecked == true)
             {
-                this.DialogResult = true;
-                this.Close();
+                
                 var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
                 userLevelsControl.InitializeComponent();
+                this.DialogResult = true;
+                this.Close();
             }
             else if (radioActiveView.IsChecked == true)
             {
