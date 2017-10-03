@@ -100,7 +100,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
                     .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
-                    .Where(room => room.LookupParameter(RoomType).AsInteger() != 5)
+                    .Where(room => room.LookupParameter(_roomType).AsInteger() != 5)
                     .ToList();
             return ModelRooms;
         }
