@@ -96,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApartmentCalc_P\ApartmentCalc_P.cs" />
-    <Compile Include="ApartmentCalc_P\HelpMe.cs" />
     <Compile Include="ApartmentCalc_P\SelectLevelsControl.xaml.cs">
       <DependentUpon>SelectLevelsControl.xaml</DependentUpon>
     </Compile>
@@ -114,11 +113,6 @@
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
-    <Compile Include="ExportManager\ExportOptions.cs" />
-    <Compile Include="ExportManager\ExportSheets.cs" />
-    <Compile Include="ExportManager\PostExportHookCommand.cs" />
-    <Compile Include="ExportManager\SegmentedSheetName.cs" />
-    <Compile Include="ExportManager\ExportManager.cs" />
     <Compile Include="PrintMe\PrintMe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -137,15 +131,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="RevisionItems\Command.cs" />
-    <Compile Include="RevisionItems\RevisionCloudItem.cs" />
-    <Compile Include="RevisionItems\RevisionItem.cs" />
-    <Compile Include="RevisionItems\RevisionUserControl.xaml.cs">
-      <DependentUpon>RevisionUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RevisionItems\RevisionUtilities.cs" />
-    <Compile Include="Riboon\Panel.cs" />
-    <Compile Include="Riboon\RibbonUtilities.cs" />
     <Compile Include="RoomsFinishing\FloorFinishControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -163,11 +148,6 @@
     <Compile Include="Settings.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="TotalLength\CurveTotalLength.cs" />
-    <Compile Include="UserView\CameraFromViewCommand.cs" />
-    <Compile Include="UserView\CreateUserViewCommand.cs" />
-    <Compile Include="UserView\RemoveUnderlaysCommands.cs" />
-    <Compile Include="UserView\UserView.cs" />
-    <Compile Include="UserView\ViewUnderlay.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\logo.png" />
@@ -202,10 +182,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ApartmentCalc\LevelsForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RevisionItems\RevisionUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
