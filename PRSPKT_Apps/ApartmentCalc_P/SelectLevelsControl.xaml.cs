@@ -1,11 +1,10 @@
 ﻿
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using PRSPKT_Apps.ApartmentCalc_P;
 
 namespace PRSPKT_Apps.ApartmentCalc_P
 {
@@ -56,16 +55,16 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             LevelsListBox.SelectedItem = LevelsListBox.Items[0];
             LevelsListBox.DisplayMemberPath = "Name";
 
-            
+
 
         }
-       
+
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
             if (LevelsListBox.SelectedItem != null)
             {
-                _selectedLevel = LevelsListBox.SelectedItem as Level;
+                _selectedLevel = LevelsListBox.SelectedItems as Level;
 
                 if (Yes_Checkbox.IsChecked == true)
                 {
@@ -73,7 +72,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 }
                 else
                 {
-                    _nextLevel = LevelsListBox.SelectedItem as Level;
+                    _nextLevel = LevelsListBox.SelectedItems as Level;
                 }
 
                 this.DialogResult = true;
@@ -92,8 +91,9 @@ namespace PRSPKT_Apps.ApartmentCalc_P
         private IList<Room> SelectRooms()
         {
             var levelsControl = new LevelsControl(_UIDoc);
-            _roomType = levelsControl.txtBoxType.Text;
+            string _roomType = levelsControl.txtBoxType.Text;
 
+            /// FIXME: select multiple levels
             IList<Room> ModelRooms = new FilteredElementCollector(_doc)
                     .OfClass(typeof(SpatialElement))
                     .OfCategory(BuiltInCategory.OST_Rooms)

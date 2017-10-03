@@ -96,7 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApartmentCalc_P\ApartmentCalc_P.cs" />
-    <Compile Include="ApartmentCalc_P\HelpMe.cs" />
     <Compile Include="ApartmentCalc_P\SelectLevelsControl.xaml.cs">
       <DependentUpon>SelectLevelsControl.xaml</DependentUpon>
     </Compile>
@@ -132,15 +131,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="RevisionItems\Command.cs" />
-    <Compile Include="RevisionItems\RevisionCloudItem.cs" />
-    <Compile Include="RevisionItems\RevisionItem.cs" />
-    <Compile Include="RevisionItems\RevisionUserControl.xaml.cs">
-      <DependentUpon>RevisionUserControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="RevisionItems\RevisionUtilities.cs" />
-    <Compile Include="Riboon\Panel.cs" />
-    <Compile Include="Riboon\RibbonUtilities.cs" />
     <Compile Include="RoomsFinishing\FloorFinishControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -192,10 +182,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ApartmentCalc\LevelsForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="RevisionItems\RevisionUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
