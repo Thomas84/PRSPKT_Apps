@@ -87,7 +87,6 @@ namespace ApartmentCalc_P
             }
         }
         // TODO: Запилить возможность подсчёта по двухуровневым квартирам
-        // TODO: Запилить возможность дополнительных рулек (округление, выбор параметров)
         // TODO: Может, запилить возможность сохранения настроек?
 
         private void RoomCalc(UIDocument UIDdoc, Transaction t)
@@ -96,6 +95,7 @@ namespace ApartmentCalc_P
             t.Start("Квартирография");
 
             var userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
+            //var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(UIDdoc);
             userControl.InitializeComponent();
 
             
@@ -199,10 +199,10 @@ namespace ApartmentCalc_P
                         _koef = 0;
                         break;
                     case 3:
-                        _koef = UserKoef2;
+                        _koef = UserKoef1;
                         break;
                     case 4:
-                        _koef = UserKoef1;
+                        _koef = UserKoef2;
                         break;
                     case 6:
                         _koef = UserKoef3;

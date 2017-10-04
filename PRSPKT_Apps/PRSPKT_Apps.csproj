@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApartmentCalc_P\ApartmentCalc_P.cs" />
+    <Compile Include="ApartmentCalc_P\HelpMe.cs" />
     <Compile Include="ApartmentCalc_P\SelectLevelsControl.xaml.cs">
       <DependentUpon>SelectLevelsControl.xaml</DependentUpon>
     </Compile>

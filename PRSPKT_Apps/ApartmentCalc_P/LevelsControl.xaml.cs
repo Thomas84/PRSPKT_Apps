@@ -22,11 +22,15 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _selectedRooms; }
         }
 
+
         public LevelsControl(UIDocument UIDoc)
         {
             InitializeComponent();
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
+
+            LogoName2.Content = HelpMe.GetVersion();
+            tab2_LogoName2.Content = HelpMe.GetVersion();
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
@@ -34,13 +38,15 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
+            SelectLevelsControl userLevelsControl = new SelectLevelsControl(_UIDoc);
+            userLevelsControl.InitializeComponent();
+
+
             if (radioSelectedLevels.IsChecked == true)
             {
                 
-                var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(_UIDoc);
-                userLevelsControl.InitializeComponent();
-                this.DialogResult = true;
-                this.Close();
+                userLevelsControl.ShowDialog();
+                _selectedRooms = SelectRooms(userLevelsControl);
             }
             else if (radioActiveView.IsChecked == true)
             {
@@ -50,9 +56,9 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             {
                 _selectedRooms = AllRooms();
             }
-
             this.DialogResult = true;
             this.Close();
+
 
         }
         /// <summary>
@@ -88,6 +94,43 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 .ToList();
 
             return ModelRooms;
+        }
+
+        /// <summary>
+        /// Collect rooms in user selected levels only
+        /// </summary>
+        /// <param name="levelControl"></param>
+        /// <returns></returns>
+        private IList<Room> SelectRooms(SelectLevelsControl levelControl)
+        {
+            //var levelsControl = new LevelsControl(_UIDoc);
+            string _roomType = txtBoxType.Text;
+
+            IList<Room> filteredSelectedRooms = new List<Room>();
+
+            IList<Room> ModelRooms = new FilteredElementCollector(_doc)
+                    .OfClass(typeof(SpatialElement))
+                    .OfCategory(BuiltInCategory.OST_Rooms)
+                    .Cast<Room>()
+                    .Where(room => room.Area > 0 && room.LevelId != null)
+                    .Where(room => room.LookupParameter(_roomType).AsInteger() != 5)
+                    .ToList();
+            //var filteredModelRooms = ModelRooms.Where(item => SelectedLevels.Contains(item.Name));
+            if (levelControl.SelectedLevels != null)
+            {
+                foreach (var tempLevel in levelControl.SelectedLevels)
+                {
+                    foreach (var tempRoom in ModelRooms)
+                    {
+                        if (tempRoom.Level.Name == tempLevel.Name)
+                        {
+                            filteredSelectedRooms.Add(tempRoom);
+                        }
+                    }
+                }
+            }
+            return filteredSelectedRooms;
+
         }
 
         /// <summary>

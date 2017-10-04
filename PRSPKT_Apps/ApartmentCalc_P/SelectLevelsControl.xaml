@@ -4,25 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
-             Height="720" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Выбор уровня" WindowStartupLocation="Manual">
+             Height="600" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Выбор уровня" WindowStartupLocation="Manual">
     <Grid>
         <StackPanel Margin="5">
             <WrapPanel Orientation="Vertical" Height="74">
                 <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
                 <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
-                <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
+                <Label x:Name="LogoName2" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
             </WrapPanel>
-            <Label x:Name="labelSelectLevel" Content="Выберите помещения" Padding="10" FontSize="18" FontWeight="SemiBold">
+            <Label x:Name="labelSelectLevel" Content="Выбор уровней проекта" Padding="10" FontSize="18" FontWeight="SemiBold">
                 <Label.Foreground>
                     <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
                 </Label.Foreground>
             </Label>
-            <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Multiple"/>
-            <Label x:Name="labelTwoLevel" Content="Двухуровневые квартиры" FontSize="18"  FontWeight="SemiBold" Padding="10" Grid.Column="0"/>
-            <CheckBox x:Name="Yes_Checkbox" Content="Учитывать" Margin="10"/>
+            <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Extended"/>
         </StackPanel>
         <Button x:Name="OK_Button" Content="OK" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click" Width="100"/>
-        <Button x:Name="Cancel_Button" Content="Cancel_button" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
+        <Button x:Name="Cancel_Button" Content="Cancel" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
 
     </Grid>
 </Window>
