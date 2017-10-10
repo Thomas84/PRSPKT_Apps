@@ -5,19 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PRSPKT_Apps.RevisionItems"
              mc:Ignorable="d" 
-             d:DesignHeight="590" d:DesignWidth="910">
+             d:DesignHeight="590" d:DesignWidth="910" Title="Облака">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="700*"/>
             <ColumnDefinition Width="160"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Выбор изменения" Grid.Row="0" Grid.Column="0"/>
-        <DataGrid HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0"/>
-        <GroupBox HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0"/>
+        <Label Content="Выбор изменения" Grid.Row="0" Grid.Column="0" Margin="10"/>
+        <DataGrid x:Name="DataGridList" Grid.Row="1" Grid.Column="0" Margin="10" SelectionMode="Extended" SelectionUnit="FullRow">
+            <DataGrid.Background>
+                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ActiveBorderColorKey}}"/>
+            </DataGrid.Background>
+        </DataGrid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2.5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <GroupBox Grid.Row="0" Header="Настройки отображения" Margin="0,0,5,5">
+                <StackPanel>
+                    <RadioButton x:Name="rbRevisions" Content="Изменения" Margin="5" IsChecked="True"/>
+                    <RadioButton x:Name="rbClouds" Content="Облака" Margin="5"/>
+                </StackPanel>
+            </GroupBox>
+            <StackPanel Grid.Row="1">
+                <Button x:Name="btnSelectAll" Content="Выбрать все" Margin="5" Click="btnSelectAll_Click"/>
+                <Button x:Name="btnSelectNone" Content="Убрать выбор" Margin="5" Click="btnSelectNone_Click" />
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <Button x:Name="btnDeleteCloud" Content="Удалить облако(а)" Margin="5" Grid.Row="3" VerticalAlignment="Top" HorizontalContentAlignment="Center" Click="btnDeleteCloud_Click"/>
+                <Button x:Name="btnAssignCloud" Content="Изм для облака(а)" Margin="5" Grid.Row="3" VerticalAlignment="Top" Click="btnAssignCloud_Click"/>
+                <Button x:Name="btnExportSchedule" Content="Экспорт таблицы" Grid.Row="3" Margin="5" VerticalAlignment="Top" Click="btnExportSchedule_Click"/>
+            </StackPanel>
+            
+        </Grid>
+        
 
 
     </Grid>
