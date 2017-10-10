@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 
 namespace PRSPKT_Apps.RevisionItems
 {
-    class Command
+    public class Command : IExternalCommand
     {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            if (commandData == null)
+            {
+                return Result.Failed;
+            }
+
+            Document doc = commandData.Application.ActiveUIDocument.Document;
+            RevisionUserControl form = new RevisionUserControl(doc);
+
+            form.ShowDialog();
+
+            return Result.Succeeded;
+        }
     }
 }

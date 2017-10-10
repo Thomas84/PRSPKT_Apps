@@ -51,6 +51,8 @@ namespace PRSPKT_Apps
     class Icons
     {
         static string DllPath = Assembly.GetExecutingAssembly().Location;
+
+
         public static void ToolsPanel(RibbonPanel panel)
         {
             // Add PRSPKT TotalLength Button
@@ -79,7 +81,18 @@ namespace PRSPKT_Apps
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/deleteCorrupt.png"))
             };
             panel.AddItem(DeleteFileData);
+
+            // Add PRSPKT Perspective View
+            string PerspViewButtonText = Tools.GetResourceManager("perspView_button_name");
+            PushButtonData PerspViewData = new PushButtonData("cmdPerspView", PerspViewButtonText, DllPath, "UserView.UserView")
+            {
+                ToolTip = Tools.GetResourceManager("perspView_tooltip"),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/PerspView.png"))
+            };
+            panel.AddItem(PerspViewData);
         }
+
+
         public static void RoomsPanel(RibbonPanel panel)
         {
             //Get dll assembly path
@@ -145,6 +158,8 @@ namespace PRSPKT_Apps
             sbRoom.AddPushButton(RoomsFinishesData);
 
         }
+
+
         public static void SheetsPanel(RibbonPanel panel)
         {
             //Add PrintMe button
@@ -155,7 +170,17 @@ namespace PRSPKT_Apps
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/printme.png"))
             };
             panel.AddItem(PrintMeData);
+
+            //Add Revision information button
+            string RevisionUtilsButtonText = Tools.GetResourceManager("revitionutils_button_name");
+            PushButtonData RevisionUtilsData = new PushButtonData("cmdRevisionUtils", RevisionUtilsButtonText, DllPath, "RevisionItems.Command")
+            {
+                ToolTip = Tools.GetResourceManager("revisionutils_tooltip"),
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/RevisionUtils.png"))
+            };
+            panel.AddItem(RevisionUtilsData);
         }
+
 
         private static ImageSource RetriveImage(string imagePath)
         {

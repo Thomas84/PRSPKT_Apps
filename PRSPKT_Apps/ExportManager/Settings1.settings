@@ -1,0 +1,51 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PRSPKT_Apps.ExportManager" GeneratedClassName="Settings1">
+  <Profiles />
+  <Settings>
+    <Setting Name="TextEditor" Type="System.String" Scope="User">
+      <Value Profile="(Default)">notepad.exe</Value>
+    </Setting>
+    <Setting Name="A3PrinterDriver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">FollowYourColor</Value>
+    </Setting>
+    <Setting Name="AcadExportVersion" Type="System.String" Scope="User">
+      <Value Profile="(Default)">R2010</Value>
+    </Setting>
+    <Setting Name="AdobePDFMode" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="AdobePrinterDriver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Adobe PDF</Value>
+    </Setting>
+    <Setting Name="ExportDir" Type="System.String" Scope="User">
+      <Value Profile="(Default)">%TEMP%</Value>
+    </Setting>
+    <Setting Name="ForceDateRevision" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="GSBinDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\bin</Value>
+    </Setting>
+    <Setting Name="GSLibDirectory" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\Program Files\gs\gs9.15\lib</Value>
+    </Setting>
+    <Setting Name="HideTitleBlocks" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="LargeFormatPrinterDriver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
+    </Setting>
+    <Setting Name="PSPrinterDriver" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\SCAPP01\DocuWide3035 (PS)</Value>
+    </Setting>
+    <Setting Name="ScalebarScaleParameter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Scalebar Scale</Value>
+    </Setting>
+    <Setting Name="ShowExportLog" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="TagPDFExports" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

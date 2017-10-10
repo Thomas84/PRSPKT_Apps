@@ -258,4 +258,28 @@
   <data name="sheets_ribbon_panel_name" xml:space="preserve">
     <value>Листы</value>
   </data>
+  <data name="FileExtensionDWG" xml:space="preserve">
+    <value>.dwg</value>
+  </data>
+  <data name="FileExtensionPDF" xml:space="preserve">
+    <value>.pdf</value>
+  </data>
+  <data name="FileExtensionPS" xml:space="preserve">
+    <value>.ps</value>
+  </data>
+  <data name="FileExtensionXML" xml:space="preserve">
+    <value>.xml</value>
+  </data>
+  <data name="perspView_button_name" xml:space="preserve">
+    <value>Создать Перспективу</value>
+  </data>
+  <data name="perspView_tooltip" xml:space="preserve">
+    <value>Создает из текущего вида Перспективу</value>
+  </data>
+  <data name="revisionutils_tooltip" xml:space="preserve">
+    <value>Выводит сводку в виде таблицы о всех облачках и измах</value>
+  </data>
+  <data name="revitionutils_button_name" xml:space="preserve">
+    <value>Сводка измов</value>
+  </data>
 </root>

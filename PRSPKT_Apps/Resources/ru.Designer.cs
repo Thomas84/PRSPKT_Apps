@@ -115,6 +115,42 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на .dwg.
+        /// </summary>
+        internal static string FileExtensionDWG {
+            get {
+                return ResourceManager.GetString("FileExtensionDWG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .pdf.
+        /// </summary>
+        internal static string FileExtensionPDF {
+            get {
+                return ResourceManager.GetString("FileExtensionPDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .ps.
+        /// </summary>
+        internal static string FileExtensionPS {
+            get {
+                return ResourceManager.GetString("FileExtensionPS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на .xml.
+        /// </summary>
+        internal static string FileExtensionXML {
+            get {
+                return ResourceManager.GetString("FileExtensionXML", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Полы.
         /// </summary>
         internal static string floorfinish_button_name {
@@ -286,6 +322,24 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Создать Перспективу.
+        /// </summary>
+        internal static string perspView_button_name {
+            get {
+                return ResourceManager.GetString("perspView_button_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Создает из текущего вида Перспективу.
+        /// </summary>
+        internal static string perspView_tooltip {
+            get {
+                return ResourceManager.GetString("perspView_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Сортировка.
         /// </summary>
         internal static string printme_button_name {
@@ -300,6 +354,24 @@ namespace PRSPKT_Apps.Resources {
         internal static string printme_tooltip {
             get {
                 return ResourceManager.GetString("printme_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Выводит сводку в виде таблицы о всех облачках и измах.
+        /// </summary>
+        internal static string revisionutils_tooltip {
+            get {
+                return ResourceManager.GetString("revisionutils_tooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Сводка измов.
+        /// </summary>
+        internal static string revitionutils_button_name {
+            get {
+                return ResourceManager.GetString("revitionutils_button_name", resourceCulture);
             }
         }
         

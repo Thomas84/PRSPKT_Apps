@@ -1,11 +1,8 @@
 ﻿using Autodesk.Revit.DB;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace PRSPKT_Apps.Common
 {
@@ -29,7 +26,7 @@ namespace PRSPKT_Apps.Common
             {
                 return string.Empty;
             }
-            if (v2 > 1 && v1.Length == v2 -1)
+            if (v2 > 1 && v1.Length == v2 - 1)
             {
                 return "0" + v1;
             }
@@ -79,6 +76,55 @@ namespace PRSPKT_Apps.Common
             return true;
         }
 
+        public static string GetCentralFileName(Document doc)
+        {
+            if (doc == null)
+            {
+                return "";
+            }
+            if (doc.IsWorkshared)
+            {
+                ModelPath mp = doc.GetWorksharingCentralModelPath();
+                string s = ModelPathUtils.ConvertModelPathToUserVisiblePath(mp);
+                return s;
+            }
+            else
+            {
+                return doc.PathName;
+            }
+        }
+
+        public static string GetConfigFileName(Document doc)
+        {
+            if (doc == null)
+            {
+                return "";
+            }
+            string central = GetCentralFileName(doc);
+            string s = Path.GetDirectoryName(central) + @"\PRSPKTexport.xml";
+            return s;
+        }
+
+        public static string GetFullPath(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                return Path.GetFullPath(fileName);
+            }
+
+            var values = Environment.GetEnvironmentVariable("PATH");
+            foreach (var path in values.Split(';'))
+            {
+                var fullPath = Path.Combine(path, fileName);
+                if (File.Exists(fullPath))
+                {
+                    return fullPath;
+                }
+            }
+
+            return null;
+        }
+
         internal static DateTime ToDateTime(string dateValue)
         {
             if (string.IsNullOrEmpty(dateValue))
@@ -101,7 +147,7 @@ namespace PRSPKT_Apps.Common
                 {
                     year = date.Substring(d2 + 1);
                 }
-                if (date.Length > (d1+1) && (d2 - d1 - 1) < date.Length - (d1 + 1))
+                if (date.Length > (d1 + 1) && (d2 - d1 - 1) < date.Length - (d1 + 1))
                 {
                     month = date.Substring(d1 + 1, d2 - d1 - 1);
                 }

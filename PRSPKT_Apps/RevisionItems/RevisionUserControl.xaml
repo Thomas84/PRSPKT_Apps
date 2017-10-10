@@ -39,13 +39,9 @@
             </StackPanel>
             <StackPanel Grid.Row="2">
                 <Button x:Name="btnDeleteCloud" Content="Удалить облако(а)" Margin="5" Grid.Row="3" VerticalAlignment="Top" HorizontalContentAlignment="Center" Click="btnDeleteCloud_Click"/>
-                <Button x:Name="btnAssignCloud" Content="Изм для облака(а)" Margin="5" Grid.Row="3" VerticalAlignment="Top" Click="btnAssignCloud_Click"/>
+                <Button x:Name="btnAssignCloud" Content="Назначить Изм облаку(ам)" Margin="5" Grid.Row="3" VerticalAlignment="Top" Click="btnAssignCloud_Click"/>
                 <Button x:Name="btnExportSchedule" Content="Экспорт таблицы" Grid.Row="3" Margin="5" VerticalAlignment="Top" Click="btnExportSchedule_Click"/>
             </StackPanel>
-            
         </Grid>
-        
-
-
     </Grid>
 </Window>
