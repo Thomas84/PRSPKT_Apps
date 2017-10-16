@@ -79,6 +79,16 @@ namespace PRSPKT_Apps
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/deleteCorrupt.png"))
             };
             panel.AddItem(DeleteFileData);
+
+            // Add PRSPKT Worksets
+            string objectsOnWorksetsButtonText = "Элементы в Рабочих наборах";
+            PushButtonData objectsOnWorksetsData = new PushButtonData("cmdObjectsOnWorkSets", objectsOnWorksetsButtonText, DllPath, "objectsOnWorkset.Command")
+            {
+                ToolTip = "Просмотр списка элементов (Id) в рабочих наборах",
+                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/objectsOnWorkset.png"))
+            };
+            panel.AddItem(objectsOnWorksetsData);
+
         }
         public static void RoomsPanel(RibbonPanel panel)
         {
