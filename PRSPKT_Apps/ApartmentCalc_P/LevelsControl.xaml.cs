@@ -1,11 +1,10 @@
 ﻿
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
-using PRSPKT_Apps.ApartmentCalc_P;
 
 namespace PRSPKT_Apps.ApartmentCalc_P
 {
@@ -16,7 +15,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
     {
         private Document _doc;
         private UIDocument _UIDoc;
-        private IOrderedEnumerable<Level> _levels;
 
         private IList<Room> _selectedRooms;
         public IList<Room> SelectedRooms
@@ -24,17 +22,6 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _selectedRooms; }
         }
 
-        private Level _selectedLevel;
-        public Level SelectedLevel
-        {
-            get { return _selectedLevel; }
-        }
-
-        private Level _nextLevel;
-        public Level NextLevel
-        {
-            get { return _nextLevel; }
-        }
 
         public LevelsControl(UIDocument UIDoc)
         {
@@ -42,70 +29,120 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
 
+            LogoName2.Content = HelpMe.GetVersion();
+            tab2_LogoName2.Content = HelpMe.GetVersion();
+
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
-            Yes_Checkbox.Content = "Да / Нет";
-
-            // Find a room
-            //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
-
-            _levels = new FilteredElementCollector(_doc)
-                .OfClass(typeof(Level))
-                .Cast<Level>()
-                .OrderBy(lev => lev.Elevation);
-
-            Levels_ComboBox.ItemsSource = _levels;
-            Levels_ComboBox.SelectedItem = Levels_ComboBox.Items[0];
-            Levels_ComboBox.DisplayMemberPath = "Name";
-
-
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Levels_ComboBox.SelectedItem != null)
+            SelectLevelsControl userLevelsControl = new SelectLevelsControl(_UIDoc);
+            userLevelsControl.InitializeComponent();
+
+
+            if (radioSelectedLevels.IsChecked == true)
             {
-                _selectedLevel = Levels_ComboBox.SelectedItem as Level;
-
-                if (Yes_Checkbox.IsChecked == true)
-                {
-                    _nextLevel = Levels_ComboBox.Items[Levels_ComboBox.SelectedIndex + 1] as Level;
-                }
-                else
-                {
-                    _nextLevel = Levels_ComboBox.SelectedItem as Level;
-                }
-
-                this.DialogResult = true;
-                this.Close();
-
-                // Select rooms
-                _selectedRooms = SelectRooms();
+                
+                userLevelsControl.ShowDialog();
+                _selectedRooms = SelectRooms(userLevelsControl);
             }
-            else
+            else if (radioActiveView.IsChecked == true)
             {
-                TaskDialog.Show("Квартирография", "Ошибочка с уровнем", TaskDialogCommonButtons.Close, TaskDialogResult.Close);
-                this.Activate();
+                _selectedRooms = ActiveViewRooms();
             }
+            else if (radioAllLevels.IsChecked == true)
+            {
+                _selectedRooms = AllRooms();
+            }
+            this.DialogResult = true;
+            this.Close();
+
+
+        }
+        /// <summary>
+        /// Collect rooms in entire project file
+        /// </summary>
+        /// <returns></returns>
+        private IList<Room> AllRooms()
+        {
+            IList<Room> ModelRooms = new FilteredElementCollector(_doc)
+                .OfClass(typeof(SpatialElement))
+                .OfCategory(BuiltInCategory.OST_Rooms)
+                .Cast<Room>()
+                .Where(room => room.Area > 0 && room.LevelId != null)
+                .Where(room => room.LookupParameter(txtBoxType.Text).AsInteger() != 5)
+                .ToList();
+
+            return ModelRooms;
         }
 
-        private IList<Room> SelectRooms()
+        /// <summary>
+        /// Collect rooms in active view only
+        /// </summary>
+        /// <returns></returns>
+        private IList<Room> ActiveViewRooms()
         {
+
+            IList<Room> ModelRooms = new FilteredElementCollector(_doc, _UIDoc.ActiveView.Id)
+                .OfClass(typeof(SpatialElement))
+                .OfCategory(BuiltInCategory.OST_Rooms)
+                .Cast<Room>()
+                .Where(room => room.Area > 0 && room.LevelId != null)
+                .Where(room => room.LookupParameter(txtBoxType.Text).AsInteger() != 5)
+                .ToList();
+
+            return ModelRooms;
+        }
+
+        /// <summary>
+        /// Collect rooms in user selected levels only
+        /// </summary>
+        /// <param name="levelControl"></param>
+        /// <returns></returns>
+        private IList<Room> SelectRooms(SelectLevelsControl levelControl)
+        {
+            //var levelsControl = new LevelsControl(_UIDoc);
+            string _roomType = txtBoxType.Text;
+
+            IList<Room> filteredSelectedRooms = new List<Room>();
+
             IList<Room> ModelRooms = new FilteredElementCollector(_doc)
                     .OfClass(typeof(SpatialElement))
                     .OfCategory(BuiltInCategory.OST_Rooms)
                     .Cast<Room>()
                     .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.Level.Name == SelectedLevel.Name || room.Level.Name == NextLevel.Name)
-                    .Where(room => room.LookupParameter("П_Тип помещения").AsInteger() != 5)
+                    .Where(room => room.LookupParameter(_roomType).AsInteger() != 5)
                     .ToList();
-            return ModelRooms;
+            //var filteredModelRooms = ModelRooms.Where(item => SelectedLevels.Contains(item.Name));
+            if (levelControl.SelectedLevels != null)
+            {
+                foreach (var tempLevel in levelControl.SelectedLevels)
+                {
+                    foreach (var tempRoom in ModelRooms)
+                    {
+                        if (tempRoom.Level.Name == tempLevel.Name)
+                        {
+                            filteredSelectedRooms.Add(tempRoom);
+                        }
+                    }
+                }
+            }
+            return filteredSelectedRooms;
+
         }
 
+        /// <summary>
+        /// Cancel button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             this.Close();
         }
+
     }
 }

@@ -1,0 +1,26 @@
+﻿<Window x:Class="PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
+             Height="600" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Выбор уровня" WindowStartupLocation="Manual">
+    <Grid>
+        <StackPanel Margin="5">
+            <WrapPanel Orientation="Vertical" Height="74">
+                <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
+                <Label x:Name="LogoName2" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
+            </WrapPanel>
+            <Label x:Name="labelSelectLevel" Content="Выбор уровней проекта" Padding="10" FontSize="18" FontWeight="SemiBold">
+                <Label.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
+                </Label.Foreground>
+            </Label>
+            <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Extended"/>
+        </StackPanel>
+        <Button x:Name="OK_Button" Content="OK" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click" Width="100"/>
+        <Button x:Name="Cancel_Button" Content="Cancel" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
+
+    </Grid>
+</Window>
