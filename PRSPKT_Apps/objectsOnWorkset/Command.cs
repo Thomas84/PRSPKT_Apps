@@ -17,11 +17,73 @@ namespace objectsOnWorkset
         {
             UIDocument UIdoc = commandData.Application.ActiveUIDocument;
             Document doc = UIdoc.Document;
+            //TODO:
+            // create an User Interface:
+            // 1. Name of the Worksets in the entire project
+            // 2. Category in each workset
+            // 3. Types of elements in category
+            // There are two buttons - Cancel and Select Elements
 
             using (Transaction t = new Transaction(doc))
             {
                 try
                 {
+                    int num1 = -2000576;
+                    int num2 = -2000220;
+                    int num3 = -2000240;
+                    IList<Element> elements1 = new FilteredElementCollector(doc).WhereElementIsNotElementType().ToElements();
+                    if (doc.IsWorkshared)
+                    {
+                        WorksetTable worksetTable = doc.GetWorksetTable();
+                        IList<Workset> worksets = new FilteredWorksetCollector(doc).OfKind(WorksetKind.UserWorkset).ToWorksets();
+                        List<List<Element>> allElsEls = new List<List<Element>>(worksets.Count);
+                        foreach (Workset ws in worksets)
+                        {
+                            allElsEls.Add(new List<Element>());
+                        }
+
+
+                        foreach (Element el in elements1)
+                        {
+                            Workset workset = worksetTable.GetWorkset(el.WorksetId);
+                            if (el.Category != null && (num2 == el.Category.Id.IntegerValue || num3 == el.Category.Id.IntegerValue))
+                            {
+                                Parameter param = el.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
+                                if (param != null && !param.IsReadOnly)
+                                {
+                                    bool flag = false;
+                                    int index = -1;
+                                    foreach (Workset ws in worksets)
+                                    {
+                                        ++index;
+                                        if (WorksetId.Equals(((WorksetPreview)ws).Id, ((WorksetPreview)workset).Id)))
+                                        {
+                                            flag = true;
+                                            break;
+                                        }
+                                    }
+                                    if (flag)
+                                    {
+                                        allElsEls[index].Add(el);
+                                    }
+                                }
+                            }
+                        }
+                        InfoWindowWorksetExplorer new InfoWindowWorksetExplorer(allElsEls, doc, Workset worksets);
+                        if (DialogResult.OK == InfoWindowWorksetExplorer.ShowDialog())
+                        {
+                            List<Element> selectedElements = InfoWindowWorksetExplorer.getSelectedElements();
+                            foreach (Element current in selectedElements)
+                            {
+                                doc.SetSelection
+                            }
+                        }
+                    }
+                    else
+                    {
+                        TaskDialog.Show("Message", "Cannot analyze worksets because worksharing hasn't been enabled for this project");
+                    }
+                    /*
                     var worksetList = new FilteredWorksetCollector(doc).OfKind(WorksetKind.UserWorkset);
                     if (doc.IsWorkshared)
                     {
@@ -48,7 +110,7 @@ namespace objectsOnWorkset
                     {
                         TaskDialog.Show("Error", "Model is not workshared");
                     }
-                    return Result.Succeeded;
+                    return Result.Succeeded;*/
                 }
                 catch (ErrorMessageException errorException)
                 {
