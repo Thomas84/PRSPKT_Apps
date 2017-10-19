@@ -20,8 +20,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Height="25" Width="100" Content="Cancel" HorizontalAlignment="Center"/>
-            <Button Grid.Column="1" Height="25" Width="100" Content="Select in model"/>
+            <Button Grid.Column="0" Height="25" Width="100" Content="Cancel" VerticalAlignment="Center" Margin="5"/>
+            <Button Grid.Column="1" Height="25" Width="100" Content="Select in model" VerticalAlignment="Center" Margin="5"/>
 
         </Grid>
         

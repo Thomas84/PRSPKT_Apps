@@ -33,7 +33,7 @@ namespace PRSPKT_Apps.objectsOnWorkset
             this._allElsEls = allElsEls;
             this._doc = doc;
             this._allWorkSetArray = allWorksetsArray;
-            this.genWorksetNodes();
+            this.GenWorksetNodes();
         }
 
         public List<Element> GetSelectedElements()
