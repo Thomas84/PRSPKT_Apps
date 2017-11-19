@@ -59,6 +59,9 @@
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="MultiSelectTreeView, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MultiSelectTreeView.1.0.9\lib\net40\MultiSelectTreeView.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -108,14 +111,14 @@
       <DependentUpon>LevelsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.cs" />
-    <Compile Include="Command.cs" />
+    <Compile Include="CommandQ.cs" />
     <Compile Include="Common\MiscUtils.cs" />
     <Compile Include="Common\SortableBindingList.cs" />
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
-    <Compile Include="objectsOnWorkset\Command.cs" />
-    <Compile Include="objectsOnWorkset\InfoWindowWorksetExplorer.xaml.cs">
+    <Compile Include="ElementsOnWorkset\WorksetExplorer.cs" />
+    <Compile Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml.cs">
       <DependentUpon>InfoWindowWorksetExplorer.xaml</DependentUpon>
     </Compile>
     <Compile Include="PrintMe\PrintMe.cs" />
@@ -191,7 +194,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="objectsOnWorkset\InfoWindowWorksetExplorer.xaml">
+    <Page Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

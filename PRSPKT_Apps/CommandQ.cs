@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace PRSPKT_Apps
 {
     [Transaction(TransactionMode.Manual)]
-    public class Command : IExternalCommand
+    public class CommandQ : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {

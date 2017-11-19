@@ -1,0 +1,43 @@
+﻿<Window x:Class="PRSPKT_Apps.ElementsOnWorkset.InfoWindowWorksetExplorer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PRSPKT_Apps.ElementsOnWorkset"
+             xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=MultiSelectTreeView"
+             Height="600" Width="385" 
+       IsEnabled="True" Title="WorksetExplorer" DataContext="{Binding}" ShowInTaskbar="False">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="5" Grid.Row="0">
+            <WrapPanel Orientation="Vertical" Height="74">
+                <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                <Label x:Name="LogoName" Content="РАБОЧИЕ НАБОРЫ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
+                <Label x:Name="LogoName2" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
+            </WrapPanel>
+            <Label x:Name="labelWorksets" Content="Элементы по рабочим наборам" Padding="10" FontSize="18" FontWeight="SemiBold">
+                <Label.Foreground>
+                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
+                </Label.Foreground>
+            </Label>
+        </StackPanel>
+        <TreeView x:Name="treeWorkset" Grid.Column="0" Grid.Row="1" Margin="5"></TreeView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Height="25" Width="100" Content="Cancel" HorizontalAlignment="Center" Click="Cancel_Button_Click" IsCancel="True"/>
+            <Button Grid.Column="1" Height="25" Width="100" Content="Select" Click="OK_Button_Click" IsDefault="True"/>
+
+        </Grid>
+    </Grid>
+</Window>

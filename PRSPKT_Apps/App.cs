@@ -82,7 +82,7 @@ namespace PRSPKT_Apps
 
             // Add PRSPKT Worksets
             string objectsOnWorksetsButtonText = "Элементы в Рабочих наборах";
-            PushButtonData objectsOnWorksetsData = new PushButtonData("cmdObjectsOnWorkSets", objectsOnWorksetsButtonText, DllPath, "objectsOnWorkset.Command")
+            PushButtonData objectsOnWorksetsData = new PushButtonData("cmdObjectsOnWorkSets", objectsOnWorksetsButtonText, DllPath, "ElementsOnWorkset.WorksetExplorer")
             {
                 ToolTip = "Просмотр списка элементов (Id) в рабочих наборах",
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/objectsOnWorkset.png"))
