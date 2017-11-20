@@ -81,11 +81,10 @@ namespace ElementsOnWorkset
                     allElsEls.Add(new List<Element>());
                 }
 
-
                 foreach (Element el in elements1)
                 {
-                    Workset workset = worksetTable.GetWorkset(el.WorksetId);
-                    if (el.Category != null && (num2 == el.Category.Id.IntegerValue || num3 == el.Category.Id.IntegerValue || num1 == el.Category.Id.IntegerValue))
+                    Workset workset = worksetTable.GetWorkset(el.WorksetId); // Get's the Workset Table of the document. Then return the workset from the input WorksetId
+                    if (el.Category != null && (num2 != el.Category.Id.IntegerValue && num3 != el.Category.Id.IntegerValue && num1 != el.Category.Id.IntegerValue))
                     {
                         Parameter param = el.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
                         if (param != null && !param.IsReadOnly)

@@ -26,8 +26,6 @@ namespace PRSPKT_Apps.ElementsOnWorkset
             _allWorkSetArray = allWorksetsArray;
             flattenedTree = new Dictionary<int, TreeViewItem>();
             GenWorksetNodes();
-
-
         }
 
         public List<Element> GetSelectedElements()
@@ -54,24 +52,27 @@ namespace PRSPKT_Apps.ElementsOnWorkset
 
         private void GenWorksetNodes()
         {
-            int[] numArray = this.CountElementsPerWorkset();
+            int[] numArray = CountElementsPerWorkset();
             int ind = -1;
-            foreach (Workset workset in this._allWorkSetArray)
+            foreach (Workset workset in _allWorkSetArray)
             {
                 ++ind;
-                var treeNode = new TreeViewItem()
+                var rootNode = new TreeViewItem()
                 {
                     Header = GenNodeName(workset.Name, numArray[ind]),
-                    Tag = workset
+                    Tag = _allElsEls[ind]
                 };
-
-                var childNode = new TreeViewItem()
+                treeWorkset.Items.Add(rootNode);
+                foreach (TreeViewItem categoryNode in GenCategoryNodes(ind))
                 {
+                    rootNode.Items.Add(categoryNode);
+                    foreach (var item in _allElsEls[ind])
+                    {
+                        categoryNode.Items.Add(item);
+                    }
 
-                    Header = GenCategoryNodes(ind)
-                };
-                treeWorkset.Items.Add(treeNode);
-                treeWorkset.Items.Add(childNode);
+                }
+                
 
             }
 
@@ -79,69 +80,146 @@ namespace PRSPKT_Apps.ElementsOnWorkset
             //treeWorkset.DisplayMemberPath = "Name";
         }
 
-    
 
-    private List<string> GenCategoryNodes(int ind)
-    {
-        var treeViewList = new List<string>();
-        var sList = new List<string>();
-        var elementListList = new List<List<Element>>();
-        using (List<Element>.Enumerator enumerator = _allElsEls[ind].GetEnumerator())
+        private TreeViewItem[] GenCategoryNodes(int ind)
         {
-            while (enumerator.MoveNext())
+            var treeViewList = new List<TreeViewItem>();
+            var sList = new List<string>();
+            var elementListList = new List<List<Element>>();
+
+
+            foreach (Element item in _allElsEls[ind])
             {
-                Element current = enumerator.Current;
-                int index = sList.IndexOf(current.Category.Name);
+                int index = sList.IndexOf(item.Category.Name);
                 if (index != -1)
                 {
-                    elementListList[index].Add(current);
+                    elementListList[index].Add(item);
                 }
                 else
                 {
-                    sList.Add(current.Category.Name);
+                    sList.Add(item.Category.Name);
                     elementListList.Add(new List<Element>());
-                    elementListList[elementListList.Count - 1].Add(current);
+                    elementListList[elementListList.Count - 1].Add(item);
                 }
             }
+
+            int index1 = -1;
+            foreach (string str in sList)
+            {
+                ++index1;
+                treeViewList.Add(new TreeViewItem() { Header = GenNodeName(sList[index1], elementListList[index1].Count), Tag = (object)elementListList[index1] });
+            }
+
+            return treeViewList.ToArray();
+
         }
-        int index1 = -1;
-        foreach (string str in sList)
+
+        private TreeViewItem[] GenFamilyNodes(List<Element> elsOfCat)
         {
-            ++index1;
-            treeViewList.Add(GenNodeName(sList[index1], elementListList[index1].Count));
+            var treeNodeList = new List<TreeViewItem>();
+            var sList = new List<string>();
+            List<List<Element>> elementListList = new List<List<Element>>();
+
+            foreach (Element element in elsOfCat)
+            {
+                if (_doc.GetElement(element.GetTypeId()) is FamilySymbol)
+                {
+                    string name = ((FamilySymbol)_doc.GetElement(element.GetTypeId())).Family.Name;
+                    int index = sList.IndexOf(name);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(element);
+                    }
+                    else
+                    {
+                        sList.Add(name);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(element);
+                    }
+                }
+                else if (_doc.GetElement(element.GetTypeId()) is WallType)
+                {
+                    string str = ((WallType)_doc.GetElement(element.GetTypeId())).Kind.ToString();
+                    int index = sList.IndexOf(str);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(element);
+                    }
+                    else
+                    {
+                        sList.Add(str);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(element);
+                    }
+                }
+                else if (element is ModelCurve)
+                {
+                    string name = element.Name;
+                    int index = sList.IndexOf(name);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(element);
+                    }
+                    else
+                    {
+                        sList.Add(name);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(element);
+                    }
+                }
+                else
+                {
+                    string name = element.Category.Name;
+                    int index = sList.IndexOf(name);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(element);
+                    }
+                    else
+                    {
+                        sList.Add(name);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(element);
+                    }
+                }
+            }
+
+            int index1 = -1;
+            foreach (string str in sList)
+            {
+                ++index1;
+                treeNodeList.Add(new TreeViewItem() { Header = GenNodeName(sList[index1], elementListList[index1].Count), Tag = (object)elementListList[index1] });
+            }
+            return treeNodeList.ToArray();
+        }
+
+        /// <summary>
+        /// Cancel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            this.DialogResult = false;
+            this.Close();
+        }
+
+
+        /// <summary>
+        /// OK
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OK_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (!(treeWorkset.SelectedItem is List<Element>))
+                return;
+
+            _selectedElementList = treeWorkset.SelectedItem as List<Element>;
+            this.DialogResult = true;
+            this.Close();
 
         }
-        return treeViewList;
-
     }
-
-    /// <summary>
-    /// Cancel
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void Cancel_Button_Click(object sender, RoutedEventArgs e)
-    {
-
-        this.DialogResult = false;
-        this.Close();
-    }
-
-
-    /// <summary>
-    /// OK
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OK_Button_Click(object sender, RoutedEventArgs e)
-    {
-        if (!(treeWorkset.SelectedItem is List<Element>))
-            return;
-
-        _selectedElementList = treeWorkset.SelectedItem as List<Element>;
-        this.DialogResult = true;
-        this.Close();
-
-    }
-}
 }

@@ -28,7 +28,13 @@
                 </Label.Foreground>
             </Label>
         </StackPanel>
-        <TreeView x:Name="treeWorkset" Grid.Column="0" Grid.Row="1" Margin="5"></TreeView>
+        <TreeView x:Name="treeWorkset" Grid.Column="0" Grid.Row="1" Margin="5" ItemsSource="{Binding Path=Children}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                    <TextBlock Foreground="Red" Text="{Binding Path=DisplayName}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
