@@ -3,14 +3,12 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
-using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 #endregion
 
-namespace Do_Rm
+namespace PRSPKT_Apps
 {
     [Transaction(TransactionMode.Manual)]
     class DoRmSergei : IExternalCommand
@@ -59,7 +57,7 @@ namespace Do_Rm
                 .OfClass(typeof(SpatialElement))
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
-                .Where(x => x.Area>0)
+                .Where(x => x.Area > 0)
                 .ToList();
 
             foreach (Room tempRoom in _rooms)
