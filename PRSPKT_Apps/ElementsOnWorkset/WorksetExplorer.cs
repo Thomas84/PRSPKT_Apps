@@ -5,6 +5,7 @@ using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace ElementsOnWorkset
 {
@@ -59,13 +60,6 @@ namespace ElementsOnWorkset
         {
             Document _doc = UIdoc.Document;
 
-            //TODO:
-            // create an User Interface:
-            // 1. Name of the Worksets in the entire project
-            // 2. Category in each workset
-            // 3. Types of elements in category
-            // There are two buttons - Cancel and Select Elements
-
             int num1 = -2000576; // OST_PreviewLegendComponents
             int num2 = -2000220; // OST_Grids
             int num3 = -2000240; // OST_Levels
@@ -109,10 +103,12 @@ namespace ElementsOnWorkset
                 }
 
                 // Load the selection WorksetExplorer form
-                var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.InfoWindowWorksetExplorer(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
-                infoWWE.InitializeComponent();
+                //var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.InfoWindowWorksetExplorer(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
+                var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.WorksetExplorerForm(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
+                //infoWWE.InitializeComponent();
 
-                if (infoWWE.ShowDialog() == true)
+                //if (infoWWE.ShowDialog() == true)
+                if (DialogResult.OK == infoWWE.ShowDialog())
                 {
                     List<Element> selectedElements = infoWWE.GetSelectedElements();
                     UIdoc.Selection.SetElementIds(selectedElements.Select(q => q.Id).ToList());

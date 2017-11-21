@@ -41,8 +41,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Height="25" Width="100" Content="Cancel" HorizontalAlignment="Center" Click="Cancel_Button_Click" IsCancel="True"/>
-            <Button Grid.Column="1" Height="25" Width="100" Content="Select" Click="OK_Button_Click" IsDefault="True"/>
+            <Button Grid.Column="0" Height="25" Width="100" Content="Cancel" HorizontalAlignment="Center" IsCancel="True"/>
+            <Button Grid.Column="1" Height="25" Width="100" Content="Select" IsDefault="True"/>
 
         </Grid>
     </Grid>

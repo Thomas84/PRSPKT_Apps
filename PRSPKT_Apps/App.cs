@@ -81,7 +81,7 @@ namespace PRSPKT_Apps
             panel.AddItem(DeleteFileData);
 
             // Add PRSPKT Worksets
-            string objectsOnWorksetsButtonText = "Элементы в Рабочих наборах";
+            string objectsOnWorksetsButtonText = "Элементы \n по Рабочим Наборам";
             PushButtonData objectsOnWorksetsData = new PushButtonData("cmdObjectsOnWorkSets", objectsOnWorksetsButtonText, DllPath, "ElementsOnWorkset.WorksetExplorer")
             {
                 ToolTip = "Просмотр списка элементов (Id) в рабочих наборах",
