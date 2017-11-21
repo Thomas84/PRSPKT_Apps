@@ -56,8 +56,21 @@
       <HintPath>..\packages\Revit-2017.1.1-x64.Base.2.0.0\lib\net452\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="MetroFramework, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.RunTime.1.2.0.3\lib\net40-Client\MetroFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework.Design, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Design.1.2.0.3\lib\net40\MetroFramework.Design.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="MetroFramework.Fonts, Version=1.2.0.3, Culture=neutral, PublicKeyToken=5f91a84759bf584a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MetroFramework.Fonts.1.2.0.3\lib\net40\MetroFramework.Fonts.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="MultiSelectTreeView, Version=1.0.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MultiSelectTreeView.1.0.9\lib\net40\MultiSelectTreeView.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -108,12 +121,22 @@
       <DependentUpon>LevelsForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.cs" />
-    <Compile Include="Command.cs" />
+    <Compile Include="CommandQ.cs" />
     <Compile Include="Common\MiscUtils.cs" />
     <Compile Include="Common\SortableBindingList.cs" />
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
+    <Compile Include="ElementsOnWorkset\WorksetExplorer.cs" />
+    <Compile Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml.cs">
+      <DependentUpon>InfoWindowWorksetExplorer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ElementsOnWorkset\WorksetExplorerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ElementsOnWorkset\WorksetExplorerForm.Designer.cs">
+      <DependentUpon>WorksetExplorerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="PrintMe\PrintMe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -151,6 +174,7 @@
     <Compile Include="TotalLength\CurveTotalLength.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\objectsOnWorkset.png" />
     <Resource Include="Resources\logo.png" />
     <Resource Include="Resources\deleteCorrupt.png" />
     <Resource Include="Resources\printme.png" />
@@ -169,6 +193,7 @@
     </None>
     <Resource Include="Resources\dimAxies.png" />
     <None Include="packages.config" />
+    <Content Include="MetroFramework.txt" />
     <Content Include="PRSPKT_Apps.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -186,6 +211,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RoomsFinishing\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +225,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ElementsOnWorkset\WorksetExplorerForm.resx">
+      <DependentUpon>WorksetExplorerForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
