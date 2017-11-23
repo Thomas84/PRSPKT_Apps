@@ -26,11 +26,10 @@ namespace PRSPKT_Apps.ExportManager
             result = result.Replace(@"$height", sheet.Height.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$width", sheet.Width.ToString(CultureInfo.InvariantCulture));
             result = result.Replace(@"$fullExportName", sheet.FullExportName);
-            result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));
-            result = result.Replace(@"$exportDir", sheet.ExportDirectory);
+            //result = result.Replace(@"$fullExportPath", sheet.FullExportPath(extension));            result = result.Replace(@"$exportDir", sheet.ExportDirectory);
             result = result.Replace(@"$pageSize", sheet.PageSize);
             result = result.Replace(@"$projectNumber", sheet.ProjectNumber);
-            result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
+            //result = result.Replace(@"$sheetDescription", sheet.SheetDescription);
             result = result.Replace(@"$sheetNumber", sheet.SheetNumber);
             result = result.Replace(@"$sheetRevision", sheet.SheetRevision);
             result = result.Replace(@"$sheetRevisionDate", sheet.SheetRevisionDate);

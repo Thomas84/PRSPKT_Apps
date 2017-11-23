@@ -1,8 +1,14 @@
 ﻿using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using PRSPKT_Apps.Common;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
+using System.Security;
+using System.Security.Permissions;
+using System.Xml.Schema;
 
 namespace PRSPKT_Apps.ExportManager
 {
@@ -37,12 +43,15 @@ namespace PRSPKT_Apps.ExportManager
             this._exportFlags = ExportOptions.None;
             this.LoadSettings();
             this.SetDefaultFlags();
-            ExportManager.PopulateViewSheetSets(this._allViewSheetSets);
+            PopulateViewSheetSets(this._allViewSheetSets);
             this.PopulateSheets(this._allSheets);
             ExportManager.FixAcrotrayHang();
         }
 
-
+        private static void FixAcrotrayHang()
+        {
+            Microsoft.Win32.Registry.SetValue(Constants.HungAppTimeout, "HungAppTimeout", "30000", Microsoft.Win32.RegistryValueKind.String);
+        }
 
         public static bool ConfirmOverwrite { get; set; }
 
@@ -108,20 +117,38 @@ namespace PRSPKT_Apps.ExportManager
                 return null;
             }
 
-            FamilyInstance result;
-            if ((_titleBlocks == null) || (_activeDoc != MiscUtils.GetCentralFileName(doc))
+            if ((_titleBlocks == null) || (_activeDoc != MiscUtils.GetCentralFileName(doc)))
             {
                 _activeDoc = MiscUtils.GetCentralFileName(doc);
                 _titleBlocks = AllTitleBlocks(doc);
             }
 
-            if (_titleBlocks.TryGetValue(sheetNumber, out result))
+            if (_titleBlocks.TryGetValue(sheetNumber, out FamilyInstance result))
             {
                 return result;
             }
             else _titleBlocks = AllTitleBlocks(doc);
 
             return _titleBlocks.TryGetValue(sheetNumber, out result) ? result : null;
+        }
+
+        private static Dictionary<string, FamilyInstance> AllTitleBlocks(Document doc)
+        {
+            var result = new Dictionary<string, FamilyInstance>();
+            using (var collector = new FilteredElementCollector(doc))
+            {
+                collector.OfCategory(BuiltInCategory.OST_TitleBlocks);
+                collector.OfClass(typeof(FamilyInstance));
+                foreach (FamilyInstance item in collector)
+                {
+                    var num = item.get_Parameter(BuiltInParameter.SHEET_NUMBER).AsString();
+                    if (!result.ContainsKey(num))
+                    {
+                        result.Add(num, item);
+                    }
+                }
+            }
+            return result;
         }
 
         public static string CreatePRSPKTconfig(Document doc)
@@ -196,6 +223,201 @@ namespace PRSPKT_Apps.ExportManager
             return (s.Length > 1) ? s : "";
         }
 
+        private static void PopulateViewSheetSets(Collection<ViewSheetSetCombo> vssc)
+        {
+            vssc.Clear();
+            using (FilteredElementCollector collector = new FilteredElementCollector(_doc))
+            {
+                collector.OfClass(typeof(ViewSheetSet));
+                foreach (ViewSheetSet v in collector)
+                {
+                    vssc.Add(new ViewSheetSetCombo(v));
+                }
+            }
+        }
+
+        public static string GetConfigFileName(Document doc)
+        {
+            string central = MiscUtils.GetCentralFileName(_doc);
+            string path = Path.GetDirectoryName(central) + @"\PPRINTexport.xml";
+            return path;
+        }
+
+        private bool ValidateXML(string filename)
+        {
+            string errorMessage = "";
+            if (filename == null || !File.Exists(filename))
+            {
+                return false;
+            }
+            try
+            {
+                var settings = new System.Xml.XmlReaderSettings();
+                settings.Schemas.Add(null, Constants.InstallDir + @"\etc\PPRINTexport.xsd");
+                settings.ValidationType = System.Xml.ValidationType.Schema;
+                var reader = System.Xml.XmlReader.Create(filename, settings);
+                var document = new System.Xml.XmlDocument();
+                document.Load(reader);
+                var eventHandler = new System.Xml.Schema.ValidationEventHandler(
+                    ValidationEventHandler);
+                document.Validate(eventHandler);
+                return true;
+            }
+            catch (System.Xml.Schema.XmlSchemaValidationException ex)
+            {
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
+            }
+            catch (System.Xml.XmlException ex)
+            {
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
+            }
+            catch (System.Xml.Schema.XmlSchemaException ex)
+            {
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
+            }
+            catch (System.ArgumentNullException ex)
+            {
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
+            }
+            catch (System.UriFormatException ex)
+            {
+                errorMessage += "Error reading xml file:" + filename + " - " + ex.Message;
+            }
+            using (var td = new TaskDialog("PPRINTexport - XML Config error"))
+            {
+                td.MainIcon = TaskDialogIcon.TaskDialogIconWarning;
+                td.MainInstruction = "PPRINTexport - XML Config error";
+                td.MainContent = errorMessage;
+                td.Show();
+            }
+            return false;
+        }
+
+        private void ValidationEventHandler(object sender, ValidationEventArgs e)
+        {
+            switch (e.Severity)
+            {
+                case XmlSeverityType.Error:
+                    TaskDialog.Show("Error: {0}", e.Message);
+                    break;
+                case XmlSeverityType.Warning:
+                    TaskDialog.Show("Error: {0}", e.Message);
+                    break;
+            }
+        }
+
+        private bool ImportXMLinfo(string filename)
+        {
+            if (!File.Exists(filename))
+            {
+                return false;
+            }
+            if (!ValidateXML(filename))
+            {
+                return false;
+            }
+
+            using (var reader = new System.Xml.XmlTextReader(filename))
+            {
+                while (reader.Read())
+                {
+                    if (reader.NodeType == System.Xml.XmlNodeType.Element
+                        && reader.Name == "PostExportHook")
+                    {
+                        var hook = new PostExportHookCommand();
+                        if (reader.AttributeCount > 0)
+                        {
+                            hook.SetName(reader.GetAttribute("name"));
+                        }
+                        do
+                        {
+                            reader.Read();
+                            if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                            {
+                                switch (reader.Name)
+                                {
+                                    case "Command": hook.SetCommand(reader.ReadString()); break;
+                                    case "Args": hook.SetArguments(reader.ReadString()); break;
+                                    case "SupportedFileExtension": hook.AddSupportedFilenameExtension(reader.ReadString()); break;
+                                }
+                            }
+                        }
+                        while (!(reader.NodeType == System.Xml.XmlNodeType.EndElement &&
+                        reader.Name == "PostExportHook"));
+                        _postExportHooks.Add(hook.Name, hook);
+                    }
+                    if (reader.NodeType == System.Xml.XmlNodeType.Element && reader.Name == "FilenameScheme")
+                    {
+                        var name = new SegmentedSheetName();
+                        if (reader.AttributeCount > 0)
+                        {
+                            name.Name = reader.GetAttribute("name");
+                        }
+                        do
+                        {
+                            reader.Read();
+                            if (reader.NodeType == System.Xml.XmlNodeType.Element)
+                            {
+                                switch (reader.Name)
+                                {
+                                    case "Format": name.NameFormat = reader.ReadString(); break;
+                                    case "Hook": name.Hooks.Add(reader.ReadString()); break;
+                                }
+                            }
+                        } while (!(reader.NodeType == System.Xml.XmlNodeType.EndElement && reader.Name == "FilenameScheme"));
+                        FileNamesTypes.Add(name);
+                    }
+                }
+                if (FileNamesTypes.Count > 0)
+                {
+                    _fileNameScheme = FileNamesTypes[0];
+                    foreach (ExportSheet sheet in AllSheets)
+                    {
+                        sheet.SetSegmentedSheetName(FileNameScheme);
+                    }
+                }
+            }
+            return true;
+        }
+
+
+        private void PopulateSheets(SortableBindingListCollection<ExportSheet> es)
+        {
+            string config = GetConfigFileName(_doc);
+            bool b = ImportXMLinfo(config);
+            if (!b)
+            {
+                var name = new SegmentedSheetName()
+                {
+                    Name = "YYYY-MM-DD_AD_NNN",
+                    NameFormat = "$projectNumber-$sheetNumber[$sheetRevision]"
+                };
+                FileNamesTypes.Add(name);
+                _fileNameScheme = name;
+            }
+            if (FileNamesTypes.Count <= 0)
+            {
+                var name = new SegmentedSheetName()
+                {
+                    Name = "YYYY-MM-DD_AD-NNN",
+                    NameFormat = "$projectNumber=$sheetNumber[$sheetRevision]"
+                };
+                FileNamesTypes.Add(name);
+                _fileNameScheme = name;
+            }
+
+            es.Clear();
+            using (FilteredElementCollector collector = new FilteredElementCollector(_doc))
+            {
+                collector.OfCategory(BuiltInCategory.OST_Sheets);
+                collector.OfClass(typeof(ViewSheet));
+                foreach (ViewSheet v in collector)
+                {
+                    var pSheet = new ExportSheet(v, _doc, FileNamesTypes[0], this);
+                    es.Add(pSheet);
+                }
+            }
+        }
         public void LoadSettings()
         {
             GhostscriptBinDirectory = Settings1.Default.GSBinDirectory;
@@ -237,15 +459,19 @@ namespace PRSPKT_Apps.ExportManager
 
         public bool GSSanityCheck()
         {
-            var printerSettings = new System.Drawing.Printing.PrinterSettings();
-            printerSettings.PrinterName = PostScriptPrinterName;
+            var printerSettings = new System.Drawing.Printing.PrinterSettings()
+            {
+                PrinterName = PostScriptPrinterName
+            };
             return printerSettings.IsValid;
         }
 
         public bool PDFSanityCheck()
         {
-            var printerSettings = new System.Drawing.Printing.PrinterSettings();
-            printerSettings.PrinterName = PdfPrinterName;
+            var printerSettings = new System.Drawing.Printing.PrinterSettings()
+            {
+                PrinterName = PdfPrinterName
+            };
             return printerSettings.IsValid;
         }
 
@@ -259,5 +485,33 @@ namespace PRSPKT_Apps.ExportManager
             _exportFlags = _exportFlags & ~exportOpts;
         }
 
+
+            [SecurityCritical]
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        private static void SetAcrobatExportRegistryVal(string fileName, ExportLog log)
+        {
+            string exe =
+                Process.GetCurrentProcess().MainModule.FileName;
+            try
+            {
+                log.AddMessage("Attempting to set Acrobat Registry Value with value");
+                log.AddMessage("\t" + Constants.AcrobatPrinterJobControl);
+                log.AddMessage("\t" + exe);
+                log.AddMessage("\t" + fileName);
+                Microsoft.Win32.Registry.SetValue(
+                    Constants.AcrobatPrinterJobControl,
+                    exe,
+                    fileName,
+                    Microsoft.Win32.RegistryValueKind.String);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                log.AddError(fileName, ex.Message);
+            }
+            catch (System.Security.SecurityException ex)
+            {
+                log.AddError(fileName, ex.Message);
+            }
+        }
     }
 }

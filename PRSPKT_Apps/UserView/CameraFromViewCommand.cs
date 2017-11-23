@@ -1,12 +1,16 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PRSPKT_Apps.UserView
+namespace UserView
 {
-    class CameraFromViewCommand
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    [Journaling(JournalingMode.NoCommandData)]
+    public class CameraFromViewCommand : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -114,7 +118,7 @@ namespace PRSPKT_Apps.UserView
         {
             UIView uiview = ActiveUIView(uidoc, currentView);
             XYZ eye = GetMiddleOfActiveView(uiview);
-            XYZ up = new XYZ(0, 0, 1);
+            XYZ up = new XYZ(0, 1, 0);
             XYZ forward = new XYZ(0, 0, -1);
             ViewOrientation3D viewOrientation3D = new ViewOrientation3D(eye, up, forward);
             using (var t = new Transaction(uidoc.Document))
@@ -185,10 +189,12 @@ namespace PRSPKT_Apps.UserView
             XYZ topLeft = uiview.GetZoomCorners()[0];
             XYZ bottomRight = uiview.GetZoomCorners()[1];
             double width = bottomRight.X - topLeft.X;
-            double height = bottomRight.Y - topLeft.Y;
-            double middleX = bottomRight.X - (width / 2);
-            double middleY = bottomRight.Y - (height / 2);
-            double eyeHeight = height > width ? (height * 1.5) : width;
+            //double height = bottomRight.Y - topLeft.Y; // original
+            double height = topLeft.Y - bottomRight.Y;
+            double middleX = width / 2;//bottomRight.X - (width / 2);
+            //double middleY = bottomRight.Y - (height / 2);
+            double middleY = height / 2;//topLeft.Y - (height / 2);
+            double eyeHeight = height > width ? (height * 150) : width;
             return new XYZ(middleX, middleY, eyeHeight);
         }
 

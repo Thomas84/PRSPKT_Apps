@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PRSPKT_Apps.RevisionItems
+namespace RevisionItems
 {
     public class RevisionCloudItem : RevisionItem
     {

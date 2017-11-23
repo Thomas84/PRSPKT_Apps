@@ -1,4 +1,5 @@
 ﻿#region Namespaces
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.UI;
 using System;
 using System.IO;
@@ -9,6 +10,10 @@ using System.Windows.Media.Imaging;
 
 namespace PRSPKT_Apps
 {
+
+    [Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
+    [Regeneration(Autodesk.Revit.Attributes.RegenerationOption.Manual)]
+    [Journaling(Autodesk.Revit.Attributes.JournalingMode.NoCommandData)]
     class App : IExternalApplication
     {
         public Result OnShutdown(UIControlledApplication application)
@@ -84,7 +89,7 @@ namespace PRSPKT_Apps
 
             // Add PRSPKT Perspective View
             string PerspViewButtonText = Tools.GetResourceManager("perspView_button_name");
-            PushButtonData PerspViewData = new PushButtonData("cmdPerspView", PerspViewButtonText, DllPath, "UserView.UserView")
+            PushButtonData PerspViewData = new PushButtonData("cmdPerspView", PerspViewButtonText, DllPath, "UserView.CameraFromViewCommand")
             {
                 ToolTip = Tools.GetResourceManager("perspView_tooltip"),
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/PerspView.png"))

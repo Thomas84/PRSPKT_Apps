@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PRSPKT_Apps;
+using RevisionItems;
 
 namespace PRSPKT_Apps.RevisionItems
 {

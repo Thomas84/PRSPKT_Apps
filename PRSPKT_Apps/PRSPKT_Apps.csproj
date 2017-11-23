@@ -108,12 +108,15 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="Common\ConsoleUtilities.cs" />
     <Compile Include="Common\MiscUtils.cs" />
     <Compile Include="Common\SortableBindingList.cs" />
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
     <Compile Include="ExportManager\Constants.cs" />
+    <Compile Include="ExportManager\ExportLog.cs" />
+    <Compile Include="ExportManager\ExportLogItem.cs" />
     <Compile Include="ExportManager\ExportManager.cs" />
     <Compile Include="ExportManager\ExportOptions.cs" />
     <Compile Include="ExportManager\ExportSheets.cs" />
@@ -150,8 +153,6 @@
       <DependentUpon>RevisionUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="RevisionItems\RevisionUtilities.cs" />
-    <Compile Include="Riboon\Panel.cs" />
-    <Compile Include="Riboon\RibbonUtilities.cs" />
     <Compile Include="RoomsFinishing\FloorFinishControl.cs">
       <SubType>Form</SubType>
     </Compile>

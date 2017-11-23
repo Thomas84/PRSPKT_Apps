@@ -4,7 +4,7 @@ using PRSPKT_Apps.Common;
 using System;
 using System.Collections.Generic;
 
-namespace PRSPKT_Apps.UserView
+namespace UserView
 {
     /// <summary>
     /// Copy a view, give it a user name, remove any view templates and

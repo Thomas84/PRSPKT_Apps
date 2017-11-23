@@ -1,8 +1,11 @@
-﻿using Autodesk.Revit.DB;
+﻿using Autodesk.Revit.Attributes;
+using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps.RevisionItems;
 
-namespace PRSPKT_Apps.RevisionItems
+namespace RevisionItems
 {
+    [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -13,7 +16,7 @@ namespace PRSPKT_Apps.RevisionItems
             }
 
             Document doc = commandData.Application.ActiveUIDocument.Document;
-            RevisionUserControl form = new RevisionUserControl(doc);
+            var form = new RevisionUserControl(doc);
 
             form.ShowDialog();
 

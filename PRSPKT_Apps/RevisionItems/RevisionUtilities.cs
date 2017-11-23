@@ -11,7 +11,7 @@ using System.Globalization;
 using PRSPKT_Apps.Common;
 using System.Collections.ObjectModel;
 
-namespace PRSPKT_Apps.RevisionItems
+namespace RevisionItems
 {
     public class RevisionUtilities
     {
@@ -29,8 +29,10 @@ namespace PRSPKT_Apps.RevisionItems
             Worksheet excelWorksheet;
             Workbook excelWorkbook;
 
-            excelApp = new Application();
-            excelApp.Visible = false;
+            excelApp = new Application()
+            {
+                Visible = false
+            };
             excelWorkbook = (Workbook)excelApp.Workbooks.Add(Missing.Value);
             excelWorksheet = (Worksheet)excelWorkbook.ActiveSheet;
 
@@ -126,38 +128,39 @@ namespace PRSPKT_Apps.RevisionItems
 
         public static void AssignRevisionToClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)
         {
-            if (doc == null || revisionClouds == null)
-            {
-                TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
-                return;
-            }
-            ElementId cloudId = null;
-            using (var r = PRSPKT_Apps.ExportManager.RevisionSelectionDialog(doc))
-            {
-                var result = r.ShowDialog();
-                if (result != DialogResult.OK)
-                {
-                    return;
-                }
-                cloudId = r.Id;
-            }
-            if (cloudId == null)
-            {
-                TaskDialog.Show("ERROR", "Selected cloud is not valid");
-                return;
-            }
-            using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
-            {
-                t.Start();
-                foreach (RevisionCloudItem rc in revisionClouds)
-                {
-                    if (rc != null)
-                    {
-                        rc.SetCloudId(cloudId);
-                    }
-                }
-                t.Commit();
-            }
+            throw new NotImplementedException();
+            //if (doc == null || revisionClouds == null)
+            //{
+            //    TaskDialog.Show("ERROR", "Could not assign revisions to clouds");
+            //    return;
+            //}
+            //ElementId cloudId = null;
+            //using (var r = PRSPKT_Apps.ExportManager.RevisionSelectionDialog(doc))
+            //{
+            //    var result = r.ShowDialog();
+            //    if (result != DialogResult.OK)
+            //    {
+            //        return;
+            //    }
+            //    cloudId = r.Id;
+            //}
+            //if (cloudId == null)
+            //{
+            //    TaskDialog.Show("ERROR", "Selected cloud is not valid");
+            //    return;
+            //}
+            //using (var t = new Transaction(doc, "Assign Revisions to Clouds"))
+            //{
+            //    t.Start();
+            //    foreach (RevisionCloudItem rc in revisionClouds)
+            //    {
+            //        if (rc != null)
+            //        {
+            //            rc.SetCloudId(cloudId);
+            //        }
+            //    }
+            //    t.Commit();
+            //}
         }
 
         public static void DeleteRevisionClouds(Document doc, Collection<RevisionCloudItem> revisionClouds)

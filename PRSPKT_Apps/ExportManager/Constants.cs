@@ -38,5 +38,7 @@
         /// </summary>
         public const string RegistryPath =
             @"HKEY_CURRENT_USER\Software\PRSPKT_Apps\PRSPKTexport";
+
+        public const string InstallDir = @"C:\Program Files\PRSPKT_Apps\PRSPK_Apps\";
     }
 }

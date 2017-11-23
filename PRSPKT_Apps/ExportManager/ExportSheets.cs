@@ -28,16 +28,18 @@ namespace PRSPKT_Apps.ExportManager
         private string _sheetRevision;
         private string _sheetRevisionDate;
         private string _sheetRevisionDescription;
+
+
         public ExportSheet(
             ViewSheet sheet,
             Document doc,
             SegmentedSheetName fileNameTemplate,
-            ExportSheet expMan)
+            ExportManager expMan)
         {
             this.Init(sheet, doc, fileNameTemplate, expMan);
         }
 
-        private void Init(ViewSheet sheet, Document doc, SegmentedSheetName fileNameTemplate, ExportSheet expMan)
+        private void Init(ViewSheet sheet, Document doc, SegmentedSheetName fileNameTemplate, ExportManager expMan)
         {
             this._doc = doc;
             this._sheet = sheet;
@@ -216,6 +218,12 @@ namespace PRSPKT_Apps.ExportManager
             this._sheetRevisionDate,
             this._sheetRevisionDescription,
             this.ExportDirectory);
+        }
+
+        public void SetSegmentedSheetName(SegmentedSheetName newSegmentedFileName)
+        {
+            _segmentedFileName = newSegmentedFileName;
+            SetExportName();
         }
     }
 }
