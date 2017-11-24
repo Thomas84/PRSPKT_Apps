@@ -103,11 +103,8 @@ namespace ElementsOnWorkset
                 }
 
                 // Load the selection WorksetExplorer form
-                //var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.InfoWindowWorksetExplorer(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
+                
                 var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.WorksetExplorerForm(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
-                //infoWWE.InitializeComponent();
-
-                //if (infoWWE.ShowDialog() == true)
                 if (DialogResult.OK == infoWWE.ShowDialog())
                 {
                     List<Element> selectedElements = infoWWE.GetSelectedElements();
@@ -118,34 +115,6 @@ namespace ElementsOnWorkset
             {
                 TaskDialog.Show("Message", "Cannot analyze worksets because worksharing hasn't been enabled for this project");
             }
-            /*
-            var worksetList = new FilteredWorksetCollector(doc).OfKind(WorksetKind.UserWorkset);
-            if (doc.IsWorkshared)
-            {
-                StringBuilder sb = new StringBuilder();
-
-                foreach (var ws in worksetList)
-                {
-                    var elementWorksetFilter = new ElementWorksetFilter(ws.Id, false);
-
-                    var elementCollector = new FilteredElementCollector(doc)
-                        .WherePasses(elementWorksetFilter).ToElements();
-                    sb.AppendLine(String.Format("WORKSET: {0} ID: {1} COUNT: {2}", ws.Name, ws.Id, elementCollector.Count));
-                    List<String> elementsArray = new List<String>();
-                    foreach (Element e in elementCollector)
-                    {
-                        elementsArray.Add(e.Id.ToString());
-                    }
-                    sb.AppendLine(string.Join(", ", elementsArray));
-                    sb.AppendLine(System.Environment.NewLine + System.Environment.NewLine);
-                }
-                TaskDialog.Show("Workset", sb.ToString());
-            }
-            else
-            {
-                TaskDialog.Show("Error", "Model is not workshared");
-            }
-            return Result.Succeeded;*/
         }
     }
 }

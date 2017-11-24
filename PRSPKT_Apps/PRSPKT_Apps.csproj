@@ -128,9 +128,6 @@
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
     <Compile Include="ElementsOnWorkset\WorksetExplorer.cs" />
-    <Compile Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml.cs">
-      <DependentUpon>InfoWindowWorksetExplorer.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ElementsOnWorkset\WorksetExplorerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -208,10 +205,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ApartmentCalc\LevelsForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementsOnWorkset\InfoWindowWorksetExplorer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
