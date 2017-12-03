@@ -27,6 +27,7 @@ namespace PRSPKT_Apps.ElementsOnWorkset
             _allWorkSetArray = allWorksetsArray;
             TreeNode treeNode = new TreeNode(_doc.Title);
             GenWorksetNodes();
+            treeView1.Sort();
         }
 
         public List<Element> GetSelectedElements()
