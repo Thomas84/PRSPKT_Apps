@@ -4,6 +4,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using PRSPKT_Apps;
+using PRSPKT_Apps.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,12 @@ namespace ApartmentCalc
             // Load user form
             PRSPKT_Apps.ApartmentCalc.LevelsForm userControl = new PRSPKT_Apps.ApartmentCalc.LevelsForm(UIdoc);
             userControl.InitializeComponent();
+            userControl.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            string duplex = UserSettings.Get("duplex");
+            if (duplex == "1")
+            {
+                userControl.Yes_Checkbox.IsChecked = true ;
+            }
 
             //LevelsWindow.ShowDialog();
 
@@ -119,6 +126,7 @@ namespace ApartmentCalc
                     }
                 }
                 t.Commit();
+                UserSettings.Set("duplex", (userControl.Yes_Checkbox.IsChecked.Value) ? "1" : "0");
             }
             else
             {
