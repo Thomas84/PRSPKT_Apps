@@ -4,6 +4,7 @@ using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using PRSPKT_Apps;
+using PRSPKT_Apps.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,11 @@ namespace ApartmentCalc_P
         private string _apartCount;
         private string _apartAreaLwCoef;
         private string _apartRoomType;
-        private double _koef;
-        private double _userKoef1;
-        private double _userKoef2;
-        private double _userKoef3;
-        private string _apartAreaKoef;
+        private double _coef;
+        private double _userCoef1;
+        private double _userCoef2;
+        private double _userCoef3;
+        //private string _apartAreaCoef;
 
         public int RoundCount { get => _roundCount; }
         public string ApartNumber { get => _apartNumber; }
@@ -36,11 +37,11 @@ namespace ApartmentCalc_P
         public string ApartCount { get => _apartCount; }
         public string ApartAreaLwCoef { get => _apartAreaLwCoef; }
         public string ApartRoomType { get => _apartRoomType; }
-        public double Koeff { get => _koef; }
-        public double UserKoef1 { get => _userKoef1; }
-        public double UserKoef2 { get => _userKoef2; }
-        public double UserKoef3 { get => _userKoef3; }
-        public string ApartAreaKoef { get => _apartAreaKoef; }
+        public double Koeff { get => _coef; }
+        public double UserCoef1 { get => _userCoef1; }
+        public double UserCoef2 { get => _userCoef2; }
+        public double UserCoef3 { get => _userCoef3; }
+        //public string ApartAreaKoef { get => _apartAreaCoef; }
         #endregion
 
         private const double METERS_IN_FEET = 0.3048;
@@ -86,8 +87,6 @@ namespace ApartmentCalc_P
                 }
             }
         }
-        // TODO: Запилить возможность подсчёта по двухуровневым квартирам
-        // TODO: Может, запилить возможность сохранения настроек?
 
         private void RoomCalc(UIDocument UIDdoc, Transaction t)
         {
@@ -97,6 +96,38 @@ namespace ApartmentCalc_P
             var userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
             //var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(UIDdoc);
             userControl.InitializeComponent();
+            userControl.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
+            string rSelectedLevels = UserSettings.Get("rSelectedLevels");
+            string rAllLevels = UserSettings.Get("rAllLevels");
+            string rActiveLevel = UserSettings.Get("rActiveLevel");
+            if (rSelectedLevels == "1")
+            {
+                userControl.radioSelectedLevels.IsChecked = true;
+            }
+            else if (rAllLevels == "1")
+            {
+                userControl.radioAllLevels.IsChecked = true;
+            }
+            else
+            {
+                userControl.radioActiveView.IsChecked = true;
+            }
+
+
+            userControl.txtBoxRow1Coef.Text = UserSettings.Get("userCoef1");
+            userControl.txtBoxRow2Coef.Text = UserSettings.Get("userCoef2");
+            userControl.txtBoxRow3Coef.Text = UserSettings.Get("userCoef3");
+            userControl.txtBoxType.Text = UserSettings.Get("type");
+            userControl.txtBoxAreaLivingApart.Text = UserSettings.Get("area_living");
+            userControl.txtBoxAreaApart.Text = UserSettings.Get("area");
+            userControl.txtBoxAreaApartC.Text = UserSettings.Get("area_common");
+            userControl.txtBoxAreaApartWithCoef.Text = UserSettings.Get("area_w_coef");
+            userControl.txtBoxApartRoomsCount.Text = UserSettings.Get("rooms_count");
+            userControl.txtBoxApartNum.Text = UserSettings.Get("rooms_number");
+            userControl.txtBoxRoomsApart.Text = UserSettings.Get("apartment_rooms");
+            userControl.txtBoxLiveApart.Text = UserSettings.Get("apartment_living_rooms");
+            userControl.txtBoxRound.Text = UserSettings.Get("roundNumber");
+
 
 
             if (userControl.ShowDialog() == true)
@@ -107,12 +138,13 @@ namespace ApartmentCalc_P
                 _apartAreaA = userControl.txtBoxAreaApart.Text;
                 _apartAreaC = userControl.txtBoxAreaApartC.Text;
                 _apartCount = userControl.txtBoxApartRoomsCount.Text;
-                _apartAreaLwCoef = userControl.txtBoxAreaApartWithKoef.Text;
+                _apartAreaLwCoef = userControl.txtBoxAreaApartWithCoef.Text;
                 _apartRoomType = userControl.txtBoxType.Text;
-                _userKoef1 = Double.Parse(userControl.txtBoxRow1Koef.Text);
-                _userKoef2 = Double.Parse(userControl.txtBoxRow2Koef.Text);
-                _userKoef3 = Double.Parse(userControl.txtBoxRow3Koef.Text);
-                _apartAreaKoef = userControl.txtBoxAreaKoef.Text;
+                _userCoef1 = Double.Parse(userControl.txtBoxRow1Coef.Text);
+                _userCoef2 = Double.Parse(userControl.txtBoxRow2Coef.Text);
+                _userCoef3 = Double.Parse(userControl.txtBoxRow3Coef.Text);
+                //_apartAreaCoef = userControl.txtBoxAreaKoef.Text;
+                _apartCount = userControl.txtBoxRound.Text;
 
                 IList<Room> ModelRooms = userControl.SelectedRooms;
 
@@ -160,6 +192,23 @@ namespace ApartmentCalc_P
                     }
                 }
                 t.Commit();
+
+                UserSettings.Set("rSelectedLevels", (userControl.radioSelectedLevels.IsChecked.Value) ? "1" : "0");
+                UserSettings.Set("rAllLevels", (userControl.radioAllLevels.IsChecked.Value) ? "1" : "0");
+                UserSettings.Set("rActiveLevel", (userControl.radioActiveView.IsChecked.Value) ? "1" : "0");
+                UserSettings.Set("userCoef1", userControl.txtBoxRow1Coef.Text);
+                UserSettings.Set("userCoef2", userControl.txtBoxRow2Coef.Text);
+                UserSettings.Set("userCoef3", userControl.txtBoxRow3Coef.Text);
+                UserSettings.Set("type", userControl.txtBoxType.Text);
+                UserSettings.Set("area_living", userControl.txtBoxAreaLivingApart.Text);
+                UserSettings.Set("area", userControl.txtBoxAreaApart.Text);
+                UserSettings.Set("area_common", userControl.txtBoxAreaApartC.Text);
+                UserSettings.Set("area_w_coef", userControl.txtBoxAreaApartWithCoef.Text);
+                UserSettings.Set("rooms_count", userControl.txtBoxApartRoomsCount.Text);
+                UserSettings.Set("rooms_number", userControl.txtBoxApartNum.Text);
+                UserSettings.Set("apartment_rooms", userControl.txtBoxRoomsApart.Text);
+                UserSettings.Set("apartment_living_rooms", userControl.txtBoxLiveApart.Text);
+                UserSettings.Set("roundNumber", userControl.txtBoxRound.Text);
             }
             else
             {
@@ -179,7 +228,7 @@ namespace ApartmentCalc_P
             foreach (Room tempRoom in list)
             {
                 int _type = tempRoom.LookupParameter(ApartRoomType).AsInteger();
-                _koef = 1;
+                _coef = 1;
                 double area_inn = UnitUtils.ConvertFromInternalUnits(tempRoom.Area, DisplayUnitType.DUT_SQUARE_METERS);
 
                 double area = Math.Round(area_inn, roundCount);
@@ -195,27 +244,27 @@ namespace ApartmentCalc_P
                         room_apart_sum += area;
                         break;
                     case 5:
-                        _koef = 0;
+                        _coef = 0;
                         break;
                     case 3:
-                        _koef = UserKoef1;
+                        _coef = UserCoef1;
                         break;
                     case 4:
-                        _koef = UserKoef2;
+                        _coef = UserCoef2;
                         break;
                     case 6:
-                        _koef = UserKoef3;
+                        _coef = UserCoef3;
                         break;
                     default:
-                        _koef = 1;
+                        _coef = 1;
                         break;
                 }
-                double karea = Math.Round(area_inn * _koef, roundCount);
+                double karea = Math.Round(area_inn * _coef, roundCount);
                 double karea_converted = UnitUtils.ConvertToInternalUnits(karea, DisplayUnitType.DUT_SQUARE_METERS);
                 room_common_sum += karea;
 
                 tempRoom.LookupParameter(ApartAreaLwCoef).Set(karea_converted);
-                tempRoom.LookupParameter(ApartAreaKoef).Set(_koef);
+                tempRoom.LookupParameter("Коэффициент площади").Set(_coef);
             }
             outlist.Add(room_living_sum);
             outlist.Add(room_apart_sum);

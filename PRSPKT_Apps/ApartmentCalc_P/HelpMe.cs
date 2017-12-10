@@ -8,7 +8,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 {
     public class HelpMe
     {
-        private static readonly string _currentVersion = "0.68b";
+        private static readonly string _currentVersion = "0.70b";
 
         public static string GetVersion()
         {

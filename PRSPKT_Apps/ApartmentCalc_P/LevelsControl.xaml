@@ -4,117 +4,220 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
-             Height="720" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
-    <Grid>
-        <TabControl Margin="5">
-            <TabItem Header="Главная">
-                <Grid>
-                    <StackPanel Margin="5">
-                        <WrapPanel Orientation="Vertical" Height="74">
-                            <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
-                            <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
-                            <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="18" VerticalAlignment="Bottom" Padding="0,5" VerticalContentAlignment="Bottom"></Label>
-                        </WrapPanel>
+            mc:Ignorable="d" 
+             SizeToContent="Height"
+        Width="385" 
+        Title="Квартирография" WindowStartupLocation="CenterScreen"
+        Background="Transparent" 
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="typicalButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#FF404040"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="WhiteSmoke"/>
+        </Style>
+        <Style x:Key="typicalText" TargetType="TextBox">
+            <Setter Property="Foreground" Value="#FF404040"/>
+            <Setter Property="Background" Value="WhiteSmoke"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="2,5"/>
+        </Style>
+    </Window.Resources>
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid>
+            <!-- Main Background-->
 
-                        <Label x:Name="labelAnalyze" Content="Режим анализа помещений" Padding="10" FontSize="18" FontWeight="SemiBold">
-                            <Label.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                            </Label.Foreground>
-                        </Label>
-                        <RadioButton x:Name="radioSelectedLevels" Content="Выбранные уровни" Margin="5" IsChecked="True"/>
-                        <RadioButton x:Name="radioAllLevels" Content="Все уровни" Margin="5"/>
-                        <RadioButton x:Name="radioActiveView" Content="Уровень активного вида" Margin="5"/>
-                        <Label x:Name="labelRoomsApart" Content="Комнаты квартиры [Типы 1-4, 6]" FontSize="18" Padding="10" FontWeight="SemiBold">
-                            <Label.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                            </Label.Foreground>
-                        </Label>
-                        <TextBox x:Name="txtBoxRoomsApart" Padding="10" Height="100" Text="Кухня, Гостиная, Спальня, Коридор, Терраса, С/у, Ванная, Балкон, Лоджия, Кладовая, Веранда" Margin="5" TextWrapping="Wrap"/>
-                        <Label x:Name="labelLiveApart" Content="Жилые комнаты [Тип 1]" FontSize="18" Padding="10" FontWeight="SemiBold">
-                            <Label.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                            </Label.Foreground>
-                        </Label>
-                        <TextBox x:Name="txtBoxLiveApart" Height="60" Padding="10" Text="Гостиная, Спальня, Спальная, Общая комната, Жилая комната" TextWrapping="Wrap"/>
-                        <Label x:Name="labelKoef" Content="Коэффициенты" FontSize="18" Grid.Column="0" Padding="10" FontWeight="SemiBold">
-                            <Label.Foreground>
-                                <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                            </Label.Foreground>
-                        </Label>
-                        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Rectangle Fill="WhiteSmoke" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
+            <Rectangle Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
+            <Rectangle Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+            <Rectangle Fill="#FF404040" Height="1" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0"/>
+
+
+            <StackPanel Margin="5" Grid.Row="0">
+                <WrapPanel Orientation="Vertical" Height="74">
+                    <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                    <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontFamily="Arial" Foreground="#FF404040" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
+                    <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontFamily="Arial" Foreground="#FF404040" FontSize="18" VerticalAlignment="Bottom" Padding="0,5" VerticalContentAlignment="Bottom"></Label>
+                </WrapPanel>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Background="WhiteSmoke">
+                <Rectangle Fill="#FF404040" VerticalAlignment="Stretch" HorizontalAlignment="Right" Width="1" Margin="0"/>
+                <Rectangle Fill="#FF404040" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="1" Margin="0"/>
+                <TabControl BorderBrush="Transparent" Background="WhiteSmoke">
+
+                    <TabItem Header="Главная" Background="WhiteSmoke" BorderBrush="Transparent" Foreground="#FF404040" FontFamily="Arial">
+                        <Grid Background="WhiteSmoke">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="50*"/>
-                                <ColumnDefinition Width="50"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="txtBoxRow1Name" Padding="5" Text="Лоджия [Тип 3]" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" IsReadOnly="True"/>
-                            <TextBox x:Name="txtBoxRow1Koef" Padding="5" Text="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
-                            <TextBox x:Name="txtBoxRow2Name" Padding="5" Text="Балкон [Тип 4]" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" IsReadOnly="True"/>
-                            <TextBox x:Name="txtBoxRow2Koef" Padding="5" Text="0,3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
-                            <TextBox x:Name="txtBoxRow3Name" Padding="5" Text="Терраса [Тип 6]" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" IsReadOnly="True"/>
-                            <TextBox x:Name="txtBoxRow3Koef" Padding="5" Text="0,3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2"/>
+
+                            <Label Grid.Row="1" x:Name="labelAnalyze" Content="Режим работы" Padding="10" Foreground="#FF404040" FontSize="16" FontFamily="Arial" FontWeight="Bold" Grid.ColumnSpan="2"/>
+                            <RadioButton Grid.Row="2" x:Name="radioSelectedLevels" Content="Выбранные уровни" Margin="5" Grid.ColumnSpan="2"/>
+                            <RadioButton  Grid.Row="3" x:Name="radioAllLevels" Content="Все уровни" Margin="5" Grid.ColumnSpan="2"/>
+                            <RadioButton  Grid.Row="4" x:Name="radioActiveView" Content="Уровень активного вида" Margin="5"  IsChecked="True" Grid.ColumnSpan="2"/>
+                            <Expander Header="Настройки" Grid.Row="5" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label x:Name="labelRoomsApart" Content="Комнаты квартиры [Типы 1-4, 6]" FontSize="16" Padding="10" Foreground="#FF404040" FontWeight="Bold" Grid.Row="0" FontFamily="Arial"/>
+
+                                    <TextBox x:Name="txtBoxRoomsApart" Padding="10" Text="Кухня, Гостиная, Спальня, Коридор, Терраса, С/у, Ванная, Балкон, Лоджия, Кладовая, Веранда" Margin="5,5,5,10" TextWrapping="Wrap" Grid.Row="1" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                    <Label x:Name="labelLiveApart" Grid.Row="2" Content="Жилые комнаты [Тип 1]" FontSize="16" Padding="10" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                                    <TextBox x:Name="txtBoxLiveApart" Grid.Row="3" Height="60" Padding="10" Text="Гостиная, Спальня, Спальная, Общая комната, Жилая комната" TextWrapping="Wrap" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                    <Label x:Name="labelKoef" Grid.Row="4" Content="Коэффициенты" FontSize="16" Grid.Column="0" Padding="10" FontWeight="Bold" Foreground="#FF404040"/>
+                                    <Grid Margin="5" Grid.Row="5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox x:Name="txtBoxRow1Name" Padding="5" Text="Лоджия [Тип 3]" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" IsReadOnly="True" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                        <TextBox x:Name="txtBoxRow1Coef" Padding="5" Width="50" TextAlignment="Center" Text="0,5" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="0"  Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                        <TextBox x:Name="txtBoxRow2Name" Padding="5" Text="Балкон [Тип 4]" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" IsReadOnly="True" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                        <TextBox x:Name="txtBoxRow2Coef" Padding="5" Width="50" TextAlignment="Center" Text="0,3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="1" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                        <TextBox x:Name="txtBoxRow3Name" Padding="5" Text="Терраса [Тип 6]" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center" IsReadOnly="True" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                        <TextBox x:Name="txtBoxRow3Coef" Padding="5" Width="50" TextAlignment="Center" Text="0,3" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Grid.Row="2" Style="{StaticResource typicalText}" BorderBrush="Transparent"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
                         </Grid>
+                    </TabItem>
+                    <TabItem Header="Дополнительно" Background="WhiteSmoke" BorderBrush="Transparent" Foreground="#FF404040" FontFamily="Arial">
+                        <Grid Background="WhiteSmoke">
+                            <!--GridDefinition-->
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
 
+                            <Rectangle Fill="#FF404040" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="1"/>
 
-                    </StackPanel>
+                            <Label x:Name="labelGlobalParams" Grid.Row="0" Content="Параметры помещений" Padding="2" FontSize="16" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
+                            <Label x:Name="labelRound" Grid.Row="1"  Content="Округлить до:" FontWeight="Bold"  Foreground="#FF404040" FontFamily="Arial"></Label>
+                            <TextBox x:Name="txtBoxRound" Grid.Row="2"  Text="2" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelType" Grid.Row="3" Content="Тип помещения" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"></Label>
+                            <TextBox x:Name="txtBoxType" Grid.Row="4" Text="П_Тип помещения" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelRoomsParams" Grid.Row="5" Content="Параметры квартир" Padding="2" FontSize="16" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <Label x:Name="labelAreaLivingApart" Grid.Row="6" Content="Жилая площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxAreaLivingApart" Grid.Row="7" Text="Площадь квартиры Жилая" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApart" Grid.Row="8" Content="Площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxAreaApart" Grid.Row="9" Text="Площадь квартиры" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApartC" Grid.Row="10" Content="Общая площадь квартиры" FontWeight="Bold" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxAreaApartC" Grid.Row="11" Text="Площадь квартиры Общая" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApartWithKoef" Grid.Row="12" Content="Площадь помещения с коэффициентом" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxAreaApartWithCoef" Grid.Row="13" Text="Площадь с коэффициентом" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelApartRoomsCount" Grid.Row="14" Content="Количество комнат в квартире" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxApartRoomsCount" Grid.Row="15" Text="Число комнат" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelApartNum" Grid.Row="16" Content="Номер квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxApartNum" Grid.Row="17" Text="П_Номер квартиры" Height="25" Style="{StaticResource typicalText}"/>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+            </Grid>
 
-                </Grid>
-            </TabItem>
-            <TabItem Header="Дополнительно">
-                <StackPanel Margin="5">
-                    <WrapPanel Orientation="Vertical" Height="74">
-                        <Image Name="tab2_logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
-                        <Label x:Name="tab2_LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
-                        <Label x:Name="tab2_LogoName2" Content="ВЕРСИЯ 0.5b" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
-                    </WrapPanel>
-                    <Label x:Name="labelGlobalParams" Content="Параметры помещений" Padding="2" FontSize="14" FontWeight="SemiBold" Background="{x:Null}">
-                        <Label.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                        </Label.Foreground>
-                    </Label>
-                    <Label x:Name="labelAreaKoef" Content="Коэффициент площади помещения" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxAreaKoef" Text="Коэффициент площади" Padding="10,5,5,5"/>
-                    <Label x:Name="labelRound" Content="Округлить до:" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxRound" Text="2" Padding="10,5,5,5"/>
-                    <Label x:Name="labelType" Content="Тип помещения" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxType" Text="П_Тип помещения" Padding="10,5,5,5"/>
-
-
-                    <Label x:Name="labelRoomsParams" Content="Параметры квартир" Padding="2" FontSize="14" FontWeight="SemiBold">
-                        <Label.Foreground>
-                            <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                        </Label.Foreground>
-                    </Label>
-                    <Label x:Name="labelAreaLivingApart" Content="Жилая площадь квартиры" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxAreaLivingApart" Text="Площадь квартиры Жилая" Padding="10,5,5,5"/>
-                    <Label x:Name="labelAreaApart" Content="Площадь квартиры" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxAreaApart" Text="Площадь квартиры" Padding="10,5,5,5"/>
-                    <Label x:Name="labelAreaApartC" Content="Общая площадь квартиры" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxAreaApartC" Text="Площадь квартиры Общая" Padding="10,5,5,5"/>
-                    <Label x:Name="labelAreaApartWithKoef" Content="Площадь помещения с коэффициентом" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxAreaApartWithKoef" Text="Площадь с коэффициентом" Padding="10,5,5,5"/>
-                    <Label x:Name="labelApartRoomsCount" Content="Количество комнат в квартире" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxApartRoomsCount" Text="Число комнат" Padding="10,5,5,5"/>
-                    <Label x:Name="labelApartNum" Content="Номер квартиры" FontWeight="Medium" ></Label>
-                    <TextBox x:Name="txtBoxApartNum" Text="П_Номер квартиры" Padding="10,5,5,5"/>
-
-
-
+            <Grid Grid.Row="2" Background="WhiteSmoke">
+                <Rectangle Fill="#FF404040" Height="15" VerticalAlignment="Bottom"/>
+                <Rectangle Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
+                <Rectangle Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+                <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2" Margin="5" HorizontalAlignment="Right">
+                    <Button x:Name="OK_Button" Style="{StaticResource typicalButtonStyle}" Grid.Column="0" Margin="5, 10" VerticalAlignment="Bottom" Click="OK_Button_Click" MouseEnter="OK_Button_MouseEnter" MouseLeave="OK_Button_MouseLeave" BorderBrush="Transparent">
+                        <Button.Content>
+                            <Grid Width="80" Height="20">
+                                <Rectangle x:Name="okRect" Fill="Transparent"/>
+                                <TextBlock Text="OK" TextAlignment="Center" MouseEnter="TextBlock_MouseEnter"/>
+                            </Grid>
+                        </Button.Content>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalAlignment}"
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                  RecognizesAccessKey="True"
+                                                  Content="{TemplateBinding ContentControl.Content}"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="Cancel_Button" Style="{StaticResource typicalButtonStyle}" Grid.Column="1" Margin="5, 10" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Background="Transparent" BorderBrush="Transparent" MouseEnter="Cancel_Button_MouseEnter" MouseLeave="Cancel_Button_MouseLeave">
+                        <Button.Content>
+                            <Grid Width="80" Height="20">
+                                <Rectangle x:Name="cancelRect" Fill="Transparent"/>
+                                <TextBlock Text="Cancel" TextAlignment="Center"/>
+                            </Grid>
+                        </Button.Content>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <ContentPresenter Margin="{TemplateBinding Control.Padding}"
+                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalAlignment}"
+                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
+                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                                  RecognizesAccessKey="True"
+                                                  Content="{TemplateBinding ContentControl.Content}"/>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </StackPanel>
-            </TabItem>
+            </Grid>
 
-        </TabControl>
-        <Grid VerticalAlignment="Bottom" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="10" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click" Width="100"/>
-            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="10" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
         </Grid>
-    </Grid>
+    </Border>
+
 </Window>

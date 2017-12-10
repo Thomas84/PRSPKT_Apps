@@ -19,8 +19,10 @@
             </Label>
             <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Extended"/>
         </StackPanel>
-        <Button x:Name="OK_Button" Content="OK" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsDefault="True" Click="OK_Button_Click" Width="100"/>
-        <Button x:Name="Cancel_Button" Content="Cancel" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Width="100"/>
-
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
+            <Button x:Name="OK_Button" Content="OK" Margin="5,5" IsDefault="True" Click="OK_Button_Click" Width="75" Height="20"/>
+            <Button x:Name="Cancel_Button" Content="Cancel" Margin="5,5" IsCancel="True" Click="Cancel_Button_Click" Width="75" Height="20" Background="Transparent" BorderBrush="Transparent"/>
+        </StackPanel>
+        
     </Grid>
 </Window>
