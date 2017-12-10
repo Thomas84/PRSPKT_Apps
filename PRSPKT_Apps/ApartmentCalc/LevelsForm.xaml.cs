@@ -1,10 +1,14 @@
 ﻿
+using Autodesk.Revit.DB;
+using Autodesk.Revit.DB.Architecture;
+using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
-using Autodesk.Revit.DB.Architecture;
-using Autodesk.Revit.DB;
-using Autodesk.Revit.UI;
+using System.Configuration;
+using PRSPKT_Apps.Common;
 
 namespace PRSPKT_Apps.ApartmentCalc
 {
@@ -13,6 +17,7 @@ namespace PRSPKT_Apps.ApartmentCalc
     /// </summary>
     public partial class LevelsForm : Window
     {
+#region 
         private Document _doc;
         private UIDocument _UIDoc;
         private IOrderedEnumerable<Level> _levels;
@@ -34,6 +39,7 @@ namespace PRSPKT_Apps.ApartmentCalc
         {
             get { return _nextLevel; }
         }
+#endregion
 
         public LevelsForm(UIDocument UIDoc)
         {
@@ -44,6 +50,14 @@ namespace PRSPKT_Apps.ApartmentCalc
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";
             Yes_Checkbox.Content = "Да / Нет";
+
+            if (!File.Exists(UserSettings.GetConfigPath()))
+            {
+                PathLabel.Content = "none";
+            }
+            else PathLabel.Content = UserSettings.GetConfigPath();
+
+
 
             // Find a room
             //IList<Room> roomList = new FilteredElementCollector(_doc).OfCategory(BuiltInCategory.OST_Rooms).Cast<Room>().ToList();
@@ -56,6 +70,21 @@ namespace PRSPKT_Apps.ApartmentCalc
             Levels_ComboBox.ItemsSource = _levels;
             Levels_ComboBox.SelectedItem = Levels_ComboBox.Items[0];
             Levels_ComboBox.DisplayMemberPath = "Name";
+        }
+
+        private void GetConfigFile(Document doc)
+        {
+            try
+            {
+                string path = UserSettings.GetConfigPath();
+                string projectFileName = (doc.PathName != null && doc.PathName != "")
+                    ? Path.GetFileName(doc.PathName) : "";
+            }
+            catch (System.Exception ex1)
+            {
+
+                MessageBox.Show("exception: " + ex1);
+            }
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
@@ -86,6 +115,8 @@ namespace PRSPKT_Apps.ApartmentCalc
             }
         }
 
+
+
         private IList<Room> SelectRooms()
         {
             IList<Room> ModelRooms = new FilteredElementCollector(_doc)
@@ -103,6 +134,13 @@ namespace PRSPKT_Apps.ApartmentCalc
         {
             DialogResult = false;
             this.Close();
+        }
+
+
+
+        private void Button_LoadConfigFile(object sender, RoutedEventArgs e)
+        {
+            TaskDialog.Show("e", "ok");
         }
     }
 }

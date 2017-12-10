@@ -4,32 +4,41 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc"
-             Height="180" Width="200" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
-    <Grid Margin="0,0,0,0">
+             SizeToContent="Height" Width="300" ShowInTaskbar="False" DataContext="{Binding}" Title="Квартирография" WindowStartupLocation="Manual">
+    <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*" />
-            <RowDefinition Height="50*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
         <GroupBox Header="Выберите уровень:" Grid.Row="0" RenderTransformOrigin="0.5,0.5" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.ColumnSpan="2" VerticalAlignment="Bottom">
-            <ComboBox x:Name="Levels_ComboBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Center"/>
+            <ComboBox x:Name="Levels_ComboBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" VerticalAlignment="Center" SelectedIndex="0"/>
         </GroupBox>
 
         <GroupBox Header="Двухуровневые квартиры:" Grid.Row="1">
-            <CheckBox x:Name="Yes_Checkbox" Content="Да" Margin="5"/>
+            <CheckBox x:Name="Yes_Checkbox" Content="Да" Margin="5" VerticalAlignment="Center"/>
         </GroupBox>
+        <Expander Header="Настройки" Grid.Row="2" VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Label Content="Расположение файла с настройками: " Grid.Row="0" VerticalAlignment="Bottom"/>
+                <Button Margin="5, 5" Height="20" Grid.Row="1" VerticalAlignment="Bottom" Width="75" Content="Найти.." HorizontalAlignment="Left" Click="Button_LoadConfigFile"/>
+                <Label x:Name="PathLabel" Content="Путь" FontStyle="Italic" Height="20" Padding="0" Margin="5, 5" Grid.Row="2" Foreground="#FF898989"/>
+            </Grid>
+        </Expander>
         
-        <Grid Grid.Row="2" VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="5,5,5,5" VerticalAlignment="Top" IsDefault="True" Click="OK_Button_Click"/>
-            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="5,5,5,5" VerticalAlignment="Top" IsCancel="True" Click="Cancel_Button_Click"/>
-        </Grid>
+        
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="5">
+            <Button x:Name="OK_Button" Grid.Column="0" Content="OK_button" Margin="5" VerticalAlignment="Top" Width="75" IsDefault="True" Click="OK_Button_Click"/>
+            <Button x:Name="Cancel_Button" Grid.Column="1" Content="Cancel_button" Margin="5" VerticalAlignment="Top" Width="75" BorderBrush="Transparent" Background="Transparent" IsCancel="True" Click="Cancel_Button_Click"/>
+        </StackPanel>
+
     </Grid>
 </Window>
