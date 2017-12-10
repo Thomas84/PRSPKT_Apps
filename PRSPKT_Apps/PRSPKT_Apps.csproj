@@ -104,10 +104,6 @@
     <Compile Include="ApartmentCalc_P\LevelsControl.xaml.cs">
       <DependentUpon>LevelsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ApartmentCalc\ApartmentCalc.cs" />
-    <Compile Include="ApartmentCalc\LevelsForm.xaml.cs">
-      <DependentUpon>LevelsForm.xaml</DependentUpon>
-    </Compile>
     <Compile Include="App.cs" />
     <Compile Include="CommandQ.cs" />
     <Compile Include="Common\MiscUtils.cs" />
@@ -178,10 +174,6 @@
     <Page Include="ApartmentCalc_P\LevelsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ApartmentCalc\LevelsForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RoomsFinishing\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>

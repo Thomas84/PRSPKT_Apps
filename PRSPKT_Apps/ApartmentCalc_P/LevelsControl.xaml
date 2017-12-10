@@ -180,7 +180,7 @@
                         <Button.Content>
                             <Grid Width="80" Height="20">
                                 <Rectangle x:Name="okRect" Fill="Transparent"/>
-                                <TextBlock Text="OK" TextAlignment="Center" MouseEnter="TextBlock_MouseEnter"/>
+                                <TextBlock Text="OK" TextAlignment="Center"/>
                             </Grid>
                         </Button.Content>
                         <Button.Template>
