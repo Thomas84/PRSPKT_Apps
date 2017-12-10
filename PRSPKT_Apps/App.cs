@@ -114,7 +114,7 @@ namespace PRSPKT_Apps
             panel.AddItem(DoRMdata);
 
             // Add PRSPKT ApartmentCalc Button New
-            string ApartCalc_P_ButtonText = "Квартирография \n (new)";
+            string ApartCalc_P_ButtonText = "Квартирография";
             PushButtonData apartCalc_P_Data = new PushButtonData("cmdApartCalc_P", ApartCalc_P_ButtonText, DllPath, "ApartmentCalc_P.ApartmentCalc_P")
             {
                 ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
