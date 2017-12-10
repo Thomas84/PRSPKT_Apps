@@ -69,5 +69,24 @@ namespace TotalLength
                 return Result.Failed;
             }
         }
+
+        //public double GetAreaSum(Document doc)
+        //{
+        //    UIDocument UIdoc = doc.Application.ActiveUIDocument;
+        //    var elements = UIDocument
+        //}
+
+        public class WallsFilter : ISelectionFilter
+        {
+            public bool AllowElement(Element elem)
+            {
+                return elem.Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_Walls);
+            }
+
+            public bool AllowReference(Reference reference, XYZ position)
+            {
+                return false;
+            }
+        }
     }
 }

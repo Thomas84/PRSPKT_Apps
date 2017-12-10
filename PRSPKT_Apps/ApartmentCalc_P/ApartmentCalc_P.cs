@@ -98,7 +98,6 @@ namespace ApartmentCalc_P
             //var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(UIDdoc);
             userControl.InitializeComponent();
 
-            
 
             if (userControl.ShowDialog() == true)
             {

@@ -3,12 +3,13 @@ using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace PRSPKT_Apps
+namespace Do_Rm
 {
     [Transaction(TransactionMode.Manual)]
     class DoRmSergei : IExternalCommand
@@ -46,9 +47,12 @@ namespace PRSPKT_Apps
             }
         }
 
+
         private void DoRm(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
+            int wall_count = 0;
+            int room_count = 0;
             t.Start("Простановка Rm_Этаж для Сергея ОВ");
             //IList<Level> _levels = new FilteredElementCollector(_doc)
             //    .OfCategory(BuiltInCategory.OST_Levels).Cast<Level>().ToList();
@@ -60,15 +64,49 @@ namespace PRSPKT_Apps
                 .Where(x => x.Area > 0)
                 .ToList();
 
-            foreach (Room tempRoom in _rooms)
+            var walls = new FilteredElementCollector(_doc)
+                .OfCategory(BuiltInCategory.OST_Walls)
+                .WhereElementIsNotElementType()
+                .Cast<Wall>()
+                .ToList();
+
+
+            try
             {
-                String _lvl = tempRoom.Level.Name;
-                Parameter _rm = tempRoom.LookupParameter("Rm_Этаж");
-                Parameter _gp = tempRoom.LookupParameter("GP_Этаж");
-                _rm.Set(_lvl);
-                _gp.Set(_lvl);
+                foreach (Room tempRoom in _rooms)
+                {
+                    String _lvl = tempRoom.Level.Name;
+                    Parameter _rm = tempRoom.LookupParameter("Rm_Этаж");
+                    Parameter _gp = tempRoom.LookupParameter("GP_Этаж");
+                    room_count += 1;
+                    _rm.Set(_lvl);
+                    _gp.Set(_lvl);
+                }
             }
+            catch (Exception e)
+            {
+                TaskDialog.Show("Error", e.Message);
+            }
+
+            try
+            {
+                foreach (Wall wall in walls)
+                {
+                    var _lvl = wall.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT).AsValueString();
+                    wall_count += 1;
+                    wall.LookupParameter("GP_Этаж").Set(_lvl);
+                }
+            }
+            catch (Exception e)
+            {
+                TaskDialog.Show("Error", e.Message);
+            }
+            
             t.Commit();
+            TaskDialog.Show("Результат работы Сергей_ОВ", 
+                "В стены вписан параметр GP_Этаж в количестве: " + wall_count.ToString() + " шт." + "\n" + 
+                "В помещения вписан параметр Rm_Этаж и GP_Этаж: " + room_count.ToString() + " шт."
+                ) ;
         }
     }
 }

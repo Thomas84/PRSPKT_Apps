@@ -152,12 +152,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ru.resx</DependentUpon>
     </Compile>
-    <Compile Include="RoomsFinishing\FloorFinishControl.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="RoomsFinishing\FloorFinishControl.Designer.cs">
-      <DependentUpon>FloorFinishControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="RoomsFinishing\FloorsFinishesClass.cs" />
     <Compile Include="RoomsFinishing\FloorsFinishesControl.xaml.cs">
       <DependentUpon>FloorsFinishesControl.xaml</DependentUpon>
@@ -228,9 +222,6 @@
     <EmbeddedResource Include="Resources\ru.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ru.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RoomsFinishing\FloorFinishControl.resx">
-      <DependentUpon>FloorFinishControl.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

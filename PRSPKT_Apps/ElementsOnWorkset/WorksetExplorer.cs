@@ -64,6 +64,7 @@ namespace ElementsOnWorkset
             int num2 = -2000220; // OST_Grids
             int num3 = -2000240; // OST_Levels
 
+            // Выборка всех элементов в проекте
             IList<Element> elements1 = new FilteredElementCollector(_doc).WhereElementIsNotElementType().ToElements();
             if (_doc.IsWorkshared)
             {

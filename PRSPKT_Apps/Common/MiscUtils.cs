@@ -129,6 +129,15 @@ namespace PRSPKT_Apps.Common
                 return new DateTime();
             }
         }
+
+        public static FilteredElementCollector GetElementsOfType(Document doc, Type type, BuiltInCategory bic)
+        {
+            var collector = new FilteredElementCollector(doc);
+            collector.OfCategory(bic);
+            collector.OfClass(type);
+            return collector;
+        }
+
     }
 
 }
