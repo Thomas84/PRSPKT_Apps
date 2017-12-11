@@ -183,17 +183,6 @@
                                 <TextBlock Text="OK" TextAlignment="Center"/>
                             </Grid>
                         </Button.Content>
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <ContentPresenter Margin="{TemplateBinding Control.Padding}"
-                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalAlignment}"
-                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-                                                  RecognizesAccessKey="True"
-                                                  Content="{TemplateBinding ContentControl.Content}"/>
-                            </ControlTemplate>
-                        </Button.Template>
                     </Button>
                     <Button x:Name="Cancel_Button" Style="{StaticResource typicalButtonStyle}" Grid.Column="1" Margin="5, 10" VerticalAlignment="Bottom" IsCancel="True" Click="Cancel_Button_Click" Background="Transparent" BorderBrush="Transparent" MouseEnter="Cancel_Button_MouseEnter" MouseLeave="Cancel_Button_MouseLeave">
                         <Button.Content>
@@ -202,22 +191,9 @@
                                 <TextBlock Text="Cancel" TextAlignment="Center"/>
                             </Grid>
                         </Button.Content>
-                        <Button.Template>
-                            <ControlTemplate TargetType="Button">
-                                <ContentPresenter Margin="{TemplateBinding Control.Padding}"
-                                                  HorizontalAlignment="{TemplateBinding Control.HorizontalAlignment}"
-                                                  VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
-                                                  SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}"
-                                                  ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
-                                                  RecognizesAccessKey="True"
-                                                  Content="{TemplateBinding ContentControl.Content}"/>
-                            </ControlTemplate>
-                        </Button.Template>
                     </Button>
                 </StackPanel>
             </Grid>
-
         </Grid>
     </Border>
-
 </Window>

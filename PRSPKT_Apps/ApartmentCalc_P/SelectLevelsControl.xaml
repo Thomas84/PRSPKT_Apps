@@ -4,25 +4,59 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:PRSPKT_Apps.ApartmentCalc_P"
-             Height="600" Width="385" ShowInTaskbar="False" DataContext="{Binding}" Title="Выбор уровня" WindowStartupLocation="Manual">
-    <Grid>
-        <StackPanel Margin="5">
-            <WrapPanel Orientation="Vertical" Height="74">
-                <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
-                <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
-                <Label x:Name="LogoName2" FontSize="18" VerticalAlignment="Bottom" Padding="0,5"/>
-            </WrapPanel>
-            <Label x:Name="labelSelectLevel" Content="Выбор уровней проекта" Padding="10" FontSize="18" FontWeight="SemiBold">
-                <Label.Foreground>
-                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.HighlightColorKey}}"/>
-                </Label.Foreground>
-            </Label>
-            <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Extended"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5">
-            <Button x:Name="OK_Button" Content="OK" Margin="5,5" IsDefault="True" Click="OK_Button_Click" Width="75" Height="20"/>
-            <Button x:Name="Cancel_Button" Content="Cancel" Margin="5,5" IsCancel="True" Click="Cancel_Button_Click" Width="75" Height="20" Background="Transparent" BorderBrush="Transparent"/>
-        </StackPanel>
-        
-    </Grid>
+             SizeToContent="Height" Width="385" Title="Выбор уровня" WindowStartupLocation="CenterOwner">
+    <Window.Resources>
+        <Style x:Key="typicalButtonStyle" TargetType="Button">
+            <Setter Property="Foreground" Value="#FF404040"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="WhiteSmoke"/>
+        </Style>
+    </Window.Resources>
+    <Border MouseLeftButtonDown="Border_MouseLeftButtonDown">
+        <Grid  Background="WhiteSmoke">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--<Rectangle Fill="#FF404040" HorizontalAlignment="Left" Width="1" VerticalAlignment="Stretch" Margin="0"/>
+            <Rectangle Fill="#FF404040" HorizontalAlignment="Right" Width="1" VerticalAlignment="Stretch" Margin="0"/>
+            <Rectangle Fill="#FF404040" HorizontalAlignment="Stretch" Width="1" VerticalAlignment="Top" Margin="0"/>
+            <Rectangle Fill="#FF404040" HorizontalAlignment="Stretch" Width="15" VerticalAlignment="Bottom" Margin="0"/>-->
+            <StackPanel Margin="5" Grid.Row="0">
+                <WrapPanel Orientation="Vertical" Height="74">
+                    <Image x:Name="logo" Source="../Resources/logo.png" Width="170" HorizontalAlignment="Left" Margin="5" VerticalAlignment="Center"/>
+                    <Label x:Name="LogoName" Content="КВАРТИРОГРАФИЯ" FontFamily="Arial" Foreground="#FF404040" FontSize="18" VerticalAlignment="Top" Padding="0,5"/>
+                    <Label x:Name="LogoName2" Content="ВЕРСИЯ 0.5b" FontFamily="Arial" Foreground="#FF404040" FontSize="18" VerticalAlignment="Bottom" Padding="0,5" VerticalContentAlignment="Bottom"></Label>
+                </WrapPanel>
+            </StackPanel>
+            <StackPanel Margin="5" Background="WhiteSmoke" Grid.Row="1">
+                <Label x:Name="labelSelectLevel" Content="Выбор уровней проекта" Padding="10" FontSize="16" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                <ListBox x:Name="LevelsListBox" Height="400" SelectionMode="Extended" Background="WhiteSmoke" Foreground="#FF404040" FontFamily="Arial"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="5" Grid.Row="2">
+                <Button x:Name="OK_Button" Margin="5,5" Click="OK_Button_Click" Style="{StaticResource typicalButtonStyle}" MouseEnter="OK_Button_MouseEnter" MouseLeave="OK_Button_MouseLeave" BorderBrush="Transparent">
+                    <Button.Content>
+                        <Grid Width="80" Height="20">
+                            <Rectangle x:Name="okRect" Fill="Transparent"/>
+                            <TextBlock Text="OK" TextAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+                <Button x:Name="Cancel_Button" Margin="5,5" IsCancel="True" Click="Cancel_Button_Click" Style="{StaticResource typicalButtonStyle}" Background = "Transparent" BorderBrush="Transparent" MouseEnter="Cancel_Button_MouseEnter" MouseLeave="Cancel_Button_MouseLeave">
+                    <Button.Content>
+                        <Grid Width="80" Height="20">
+                            <Rectangle x:Name="cancelRect" Fill="Transparent"/>
+                            <TextBlock Text="Cancel" TextAlignment="Center"/>
+                        </Grid>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Border>
+
 </Window>

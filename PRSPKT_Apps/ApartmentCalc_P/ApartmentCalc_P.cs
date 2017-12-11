@@ -27,7 +27,7 @@ namespace ApartmentCalc_P
         private double _userCoef1;
         private double _userCoef2;
         private double _userCoef3;
-        //private string _apartAreaCoef;
+
 
         public int RoundCount { get => _roundCount; }
         public string ApartNumber { get => _apartNumber; }
@@ -41,7 +41,7 @@ namespace ApartmentCalc_P
         public double UserCoef1 { get => _userCoef1; }
         public double UserCoef2 { get => _userCoef2; }
         public double UserCoef3 { get => _userCoef3; }
-        //public string ApartAreaKoef { get => _apartAreaCoef; }
+
         #endregion
 
         private const double METERS_IN_FEET = 0.3048;
@@ -94,7 +94,6 @@ namespace ApartmentCalc_P
             t.Start("Квартирография");
 
             var userControl = new PRSPKT_Apps.ApartmentCalc_P.LevelsControl(UIDdoc);
-            //var userLevelsControl = new PRSPKT_Apps.ApartmentCalc_P.SelectLevelsControl(UIDdoc);
             userControl.InitializeComponent();
             userControl.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterScreen;
             string rSelectedLevels = UserSettings.Get("rSelectedLevels");
@@ -143,8 +142,6 @@ namespace ApartmentCalc_P
                 _userCoef1 = Double.Parse(userControl.txtBoxRow1Coef.Text);
                 _userCoef2 = Double.Parse(userControl.txtBoxRow2Coef.Text);
                 _userCoef3 = Double.Parse(userControl.txtBoxRow3Coef.Text);
-                //_apartAreaCoef = userControl.txtBoxAreaKoef.Text;
-                _apartCount = userControl.txtBoxRound.Text;
 
                 IList<Room> ModelRooms = userControl.SelectedRooms;
 
