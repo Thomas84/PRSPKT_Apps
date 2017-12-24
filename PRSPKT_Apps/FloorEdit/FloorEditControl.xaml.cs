@@ -1,18 +1,27 @@
-﻿
-using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
+﻿using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace PRSPKT_Apps.ApartmentCalc_P
+namespace PRSPKT_Apps.FloorEdit
 {
     /// <summary>
-    /// Логика взаимодействия для SelectLevels.xaml
+    /// Логика взаимодействия для FloorEditControl.xaml
     /// </summary>
-    public partial class SelectLevelsControl : Window
+    public partial class FloorEditControl : Window
     {
         LinearGradientBrush eBrush = null;
         SolidColorBrush lBrush = new SolidColorBrush(
@@ -20,53 +29,34 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
         private Document _doc;
         private UIDocument _UIDoc;
-        private IOrderedEnumerable<Level> _levels;
+        private double userNumber;
 
-        private IList<Level> _selectedLevels;
-        public IList<Level> SelectedLevels
-        {
-            get { return _selectedLevels; }
-        }
+        public double UserNumber { get => userNumber; set => userNumber = value; }
 
-        public SelectLevelsControl(UIDocument UIDoc)
+        public FloorEditControl(UIDocument UIDoc)
         {
             InitializeComponent();
+
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
-            LogoName2.Content = HelpMe.GetVersion();
-            _levels = LevelsInProject(_doc);
-            LevelsListBox.ItemsSource = _levels;
-            LevelsListBox.DisplayMemberPath = "Name";
+
+            btn_Cancel.Text = "Отмена";
+            btn_OK.Text = "OK";
+
         }
-
-        public static IOrderedEnumerable<Level> LevelsInProject(Document _doc)
-        {
-            return new FilteredElementCollector(_doc).OfClass(typeof(Level))
-                        .Cast<Level>()
-                        .OrderBy(lev => lev.Elevation);
-        }
-
-
         private void OK_Button_Click(object sender, RoutedEventArgs e)
         {
-            if (LevelsListBox.SelectedItems.Count > 0)
-            {
-                _selectedLevels = LevelsListBox.SelectedItems.Cast<Level>().ToList();
-                this.DialogResult = true;
-                this.Close();
-            }
-            else
-            {
-                TaskDialog.Show("Квартирография", "Ошибочка с выбором уровней", TaskDialogCommonButtons.Close, TaskDialogResult.Close);
-                this.Activate();
-            }
+            userNumber = double.Parse(txtBox_userNumber.Text, CultureInfo.InvariantCulture);
+            this.DialogResult = true;
+            this.Close();
         }
 
-        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
+            private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
             this.Close();
         }
+
 
         private LinearGradientBrush EnterBrush()
         {
@@ -93,12 +83,10 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             }
             okRect.Fill = eBrush;
         }
-
         private void OK_Button_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             okRect.Fill = lBrush;
         }
-
         private void Cancel_Button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (eBrush == null)
@@ -112,5 +100,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
         {
             cancelRect.Fill = lBrush;
         }
+
+
     }
 }

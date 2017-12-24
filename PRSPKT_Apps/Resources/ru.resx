@@ -258,4 +258,10 @@
   <data name="sheets_ribbon_panel_name" xml:space="preserve">
     <value>Листы</value>
   </data>
+  <data name="element_info" xml:space="preserve">
+    <value>Информация об эл-те</value>
+  </data>
+  <data name="element_info_tooltip" xml:space="preserve">
+    <value>Показывает информацию об элементе</value>
+  </data>
 </root>

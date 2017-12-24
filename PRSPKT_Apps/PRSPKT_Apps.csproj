@@ -56,9 +56,6 @@
       <HintPath>..\packages\Revit-2017.1.1-x64.Base.2.0.0\lib\net452\AdWindows.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="RevitAPI, Version=17.0.0.0, Culture=neutral, processorArchitecture=AMD64">
@@ -112,6 +109,7 @@
     <Compile Include="DeleteCorruptFile\Command.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
+    <Compile Include="ElementInfo\ElementInfo.cs" />
     <Compile Include="ElementsOnWorkset\WorksetExplorer.cs" />
     <Compile Include="ElementsOnWorkset\WorksetExplorerForm.cs">
       <SubType>Form</SubType>
@@ -119,6 +117,11 @@
     <Compile Include="ElementsOnWorkset\WorksetExplorerForm.Designer.cs">
       <DependentUpon>WorksetExplorerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FloorEdit\FloorEditControl.xaml.cs">
+      <DependentUpon>FloorEditControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FloorEdit\FloorSelectionFilter.cs" />
+    <Compile Include="FloorEdit\Main.cs" />
     <Compile Include="PrintMe\PrintMe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -150,16 +153,16 @@
     <Compile Include="TotalLength\CurveTotalLength.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\objectsOnWorkset.png" />
+    <EmbeddedResource Include="Resources\information.png" />
+    <EmbeddedResource Include="Resources\objectsOnWorkset.png" />
     <Resource Include="Resources\logo.png" />
-    <Resource Include="Resources\deleteCorrupt.png" />
-    <Resource Include="Resources\printme.png" />
+    <EmbeddedResource Include="Resources\deleteCorrupt.png" />
+    <EmbeddedResource Include="Resources\printme.png" />
     <Resource Include="Resources\DoRM.png" />
     <Resource Include="Resources\apartCalc_new.png" />
-    <Resource Include="Resources\apartCalc_old.png" />
     <Resource Include="Resources\roomFinish.png" />
     <Resource Include="Resources\floorFinish.png" />
-    <Resource Include="Resources\totalLength.png" />
+    <EmbeddedResource Include="Resources\totalLength.png" />
     <Resource Include="Resources\renameApartRooms.png" />
     <Resource Include="Resources\icons.ai" />
     <None Include="app.config" />
@@ -167,7 +170,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\dimAxies.png" />
+    <EmbeddedResource Include="Resources\dimAxies.png" />
     <None Include="packages.config" />
     <Content Include="PRSPKT_Apps.addin">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -181,6 +184,10 @@
     <Page Include="ApartmentCalc_P\LevelsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FloorEdit\FloorEditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RoomsFinishing\FloorsFinishesControl.xaml">
       <SubType>Designer</SubType>

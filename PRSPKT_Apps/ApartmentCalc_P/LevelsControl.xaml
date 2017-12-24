@@ -66,6 +66,10 @@
 
                     <TabItem Header="Главная" Background="WhiteSmoke" BorderBrush="Transparent" Foreground="#FF404040" FontFamily="Arial">
                         <Grid Background="WhiteSmoke">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="82*"/>
+                                <ColumnDefinition Width="297*"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
@@ -144,6 +148,8 @@
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
                                 <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
                             </Grid.RowDefinitions>
 
                             <Rectangle Fill="#FF404040" HorizontalAlignment="Left" VerticalAlignment="Stretch" Width="1"/>
@@ -151,21 +157,25 @@
                             <Label x:Name="labelGlobalParams" Grid.Row="0" Content="Параметры помещений" Padding="2" FontSize="16" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
                             <Label x:Name="labelRound" Grid.Row="1"  Content="Округлить до:" FontWeight="Bold"  Foreground="#FF404040" FontFamily="Arial"></Label>
                             <TextBox x:Name="txtBoxRound" Grid.Row="2"  Text="2" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelType" Grid.Row="3" Content="Тип помещения" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"></Label>
-                            <TextBox x:Name="txtBoxType" Grid.Row="4" Text="П_Тип помещения" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelRoomsParams" Grid.Row="5" Content="Параметры квартир" Padding="2" FontSize="16" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
-                            <Label x:Name="labelAreaLivingApart" Grid.Row="6" Content="Жилая площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
-                            <TextBox x:Name="txtBoxAreaLivingApart" Grid.Row="7" Text="Площадь квартиры Жилая" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelAreaApart" Grid.Row="8" Content="Площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
-                            <TextBox x:Name="txtBoxAreaApart" Grid.Row="9" Text="Площадь квартиры" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelAreaApartC" Grid.Row="10" Content="Общая площадь квартиры" FontWeight="Bold" FontFamily="Arial"/>
-                            <TextBox x:Name="txtBoxAreaApartC" Grid.Row="11" Text="Площадь квартиры Общая" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelAreaApartWithKoef" Grid.Row="12" Content="Площадь помещения с коэффициентом" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
-                            <TextBox x:Name="txtBoxAreaApartWithCoef" Grid.Row="13" Text="Площадь с коэффициентом" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelApartRoomsCount" Grid.Row="14" Content="Количество комнат в квартире" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
-                            <TextBox x:Name="txtBoxApartRoomsCount" Grid.Row="15" Text="Число комнат" Height="25" Style="{StaticResource typicalText}"/>
-                            <Label x:Name="labelApartNum" Grid.Row="16" Content="Номер квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
-                            <TextBox x:Name="txtBoxApartNum" Grid.Row="17" Text="П_Номер квартиры" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelRoomName" Grid.Row="3" Content="Имя помещения" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxRoomName" Grid.Row="4" Text="П_Имя помещения" Height="25" Style="{StaticResource typicalText}"/>
+                            
+                            <Label x:Name="labelType" Grid.Row="5" Content="Тип помещения" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"></Label>
+                            <TextBox x:Name="txtBoxType" Grid.Row="6" Text="П_Тип помещения" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelRoomsParams" Grid.Row="7" Content="Параметры квартир" Padding="2" FontSize="16" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <Label x:Name="labelAreaLivingApart" Grid.Row="8" Content="Жилая площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxAreaLivingApart" Grid.Row="9" Text="Площадь квартиры Жилая" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApart" Grid.Row="10" Content="Площадь квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxAreaApart" Grid.Row="11" Text="Площадь квартиры" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApartC" Grid.Row="12" Content="Общая площадь квартиры" FontWeight="Bold" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxAreaApartC" Grid.Row="13" Text="Площадь квартиры Общая" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelAreaApartWithKoef" Grid.Row="14" Content="Площадь помещения с коэффициентом" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxAreaApartWithCoef" Grid.Row="15" Text="Площадь с коэффициентом" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelApartRoomsCount" Grid.Row="16" Content="Количество комнат в квартире" FontWeight="Bold" Foreground="#FF404040" FontFamily="Arial"/>
+                            <TextBox x:Name="txtBoxApartRoomsCount" Grid.Row="17" Text="Число комнат" Height="25" Style="{StaticResource typicalText}"/>
+                            <Label x:Name="labelApartNum" Grid.Row="18" Content="Номер квартиры" FontWeight="Bold" FontFamily="Arial" Foreground="#FF404040"/>
+                            <TextBox x:Name="txtBoxApartNum" Grid.Row="19" Text="П_Номер квартиры" Height="25" Style="{StaticResource typicalText}"/>
+              
                         </Grid>
                     </TabItem>
                 </TabControl>

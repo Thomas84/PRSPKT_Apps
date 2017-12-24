@@ -16,6 +16,7 @@ namespace PRSPKT_Apps.Common
         private const string DefaultType = "П_Тип помещения";
         private const string DefaultAreaLiving = "Площадь квартиры Жилая";
         private const string DefaultArea = "Площадь квартиры";
+        private const string DefaultRoomsName = "П_Имя помещения";
         private const string DefaultAreaCommon = "Площадь квартиры Общая";
         private const string DefaultAreaWithCoef = "Площадь с коэффициентом";
         private const string DefaultRoomsCount = "Число комнат";
@@ -76,6 +77,8 @@ namespace PRSPKT_Apps.Common
                         return DefaultApartmentLivingRooms;
                     if (string.IsNullOrEmpty(value) && key == "roundNumber")
                         return DefaultRoundNumber;
+                    if (string.IsNullOrEmpty(value) && key == "rooms_name")
+                        return DefaultRoomsName;
                     if (!string.IsNullOrEmpty(value))
                     {
                         return value;

@@ -27,6 +27,8 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             get { return _selectedRooms; }
         }
 
+        private bool _isOk;
+        public bool IsOk { get => _isOk; set => _isOk = value; }
 
         public LevelsControl(UIDocument UIDoc)
         {
@@ -34,6 +36,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
 
+            _isOk = true ;
             LogoName2.Content = HelpMe.GetVersion();
 
             Cancel_Button.Content = "Отмена";
@@ -60,7 +63,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
 
             if (radioSelectedLevels.IsChecked == true)
             {
-                
+
                 userLevelsControl.ShowDialog();
                 _selectedRooms = SelectRooms(userLevelsControl);
             }
@@ -70,7 +73,26 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             }
             else if (radioAllLevels.IsChecked == true)
             {
-                _selectedRooms = AllRooms();
+                var msg = ErrorMessage();
+                msg += "\n\n  Продолжить?";
+
+                if (this.IsOk)
+                {
+                    _selectedRooms = AllRooms();
+                }
+                else
+                {
+                    MessageBoxResult res = MessageBox.Show(msg, "Обратите внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (res == MessageBoxResult.Yes)
+                    {
+                        _selectedRooms = AllRooms();
+                    }
+                    else
+                    {
+                        this.DialogResult = false;
+                        return;
+                    }
+                }
             }
             this.DialogResult = true;
             this.Close();
@@ -119,18 +141,9 @@ namespace PRSPKT_Apps.ApartmentCalc_P
         /// <returns></returns>
         private IList<Room> SelectRooms(SelectLevelsControl levelControl)
         {
-            //var levelsControl = new LevelsControl(_UIDoc);
-            string _roomType = txtBoxType.Text;
-
             IList<Room> filteredSelectedRooms = new List<Room>();
+            var ModelRooms = AllRooms();
 
-            IList<Room> ModelRooms = new FilteredElementCollector(_doc)
-                    .OfClass(typeof(SpatialElement))
-                    .OfCategory(BuiltInCategory.OST_Rooms)
-                    .Cast<Room>()
-                    .Where(room => room.Area > 0 && room.LevelId != null)
-                    .Where(room => room.LookupParameter(_roomType).AsInteger() != 5)
-                    .ToList();
             //var filteredModelRooms = ModelRooms.Where(item => SelectedLevels.Contains(item.Name));
             if (levelControl.SelectedLevels != null)
             {
@@ -146,6 +159,95 @@ namespace PRSPKT_Apps.ApartmentCalc_P
                 }
             }
             return filteredSelectedRooms;
+
+        }
+
+
+
+        private string ErrorMessage()
+        {
+            var levels = SelectLevelsControl.LevelsInProject(_doc).ToList();
+            var roomsList = AllRooms();
+            var dict = new Dictionary<string, List<string>>();
+            var errorDict = new Dictionary<string, List<string>>();
+            var message = string.Empty;
+
+            foreach (var level in levels)
+            {
+                var numberList = new List<string>();
+                var errorList = new List<string>();
+
+                foreach (var tempRoom in roomsList.Where(room => room.Level.Name == level.Name))
+                {
+                    var apartNumber = tempRoom.LookupParameter(txtBoxApartNum.Text).AsString();
+                    var apartName = tempRoom.LookupParameter(txtBoxRoomName.Text).AsString();
+                    var apartType = tempRoom.LookupParameter(txtBoxType.Text).AsValueString();
+
+                    if (!string.IsNullOrEmpty(apartNumber))
+                    {
+                        if (!numberList.Contains(apartNumber))
+                        {
+                            numberList.Add(apartNumber);
+                        }
+                    }
+                    else
+                    {
+                        errorList.Add(string.Format("{0}[{1}]", apartName, apartType));
+                    }
+                }
+                if (numberList.Count > 0)
+                {
+                    dict.Add(level.Name, numberList.OrderBy(q => q).ToList());
+                }
+                if (errorList.Count > 0)
+                {
+                    errorDict.Add(level.Name, errorList.OrderBy(q => q).ToList());
+                }
+            }
+            message += "Номера квартир по помещениям: \n";
+
+
+            foreach (KeyValuePair<string, List<string>> pair in dict)
+            {
+                message += string.Format("{0} ({1}) шт. : {2} \n", pair.Key, pair.Value.Count.ToString(), string.Join(", ", pair.Value));
+            }
+
+            if (errorDict.Count > 0)
+            {
+                _isOk = false;
+                message += "\n\n Ошибки: Следующие помещения без номера квартиры" + "\n";
+                foreach (KeyValuePair<string, List<string>> pair in errorDict)
+                {
+                    message += pair.Key + "-------" + string.Join(", ", pair.Value) + "\n";
+                }
+            }
+
+            var duplicateValuesDict = new Dictionary<string, List<string>>();
+            var duplicateValues = dict.Values.SelectMany(q => q).GroupBy(q => q).Where(q => q.Count() > 1).Select(q => q.Key);
+
+            if (duplicateValues.Count() > 0)
+            {
+                message += "\n\n Помещения с одинаковыми номерами квартир" + "\n";
+                _isOk = false;
+                foreach (KeyValuePair<string, List<string>> item in dict)
+                {
+                    var ddd = new List<string>();
+                    foreach (string str in item.Value)
+                    {
+                        if (duplicateValues.Contains(str))
+                        {
+                            ddd.Add(str);
+                        }
+                    }
+                    if (ddd.Count > 0)
+                    {
+                        duplicateValuesDict[item.Key] = ddd;
+                        message += string.Format("{0} ({1}) шт. : {2} \n", item.Key, ddd.Count.ToString(), string.Join(", ", ddd));
+                    }
+                }
+            }
+
+            return message;
 
         }
 

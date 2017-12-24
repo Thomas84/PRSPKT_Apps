@@ -19,7 +19,7 @@ namespace PRSPKT_Apps.Resources {
     // с помощью такого средства, как ResGen или Visual Studio.
     // Чтобы добавить или удалить член, измените файл .ResX и снова запустите ResGen
     // с параметром /str или перестройте свой проект VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ru {
@@ -111,6 +111,24 @@ namespace PRSPKT_Apps.Resources {
         internal static string dimAxies_toolTip {
             get {
                 return ResourceManager.GetString("dimAxies_toolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Информация об эл-те.
+        /// </summary>
+        internal static string element_info {
+            get {
+                return ResourceManager.GetString("element_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Показывает информацию об элементе.
+        /// </summary>
+        internal static string element_info_tooltip {
+            get {
+                return ResourceManager.GetString("element_info_tooltip", resourceCulture);
             }
         }
         

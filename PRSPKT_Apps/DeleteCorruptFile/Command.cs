@@ -52,27 +52,36 @@ namespace DeleteCorruptFile
         private void DeleteFile(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
-            t.Start("Удалить файл Corrupt");
             string _filePath = BasicFileInfo.Extract(_doc.PathName).CentralPath;
             string _filename = Path.GetFileNameWithoutExtension(_filePath);
             string _filedir = Path.GetDirectoryName(_filePath);
             string _backupDir = _filename + "_backup";
             string _corruptFileName = "corrupt";
             string fullPath = Path.Combine(_filedir, _backupDir, _corruptFileName);
-            try
+            if (File.Exists(fullPath))
             {
-                if (File.Exists(fullPath))
+                MessageBoxResult question = MessageBox.Show(string.Format("Удалить файл {0} ?", fullPath), "Удалить коррупцию", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                if (question == MessageBoxResult.OK)
                 {
-                    File.Delete(fullPath);
-                }
-                            }
-            catch (IOException exception)
-            {
+                    t.Start("Удалить файл Corrupt");
+                    try
+                    {
+                        File.Delete(fullPath);
+                    }
+                    catch (IOException exception)
+                    {
 
-                TaskDialog.Show("Ошибка", exception.Message);
+                        MessageBox.Show("Ошибка", exception.Message);
+                    }
+                    TaskDialog.Show("Удалить файл", "Файл " + _corruptFileName + " удален.");
+                    t.Commit();
+                }
             }
-            TaskDialog.Show("Удалить файл", "Файл " + _corruptFileName + " удален.");
-            t.Commit();
+            else
+            {
+                MessageBox.Show(string.Format("Файл {0} не найден по пути {1}", _corruptFileName, fullPath), "Ошибка");
+            }
         }
+
     }
 }

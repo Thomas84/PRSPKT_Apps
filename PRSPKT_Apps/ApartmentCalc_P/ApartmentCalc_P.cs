@@ -23,6 +23,7 @@ namespace ApartmentCalc_P
         private string _apartCount;
         private string _apartAreaLwCoef;
         private string _apartRoomType;
+        private string _roomsName;
         private double _coef;
         private double _userCoef1;
         private double _userCoef2;
@@ -41,6 +42,7 @@ namespace ApartmentCalc_P
         public double UserCoef1 { get => _userCoef1; }
         public double UserCoef2 { get => _userCoef2; }
         public double UserCoef3 { get => _userCoef3; }
+        public string RoomName { get => _roomsName; }
 
         #endregion
 
@@ -126,6 +128,7 @@ namespace ApartmentCalc_P
             userControl.txtBoxRoomsApart.Text = UserSettings.Get("apartment_rooms");
             userControl.txtBoxLiveApart.Text = UserSettings.Get("apartment_living_rooms");
             userControl.txtBoxRound.Text = UserSettings.Get("roundNumber");
+            userControl.txtBoxRoomName.Text = UserSettings.Get("rooms_name");
 
 
 
@@ -142,6 +145,7 @@ namespace ApartmentCalc_P
                 _userCoef1 = Double.Parse(userControl.txtBoxRow1Coef.Text);
                 _userCoef2 = Double.Parse(userControl.txtBoxRow2Coef.Text);
                 _userCoef3 = Double.Parse(userControl.txtBoxRow3Coef.Text);
+                _roomsName = userControl.txtBoxRoomName.Text;
 
                 IList<Room> ModelRooms = userControl.SelectedRooms;
 
@@ -206,6 +210,7 @@ namespace ApartmentCalc_P
                 UserSettings.Set("apartment_rooms", userControl.txtBoxRoomsApart.Text);
                 UserSettings.Set("apartment_living_rooms", userControl.txtBoxLiveApart.Text);
                 UserSettings.Set("roundNumber", userControl.txtBoxRound.Text);
+                UserSettings.Set("rooms_name", userControl.txtBoxRoomName.Text);
             }
             else
             {

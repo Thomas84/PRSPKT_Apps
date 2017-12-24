@@ -20,6 +20,8 @@ namespace PRSPKT_Apps
         {
             try
             {
+                string dllPath = new Uri(Assembly.GetAssembly(typeof(App)).CodeBase).LocalPath;
+
                 // Define localisation values
                 Tools.GetLocalisationValues();
 
@@ -33,9 +35,14 @@ namespace PRSPKT_Apps
 
 
                 // Create icons in this panel
-                Icons.ToolsPanel(ToolsPanel);
                 Icons.RoomsPanel(RoomPanel);
-                Icons.SheetsPanel(SheetPanel);
+                ToolsPanel.AddItem(GetTotalLength(dllPath));
+                ToolsPanel.AddItem(GetDimensionAxies(dllPath));
+                ToolsPanel.AddItem(DeleteCorruptFile(dllPath));
+                ToolsPanel.AddItem(GetElementsByWorksets(dllPath));
+                ToolsPanel.AddItem(FloorEditButton(dllPath));
+                SheetPanel.AddItem(ElementInfo(dllPath));
+                SheetPanel.AddItem(PrintMe(dllPath));
 
                 return Result.Succeeded;
             }
@@ -44,62 +51,122 @@ namespace PRSPKT_Apps
                 // Return Failure
                 return Result.Failed;
             }
+        }
 
+        private static PushButtonData ElementInfo(string dll)
+        {
+            var ElementInfoButtonText = Tools.GetResourceManager("element_info");
+            var pbd = new PushButtonData(
+                "cmdElementInfo", ElementInfoButtonText, dll, "PRSPKT_Apps.ElementInfo");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.information.png", 32, dll);
+            pbd.ToolTip = Tools.GetResourceManager("element_info_tooltip");
+            return pbd;
+        }
+
+        private static PushButtonData PrintMe(string dll)
+        {
+            var ElementInfoButtonText = Tools.GetResourceManager("printme_button_name");
+            var pbd = new PushButtonData(
+                "cmdPrintMe", ElementInfoButtonText, dll, "PrintMe.PrintMe");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.printme.png", 32, dll);
+            pbd.ToolTip = Tools.GetResourceManager("printme_tooltip");
+            return pbd;
+        }
+
+        private static PushButtonData GetTotalLength(string dll)
+        {
+            var ElementInfoButtonText = Tools.GetResourceManager("totalLength_button_name");
+            var pbd = new PushButtonData("cmdCurveTotalLength", ElementInfoButtonText, dll, "TotalLength.CurveTotalLength");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.totalLength.png", 32, dll);
+            pbd.ToolTip = Tools.GetResourceManager("totalLength_toolTip");
+            return pbd;
+        }
+
+        private static PushButtonData GetDimensionAxies(string dll)
+        {
+            var ElementInfoButtonText = Tools.GetResourceManager("dimAxies_button_name");
+            var pbd = new PushButtonData("cmdDimAxies", ElementInfoButtonText, dll, "DimAxies.DimAxies");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.dimAxies.png", 32, dll);
+            pbd.ToolTip = Tools.GetResourceManager("dimAxies_toolTip");
+            return pbd;
+        }
+
+        private static PushButtonData DeleteCorruptFile(string dll)
+        {
+            var ElementInfoButtonText = "Удалить Corrupt";
+            var pbd = new PushButtonData("cmdDeleteFile", ElementInfoButtonText, dll, "DeleteCorruptFile.Command");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.deleteCorrupt.png", 32, dll);
+            pbd.ToolTip = "Попытаться удалить файл corrupt с сервера";
+            return pbd;
+        }
+
+        private static PushButtonData GetElementsByWorksets(string dll)
+        {
+            var ElementInfoButtonText = "Рабочие Наборы";
+            var pbd = new PushButtonData("cmdObjectsOnWorkSets", ElementInfoButtonText, dll, "ElementsOnWorkset.WorksetExplorer");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
+            pbd.ToolTip = "Просмотр списка элементов (Id) в рабочих наборах";
+            return pbd;
+        }
+
+        private static PushButtonData FloorEditButton(string dll)
+        {
+            var ElementInfoButtonText = "Уклоны";
+            var pbd = new PushButtonData("cmdFloorEdit", ElementInfoButtonText, dll, "FloorEdit.Main");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
+            pbd.ToolTip = "Редактирование уклона";
+            return pbd;
+        }
+
+        private static void AssignPushButtonImage(ButtonData pushButtonData, string iconName, int size, string dll)
+        {
+            if (size == -1)
+            {
+                size = 32;
+            }
+            ImageSource image = LoadPNGImageSource(iconName, dll);
+            if (image != null && pushButtonData != null)
+            {
+                if (size == 32)
+                {
+                    pushButtonData.LargeImage = image;
+                }
+                else
+                {
+                    pushButtonData.Image = image;
+                }
+            }
+        }
+
+        private static ImageSource LoadPNGImageSource(string sourceName, string path)
+        {
+            try
+            {
+                Assembly m_assembly = Assembly.LoadFrom(Path.Combine(path));
+                Stream m_icon = m_assembly.GetManifestResourceStream(sourceName);
+                PngBitmapDecoder m_decoder = new PngBitmapDecoder(m_icon, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+                ImageSource m_source = m_decoder.Frames[0];
+                return m_source;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 
     class Icons
     {
         static string DllPath = Assembly.GetExecutingAssembly().Location;
-        public static void ToolsPanel(RibbonPanel panel)
-        {
-            // Add PRSPKT TotalLength Button
-            string ButtonText = Tools.LangResMan.GetString("totalLength_button_name", Tools.Cult);
-            PushButtonData totalLengthData = new PushButtonData("cmdCurveTotalLength", ButtonText, DllPath, "TotalLength.CurveTotalLength")
-            {
-                ToolTip = Tools.LangResMan.GetString("totalLength_toolTip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/totalLength.png"))
-            };
-            panel.AddItem(totalLengthData);
 
-            // Add PRSPKT dimAxies Button
-            string dimAxiesButtonText = Tools.LangResMan.GetString("dimAxies_button_name", Tools.Cult);
-            PushButtonData dimAxiesData = new PushButtonData("cmdDimAxies", dimAxiesButtonText, DllPath, "DimAxies.DimAxies")
-            {
-                ToolTip = Tools.LangResMan.GetString("dimAxies_toolTip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/dimAxies.png"))
-            };
-            panel.AddItem(dimAxiesData);
-
-            // Add PRSPKT Delete Corrupt File
-            string DeleteFileButtonText = "Удалить Corrupt";
-            PushButtonData DeleteFileData = new PushButtonData("cmdDeleteFile", DeleteFileButtonText, DllPath, "DeleteCorruptFile.Command")
-            {
-                ToolTip = "Попытаться удалить файл corrupt с сервера",
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/deleteCorrupt.png"))
-            };
-            panel.AddItem(DeleteFileData);
-
-            // Add PRSPKT Worksets
-            string objectsOnWorksetsButtonText = "Рабочие Наборы";
-            PushButtonData objectsOnWorksetsData = new PushButtonData("cmdObjectsOnWorkSets", objectsOnWorksetsButtonText, DllPath, "ElementsOnWorkset.WorksetExplorer")
-            {
-                ToolTip = "Просмотр списка элементов (Id) в рабочих наборах",
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/objectsOnWorkset.png"))
-            };
-            panel.AddItem(objectsOnWorksetsData);
-
-        }
         public static void RoomsPanel(RibbonPanel panel)
         {
-            //Get dll assembly path
-            //string DllPath = Assembly.GetExecutingAssembly().Location;
-
             // Add PRSPKT Rename Apart Rooms Button
             string ApartRoomsButtonText = "Переименовать \n помещения";
             PushButtonData ApartRoomsData = new PushButtonData("cmdRenameApartRooms", ApartRoomsButtonText, DllPath, "RenameApartRooms.RenameApartRooms")
             {
-                ToolTip = Tools.LangResMan.GetString("apartRoomRename_toolTip", Tools.Cult),
+                ToolTip = Tools.GetResourceManager("apartRoomRename_toolTip"),
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/renameApartRooms.png"))
             };
             panel.AddItem(ApartRoomsData);
@@ -117,13 +184,13 @@ namespace PRSPKT_Apps
             string ApartCalc_P_ButtonText = "Квартирография";
             PushButtonData apartCalc_P_Data = new PushButtonData("cmdApartCalc_P", ApartCalc_P_ButtonText, DllPath, "ApartmentCalc_P.ApartmentCalc_P")
             {
-                ToolTip = Tools.LangResMan.GetString("apartCalc_toolTip", Tools.Cult),
+                ToolTip = Tools.GetResourceManager("apartCalc_toolTip"),
                 LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/apartCalc_new.png"))
             };
             panel.AddItem(apartCalc_P_Data);
 
             // Add PRSPKT FloorFinish button
-            string FloorFinishButtonText = Tools.LangResMan.GetString("floorfinish_button_name", Tools.Cult);
+            string FloorFinishButtonText = Tools.GetResourceManager("floorfinish_button_name");
             PushButtonData FloorFinishData = new PushButtonData("cmdFloorsFinish", FloorFinishButtonText, DllPath, "RoomsFinishes.FloorsFinishesClass")
             {
                 ToolTip = Tools.LangResMan.GetString("floorfinish_toolTip", Tools.Cult),
@@ -131,7 +198,7 @@ namespace PRSPKT_Apps
             };
 
             // Add PRSPKT RoomFinish button
-            string RoomFinishesButtonText = Tools.LangResMan.GetString("roomFinishes_button_name", Tools.Cult);
+            string RoomFinishesButtonText = Tools.GetResourceManager("roomFinishes_button_name");
             PushButtonData RoomsFinishesData = new PushButtonData("cmdRoomFinish", RoomFinishesButtonText, DllPath, "RoomsFinishes.RoomFinishesClass")
             {
                 ToolTip = Tools.LangResMan.GetString("roomFinishes_toolTip", Tools.Cult),
@@ -143,42 +210,6 @@ namespace PRSPKT_Apps
             SplitButton sbRoom = panel.AddItem(sbRoomData) as SplitButton;
             sbRoom.AddPushButton(FloorFinishData);
             sbRoom.AddPushButton(RoomsFinishesData);
-
         }
-        public static void SheetsPanel(RibbonPanel panel)
-        {
-            //Add PrintMe button
-            string PrintMeButtonText = Tools.LangResMan.GetString("printme_button_name", Tools.Cult);
-            PushButtonData PrintMeData = new PushButtonData("cmdPrintMe", PrintMeButtonText, DllPath, "PrintMe.PrintMe")
-            {
-                ToolTip = Tools.LangResMan.GetString("printme_tooltip", Tools.Cult),
-                LargeImage = new BitmapImage(new Uri("pack://application:,,,/PRSPKT_Apps;component/Resources/printme.png"))
-            };
-            panel.AddItem(PrintMeData);
-        }
-
-        private static ImageSource RetriveImage(string imagePath)
-        {
-            Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(imagePath);
-
-            switch (imagePath.Substring(imagePath.Length - 3))
-            {
-                case "jpg":
-                    var jpgDecoder = new System.Windows.Media.Imaging.JpegBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                    return jpgDecoder.Frames[0];
-                case "bmp":
-                    var bmpDecoder = new System.Windows.Media.Imaging.BmpBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                    return bmpDecoder.Frames[0];
-                case "png":
-                    var pngDecoder = new System.Windows.Media.Imaging.PngBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                    return pngDecoder.Frames[0];
-                case "ico":
-                    var icoDecoder = new System.Windows.Media.Imaging.IconBitmapDecoder(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                    return icoDecoder.Frames[0];
-                default:
-                    return null;
-            }
-        }
-
     }
 }

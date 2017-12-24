@@ -17,7 +17,6 @@ namespace ElementsOnWorkset
             UIDocument UIdoc = commandData.Application.ActiveUIDocument;
             Document doc = UIdoc.Document;
 
-
             using (Transaction t = new Transaction(doc))
             {
                 try
@@ -114,7 +113,7 @@ namespace ElementsOnWorkset
             }
             else
             {
-                TaskDialog.Show("Message", "Cannot analyze worksets because worksharing hasn't been enabled for this project");
+                TaskDialog.Show("Ошибка", "Проект не переведён в режим совместной работы");
             }
         }
     }
