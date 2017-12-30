@@ -1,4 +1,7 @@
-﻿using Autodesk.Revit.Attributes;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using System;
@@ -68,7 +71,7 @@ namespace DimAxies
             {
                 TaskDialog.Show("Error", e.Message);
                 return Result.Failed;
-                
+
             }
         }
 

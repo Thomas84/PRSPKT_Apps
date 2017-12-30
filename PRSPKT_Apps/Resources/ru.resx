@@ -241,7 +241,7 @@
     <value>Операция не будет работать с этим типом стены (Vertically compound structure).</value>
   </data>
   <data name="tools_ribbon_panel_name" xml:space="preserve">
-    <value>Инструментики</value>
+    <value>Инструменты</value>
   </data>
   <data name="floorFinishes_all_rooms_radio" xml:space="preserve">
     <value>Все помещения</value>

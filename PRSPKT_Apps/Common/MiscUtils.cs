@@ -1,11 +1,10 @@
-﻿using Autodesk.Revit.DB;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using Autodesk.Revit.DB;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PRSPKT_Apps.Common
 {
@@ -23,13 +22,15 @@ namespace PRSPKT_Apps.Common
             }
         }
 
+        //public static string CurrentVersion => _currentVersion;
+
         private static string PadLeftZeros(string v1, int v2)
         {
             if (string.IsNullOrEmpty(v1))
             {
                 return string.Empty;
             }
-            if (v2 > 1 && v1.Length == v2 -1)
+            if (v2 > 1 && v1.Length == v2 - 1)
             {
                 return "0" + v1;
             }
@@ -69,8 +70,7 @@ namespace PRSPKT_Apps.Common
                 fec.OfClass(typeof(Autodesk.Revit.DB.View));
                 foreach (View view in fec)
                 {
-                    var v = view as View;
-                    if (v.ViewName == request)
+                    if (view.ViewName == request)
                     {
                         return false;
                     }
@@ -101,7 +101,7 @@ namespace PRSPKT_Apps.Common
                 {
                     year = date.Substring(d2 + 1);
                 }
-                if (date.Length > (d1+1) && (d2 - d1 - 1) < date.Length - (d1 + 1))
+                if (date.Length > (d1 + 1) && d2 - 1 < date.Length - 1)
                 {
                     month = date.Substring(d1 + 1, d2 - d1 - 1);
                 }
@@ -136,6 +136,22 @@ namespace PRSPKT_Apps.Common
             collector.OfCategory(bic);
             collector.OfClass(type);
             return collector;
+        }
+
+        //private static readonly string _currentVersion = "0.73b";
+
+        public static string GetVersion()
+        {
+            return "ВЕРСИЯ " + Version;
+        }
+
+        public static Version Version
+        {
+            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; }
+        }
+        public static string GetProductName()
+        {
+            return "PRSPKT_Apps";
         }
 
     }

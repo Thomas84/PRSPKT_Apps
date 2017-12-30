@@ -475,7 +475,7 @@ namespace PRSPKT_Apps.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Инструментики.
+        ///   Ищет локализованную строку, похожую на Инструменты.
         /// </summary>
         internal static string tools_ribbon_panel_name {
             get {

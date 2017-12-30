@@ -72,10 +72,18 @@
                 <Rectangle Grid.Row="0" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
                 <Rectangle Grid.Row="1" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
                 <Rectangle Grid.Row="0" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+                <Rectangle Grid.Row="2" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+                <Rectangle Grid.Row="2" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
+                <Rectangle Grid.Row="3" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+                <Rectangle Grid.Row="3" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
+                <Rectangle Grid.Row="4" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Margin="0"/>
+                <Rectangle Grid.Row="4" Fill="#FF404040" Width="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Margin="0"/>
 
-                <Label Grid.Row="0" x:Name="labelAnalyze" Content="Необходимый уклон, в процентах" Padding="10" Foreground="#FF404040" FontSize="16" FontFamily="Arial" FontWeight="Bold" BorderBrush="Transparent"/>
+                <Label Grid.Row="0" x:Name="labelSlope" Content="Необходимый уклон, в процентах" Padding="10" Foreground="#FF404040" FontSize="16" FontFamily="Arial" FontWeight="Bold" BorderBrush="Transparent"/>
                 <TextBox x:Name="txtBox_userNumber" Text="1.5" Grid.Row="1" Style="{StaticResource typicalText}" Padding="10" Margin="5" BorderBrush="Transparent"/>
-
+                <Label Grid.Row="2" x:Name="labelType" Content="Режим работы" Padding="10" Foreground="#FF404040" FontSize="16" FontFamily="Arial" FontWeight="Bold" BorderBrush="Transparent"/>
+                <RadioButton x:Name="rOnePoint" Grid.Row="3" Content="По одной точке"  Margin="5"  IsChecked="True" Grid.ColumnSpan="2"/>
+                <RadioButton x:Name="rEdge" Grid.Row="4" Content="По грани" Margin="5"/>
             </Grid>
 
             <Grid Grid.Row="3" Background="WhiteSmoke">

@@ -1,6 +1,7 @@
-﻿
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             InitializeComponent();
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
-            LogoName2.Content = HelpMe.GetVersion();
+            LogoName2.Content = Common.MiscUtils.GetVersion();
             _levels = LevelsInProject(_doc);
             LevelsListBox.ItemsSource = _levels;
             LevelsListBox.DisplayMemberPath = "Name";

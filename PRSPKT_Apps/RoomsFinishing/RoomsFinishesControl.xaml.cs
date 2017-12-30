@@ -1,8 +1,12 @@
-﻿#region Namespaces
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Namespaces
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -13,7 +17,7 @@ namespace PRSPKT_Apps.RoomsFinishes
     /// <summary>
     /// Логика взаимодействия для RoomsFinishesControl.xaml
     /// </summary>
-    public partial class RoomsFinishesControl : Window
+    public partial class RoomsFinishesControl : Window, IDisposable
     {
         private Document _doc;
         private UIDocument _UIDoc;
@@ -112,7 +116,10 @@ namespace PRSPKT_Apps.RoomsFinishes
                 this.Activate();
             }
         }
-
+        public void Dispose()
+        {
+            _duplicatedWallType.Dispose();
+        }
         private IEnumerable<Room> SelectRooms()
         {
             // Create a set of selected elements ids

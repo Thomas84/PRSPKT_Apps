@@ -1,4 +1,6 @@
-﻿
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
@@ -36,8 +38,8 @@ namespace PRSPKT_Apps.ApartmentCalc_P
             _doc = UIDoc.Document;
             _UIDoc = UIDoc;
 
-            _isOk = true ;
-            LogoName2.Content = HelpMe.GetVersion();
+            _isOk = true;
+            LogoName2.Content = Common.MiscUtils.GetVersion();
 
             Cancel_Button.Content = "Отмена";
             OK_Button.Content = "OK";

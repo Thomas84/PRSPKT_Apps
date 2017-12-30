@@ -1,4 +1,7 @@
-﻿#region Namespaces
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Namespaces
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.Architecture;
@@ -101,12 +104,12 @@ namespace Do_Rm
             {
                 TaskDialog.Show("Error", e.Message);
             }
-            
+
             t.Commit();
-            TaskDialog.Show("Результат работы Сергей_ОВ", 
-                "В стены вписан параметр GP_Этаж в количестве: " + wall_count.ToString() + " шт." + "\n" + 
+            TaskDialog.Show("Результат работы Сергей_ОВ",
+                "В стены вписан параметр GP_Этаж в количестве: " + wall_count.ToString() + " шт." + "\n" +
                 "В помещения вписан параметр Rm_Этаж и GP_Этаж: " + room_count.ToString() + " шт."
-                ) ;
+                );
         }
     }
 }

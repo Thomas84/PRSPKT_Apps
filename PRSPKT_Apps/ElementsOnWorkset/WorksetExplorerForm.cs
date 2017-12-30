@@ -1,12 +1,9 @@
-﻿using Autodesk.Revit.DB;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using Autodesk.Revit.DB;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PRSPKT_Apps.ElementsOnWorkset
@@ -179,69 +176,69 @@ namespace PRSPKT_Apps.ElementsOnWorkset
                     ForeColor = System.Drawing.Color.Blue,
                     Tag = (object)elementListList[index1]
                 });
-        }
+            }
             return treeNodeList.ToArray();
         }
 
-    private TreeNode[] GenTypeNodes(List<Element> elsOfFam)
-    {
-        var treeViewList = new List<TreeNode>();
-        var sList = new List<string>();
-        var elementListList = new List<List<Element>>();
-
-        foreach (Element current in elsOfFam)
+        private TreeNode[] GenTypeNodes(List<Element> elsOfFam)
         {
-            var element = _doc.GetElement(current.GetTypeId());
-            if (current is ModelCurve)
+            var treeViewList = new List<TreeNode>();
+            var sList = new List<string>();
+            var elementListList = new List<List<Element>>();
+
+            foreach (Element current in elsOfFam)
             {
-                string name = ((ModelCurve)current).LineStyle.Name;
-                int index = sList.IndexOf(current.Category.Name);
-                if (index != -1)
+                var element = _doc.GetElement(current.GetTypeId());
+                if (current is ModelCurve)
                 {
-                    elementListList[index].Add(current);
+                    string name = ((ModelCurve)current).LineStyle.Name;
+                    int index = sList.IndexOf(current.Category.Name);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(current);
+                    }
+                    else
+                    {
+                        sList.Add(name);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(current);
+                    }
                 }
-                else
+                else if (null != element)
                 {
-                    sList.Add(name);
-                    elementListList.Add(new List<Element>());
-                    elementListList[elementListList.Count - 1].Add(current);
+                    int index = sList.IndexOf(current.Category.Name);
+                    if (index != -1)
+                    {
+                        elementListList[index].Add(current);
+                    }
+                    else
+                    {
+                        sList.Add(element.Name);
+                        elementListList.Add(new List<Element>());
+                        elementListList[elementListList.Count - 1].Add(current);
+                    }
                 }
+
             }
-            else if (null != element)
+            int index1 = -1;
+            foreach (string str in sList)
             {
-                int index = sList.IndexOf(current.Category.Name);
-                if (index != -1)
+                ++index1;
+                treeViewList.Add(new TreeNode(GenNodeName(sList[index1], elementListList[index1].Count))
                 {
-                    elementListList[index].Add(current);
-                }
-                else
-                {
-                    sList.Add(element.Name);
-                    elementListList.Add(new List<Element>());
-                    elementListList[elementListList.Count - 1].Add(current);
-                }
+                    ForeColor = System.Drawing.Color.Brown,
+                    Tag = elementListList[index1]
+                });
             }
+            return treeViewList.ToArray();
+        }
+
+
+
+        private void WorksetExplorerForm_Load(object sender, EventArgs e)
+        {
 
         }
-        int index1 = -1;
-        foreach (string str in sList)
-        {
-            ++index1;
-            treeViewList.Add(new TreeNode(GenNodeName(sList[index1], elementListList[index1].Count))
-            {
-                ForeColor = System.Drawing.Color.Brown,
-                Tag = elementListList[index1]
-            });
-        }
-        return treeViewList.ToArray();
-    }
-
-
-
-    private void WorksetExplorerForm_Load(object sender, EventArgs e)
-    {
-
-    }
 
         private void btn_Select_Click(object sender, EventArgs e)
         {

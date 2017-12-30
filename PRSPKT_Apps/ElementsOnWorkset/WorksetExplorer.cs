@@ -1,4 +1,7 @@
-﻿using Autodesk.Revit.Attributes;
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using PRSPKT_Apps;
@@ -23,7 +26,6 @@ namespace ElementsOnWorkset
                 {
                     MyWorksetExplorer(UIdoc);
                     return Result.Succeeded;
-
                 }
                 catch (OperationCanceledException cancelled)
                 {
@@ -59,12 +61,9 @@ namespace ElementsOnWorkset
         {
             Document _doc = UIdoc.Document;
 
-            int num1 = -2000576; // OST_PreviewLegendComponents
-            int num2 = -2000220; // OST_Grids
-            int num3 = -2000240; // OST_Levels
-
             // Выборка всех элементов в проекте
-            IList<Element> elements1 = new FilteredElementCollector(_doc).WhereElementIsNotElementType().ToElements();
+            IList<Element> allElements = new FilteredElementCollector(_doc).WhereElementIsNotElementType().ToElements();
+
             if (_doc.IsWorkshared)
             {
                 WorksetTable worksetTable = _doc.GetWorksetTable();
@@ -75,12 +74,15 @@ namespace ElementsOnWorkset
                     allElsEls.Add(new List<Element>());
                 }
 
-                foreach (Element el in elements1)
+                foreach (Element element in allElements)
                 {
-                    Workset workset = worksetTable.GetWorkset(el.WorksetId); // Get's the Workset Table of the document. Then return the workset from the input WorksetId
-                    if (el.Category != null && (num2 != el.Category.Id.IntegerValue && num3 != el.Category.Id.IntegerValue && num1 != el.Category.Id.IntegerValue))
+                    Workset workset = worksetTable.GetWorkset(element.WorksetId); // Get's the Workset Table of the document. Then return the workset from the input WorksetId
+                    if (element.Category != null &&
+                        (element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_Grids &&
+                        element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_Levels &&
+                        element.Category.Id.IntegerValue != (int)BuiltInCategory.OST_PreviewLegendComponents))
                     {
-                        Parameter param = el.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
+                        Parameter param = element.get_Parameter(BuiltInParameter.ELEM_PARTITION_PARAM);
                         if (param != null && !param.IsReadOnly)
                         {
                             bool flag = false;
@@ -96,18 +98,21 @@ namespace ElementsOnWorkset
                             }
                             if (flag)
                             {
-                                allElsEls[index].Add(el);
+                                if (index != -1)
+                                {
+                                    allElsEls[index].Add(element);
+                                }
+
                             }
                         }
                     }
                 }
 
-                // Load the selection WorksetExplorer form
-                
-                var infoWWE = new PRSPKT_Apps.ElementsOnWorkset.WorksetExplorerForm(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
-                if (DialogResult.OK == infoWWE.ShowDialog())
+
+                var infoWorksetForm = new PRSPKT_Apps.ElementsOnWorkset.WorksetExplorerForm(allElsEls, _doc, ((IEnumerable<Workset>)worksets).ToArray());
+                if (DialogResult.OK == infoWorksetForm.ShowDialog())
                 {
-                    List<Element> selectedElements = infoWWE.GetSelectedElements();
+                    List<Element> selectedElements = infoWorksetForm.GetSelectedElements();
                     UIdoc.Selection.SetElementIds(selectedElements.Select(q => q.Id).ToList());
                 }
             }

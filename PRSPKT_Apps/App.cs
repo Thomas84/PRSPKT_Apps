@@ -1,4 +1,7 @@
-﻿#region Namespaces
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Namespaces
 using Autodesk.Revit.UI;
 using System;
 using System.IO;
@@ -29,18 +32,30 @@ namespace PRSPKT_Apps
                 const string tabName = "PRSPKT Apps";
                 application.CreateRibbonTab(tabName);
                 // Create the panel for PRSPKT Tools;
+                RibbonPanel AboutPanel = application.CreateRibbonPanel(tabName, "About");
                 RibbonPanel RoomPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("roomFinishes_ribbon_panel_name"));
                 RibbonPanel ToolsPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("tools_ribbon_panel_name"));
                 RibbonPanel SheetPanel = application.CreateRibbonPanel(tabName, Tools.GetResourceManager("sheets_ribbon_panel_name"));
 
 
                 // Create icons in this panel
+                AboutPanel.AddItem(AboutBox(dllPath));
+
                 Icons.RoomsPanel(RoomPanel);
-                ToolsPanel.AddItem(GetTotalLength(dllPath));
+
                 ToolsPanel.AddItem(GetDimensionAxies(dllPath));
                 ToolsPanel.AddItem(DeleteCorruptFile(dllPath));
                 ToolsPanel.AddItem(GetElementsByWorksets(dllPath));
                 ToolsPanel.AddItem(FloorEditButton(dllPath));
+                ToolsPanel.AddStackedItems(MakeGridWallDim(dllPath), MakeDimensionTolerance(dllPath), CleanImportLines(dllPath));
+                ToolsPanel.AddSeparator();
+                ToolsPanel.AddItem(CalcWallsArea(dllPath));
+                ToolsPanel.AddItem(CalcHatchesArea(dllPath));
+                ToolsPanel.AddItem(GetTotalLength(dllPath));
+                ToolsPanel.AddSeparator();
+                ToolsPanel.AddItem(OpenProjectFolder(dllPath));
+
+
                 SheetPanel.AddItem(ElementInfo(dllPath));
                 SheetPanel.AddItem(PrintMe(dllPath));
 
@@ -62,7 +77,6 @@ namespace PRSPKT_Apps
             pbd.ToolTip = Tools.GetResourceManager("element_info_tooltip");
             return pbd;
         }
-
         private static PushButtonData PrintMe(string dll)
         {
             var ElementInfoButtonText = Tools.GetResourceManager("printme_button_name");
@@ -72,16 +86,14 @@ namespace PRSPKT_Apps
             pbd.ToolTip = Tools.GetResourceManager("printme_tooltip");
             return pbd;
         }
-
         private static PushButtonData GetTotalLength(string dll)
         {
             var ElementInfoButtonText = Tools.GetResourceManager("totalLength_button_name");
-            var pbd = new PushButtonData("cmdCurveTotalLength", ElementInfoButtonText, dll, "TotalLength.CurveTotalLength");
+            var pbd = new PushButtonData("cmdCurveTotalLength", ElementInfoButtonText, dll, "Utils.CurveTotalLength");
             AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.totalLength.png", 32, dll);
             pbd.ToolTip = Tools.GetResourceManager("totalLength_toolTip");
             return pbd;
         }
-
         private static PushButtonData GetDimensionAxies(string dll)
         {
             var ElementInfoButtonText = Tools.GetResourceManager("dimAxies_button_name");
@@ -90,16 +102,38 @@ namespace PRSPKT_Apps
             pbd.ToolTip = Tools.GetResourceManager("dimAxies_toolTip");
             return pbd;
         }
-
+        private static PushButtonData MakeDimensionTolerance(string dll)
+        {
+            var ElementInfoButtonText = "Раскидать размеры";
+            var pbd = new PushButtonData("cmdMakeDimTolerance", ElementInfoButtonText, dll, "Dimensions.DimensionTolerance");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.dimensionTol_16.png", 16, dll);
+            pbd.ToolTip = "Красиво раскидать размеры";
+            return pbd;
+        }
+        private static PushButtonData CleanImportLines(string dll)
+        {
+            var ElementInfoButtonText = "Clean IMPORT LP";
+            var pbd = new PushButtonData("cmdCleanLinePatterns", ElementInfoButtonText, dll, "Utils.DeleteImportLines");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.lines-pattern_16.png", 16, dll);
+            pbd.ToolTip = "Удалить типы линий, начинающиеся с IMPORT";
+            return pbd;
+        }
+        private static PushButtonData MakeGridWallDim(string dll)
+        {
+            var ElementInfoButtonText = "Образмерить стены";
+            var pbd = new PushButtonData("cmdMakeGridWallDim", ElementInfoButtonText, dll, "Dimensions.WallDimension");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.dimension_16.png", 16, dll);
+            pbd.ToolTip = "Образмерить стены и оси";
+            return pbd;
+        }
         private static PushButtonData DeleteCorruptFile(string dll)
         {
             var ElementInfoButtonText = "Удалить Corrupt";
-            var pbd = new PushButtonData("cmdDeleteFile", ElementInfoButtonText, dll, "DeleteCorruptFile.Command");
+            var pbd = new PushButtonData("cmdDeleteFile", ElementInfoButtonText, dll, "Utils.DeleteCorruptFile");
             AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.deleteCorrupt.png", 32, dll);
             pbd.ToolTip = "Попытаться удалить файл corrupt с сервера";
             return pbd;
         }
-
         private static PushButtonData GetElementsByWorksets(string dll)
         {
             var ElementInfoButtonText = "Рабочие Наборы";
@@ -108,13 +142,44 @@ namespace PRSPKT_Apps
             pbd.ToolTip = "Просмотр списка элементов (Id) в рабочих наборах";
             return pbd;
         }
-
         private static PushButtonData FloorEditButton(string dll)
         {
             var ElementInfoButtonText = "Уклоны";
             var pbd = new PushButtonData("cmdFloorEdit", ElementInfoButtonText, dll, "FloorEdit.Main");
-            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.floorEdit_32.png", 32, dll);
             pbd.ToolTip = "Редактирование уклона";
+            return pbd;
+        }
+        private static PushButtonData CalcWallsArea(string dll)
+        {
+            var ElementInfoButtonText = "Площадь стен";
+            var pbd = new PushButtonData("cmdWallsAreaCalc", ElementInfoButtonText, dll, "Utils.WallsTotalArea");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.brickwall_32.png", 32, dll);
+            pbd.ToolTip = "Подсчет площади выделенных стен";
+            return pbd;
+        }
+        private static PushButtonData CalcHatchesArea(string dll)
+        {
+            var ElementInfoButtonText = "Площадь штриховок";
+            var pbd = new PushButtonData("cmdHatchesAreaCalc", ElementInfoButtonText, dll, "Utils.HatchesTotalArea");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.hatch_32.png", 32, dll);
+            pbd.ToolTip = "Подсчет площади штриховок";
+            return pbd;
+        }
+        private static PushButtonData OpenProjectFolder(string dll)
+        {
+            var ElementInfoButtonText = "Папка проекта";
+            var pbd = new PushButtonData("cmdOpenProjectFolder", ElementInfoButtonText, dll, "Utils.OpenProjectFolder");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.OpenProject_32.png", 32, dll);
+            pbd.ToolTip = "Открыть папку проекта";
+            return pbd;
+        }
+        private static PushButtonData AboutBox(string dll)
+        {
+            var ElementInfoButtonText = "About";
+            var pbd = new PushButtonData("cmdAboutBox", ElementInfoButtonText, dll, "Common.About");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.about_32.png", 32, dll);
+            pbd.ToolTip = "О приложении";
             return pbd;
         }
 

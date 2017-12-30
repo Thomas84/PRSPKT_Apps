@@ -1,17 +1,17 @@
-﻿#region Namespaces
+﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
+
+#region Namespaces
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
-using Autodesk.Revit.DB.Architecture;
 using Autodesk.Revit.UI;
 using PRSPKT_Apps;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 #endregion
 
-namespace DeleteCorruptFile
+namespace Utils
 {
     [Transaction(TransactionMode.Manual)]
     class Command : IExternalCommand
