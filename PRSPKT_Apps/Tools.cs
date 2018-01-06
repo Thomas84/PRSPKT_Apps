@@ -12,18 +12,18 @@ namespace PRSPKT_Apps
 {
     public static class Tools
     {
-        private const double eps = 1.0e-9;
+        public static double Eps { get; } = 1.0e-9;
 
         // Define CultureInfo
         public static ResourceManager LangResMan;
         public static CultureInfo Cult;
 
-        public static double Eps => eps;
 
-        public static string GetResourceManager(string path)
+
+        public static string GetResourceManager(string _path)
         {
-            string Path = path;
-            return Tools.LangResMan.GetString(Path, Tools.Cult);
+            var path = _path;
+            return Tools.LangResMan.GetString(path, Tools.Cult);
         }
 
         public static void GetLocalisationValues()
@@ -35,7 +35,7 @@ namespace PRSPKT_Apps
         public static double? GetValueFromString(string text, Units units)
         {
             // Check the string value
-            string heightValueString = text;
+            var heightValueString = text;
 
             if (UnitFormatUtils.TryParse(units, UnitType.UT_Length, heightValueString, out double length))
             {
@@ -88,24 +88,22 @@ namespace PRSPKT_Apps
         /// <returns></returns>
         public static List<PlanarFace> GetFacesAndEdges(Element wall, Options opt)
         {
-            List<PlanarFace> planarFaceList = new List<PlanarFace>();
+            var planarFaceList = new List<PlanarFace>();
 
-            foreach (GeometryObject geo in wall.get_Geometry(opt))
+            foreach (var geo in wall.get_Geometry(opt))
             {
-                Solid solid = geo as Solid;
-                if (solid != null)
+                var solid = geo as Solid;
+                if (solid == null) continue;
+                foreach (Face face in solid.Faces)
                 {
-                    foreach (Face face in solid.Faces)
-                    {
-                        PlanarFace planarFace = face as PlanarFace;
-                        planarFaceList.Add(planarFace);
-                    }
+                    var planarFace = face as PlanarFace;
+                    planarFaceList.Add(planarFace);
                 }
             }
             return planarFaceList;
         }
 
-        private static double MoveDimText = MmToFt(200.0);
+        private static readonly double MoveDimText = MmToFt(200.0);
 
         public static double RoundAbsValue(double value)
         {

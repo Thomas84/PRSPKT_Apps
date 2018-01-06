@@ -98,8 +98,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="3DSections\3D_View.cs" />
-    <Compile Include="3DSections\3D_View_Work.cs" />
+    <Compile Include="Commands\3DSections\3D_View.cs" />
+    <Compile Include="Commands\3DSections\3D_View_Work.cs" />
     <Compile Include="ApartmentCalc_P\ApartmentCalc_P.cs" />
     <Compile Include="ApartmentCalc_P\SelectLevelsControl.xaml.cs">
       <DependentUpon>SelectLevelsControl.xaml</DependentUpon>
@@ -108,7 +108,6 @@
       <DependentUpon>LevelsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.cs" />
-    <Compile Include="CommandQ.cs" />
     <Compile Include="Common\About.cs" />
     <Compile Include="Common\AboutBox.xaml.cs">
       <DependentUpon>AboutBox.xaml</DependentUpon>
@@ -116,6 +115,13 @@
     <Compile Include="Common\MiscUtils.cs" />
     <Compile Include="Common\SortableBindingList.cs" />
     <Compile Include="Common\UserSettings.cs" />
+    <Compile Include="Do_Rm\ErrorEnum.cs" />
+    <Compile Include="UserView\CreateCameraFromView.cs" />
+    <Compile Include="UserView\CreateUserView.cs" />
+    <Compile Include="UserView\GetNameUserForm.xaml.cs">
+      <DependentUpon>GetNameUserForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserView\UserView.cs" />
     <Compile Include="Utils\DeleteCorruptFile.cs" />
     <Compile Include="DimAxies\DimAxies.cs" />
     <Compile Include="Dimensions\Dimenser.cs" />
@@ -129,7 +135,7 @@
     <Compile Include="Dimensions\Creater.cs" />
     <Compile Include="Dimensions\WallDimension.cs" />
     <Compile Include="Do_Rm\DoRmSergei.cs" />
-    <Compile Include="ElementInfo\ElementInfo.cs" />
+    <Compile Include="Utils\ElementInfo.cs" />
     <Compile Include="ElementsOnWorkset\WorksetExplorer.cs" />
     <Compile Include="ElementsOnWorkset\WorksetExplorerForm.cs">
       <SubType>Form</SubType>
@@ -177,10 +183,12 @@
     <Compile Include="Utils\WallsTotalArea.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="3DSections\3D_View.resx">
+    <EmbeddedResource Include="Resources\perspuserview_16.png" />
+    <EmbeddedResource Include="Resources\userview_16.png" />
+    <EmbeddedResource Include="Commands\3DSections\3D_View.resx">
       <DependentUpon>3D_View.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="3DSections\3D_View.ru.resx">
+    <EmbeddedResource Include="Commands\3DSections\3D_View.ru.resx">
       <DependentUpon>3D_View.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\about_32.png" />
@@ -193,6 +201,18 @@
     <EmbeddedResource Include="Resources\lines-pattern_16.png" />
     <EmbeddedResource Include="Resources\information.png" />
     <EmbeddedResource Include="Resources\objectsOnWorkset.png" />
+    <EmbeddedResource Include="UserView\CreateUserView.resx">
+      <DependentUpon>CreateUserView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView\CreateUserView.ru.resx">
+      <DependentUpon>CreateUserView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView\UserView.resx">
+      <DependentUpon>UserView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserView\UserView.ru.resx">
+      <DependentUpon>UserView.cs</DependentUpon>
+    </EmbeddedResource>
     <Resource Include="Resources\logo.png" />
     <EmbeddedResource Include="Resources\deleteCorrupt.png" />
     <EmbeddedResource Include="Resources\printme.png" />
@@ -239,6 +259,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserView\GetNameUserForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ElementsOnWorkset\WorksetExplorerForm.resx">
@@ -261,8 +285,8 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>copy "$(ProjectDir)PRSPKT_Apps.addin" "$(AppData)\Autodesk\Revit\Addins\2016"
-if $(ConfigurationName) == Debug copy "$(ProjectDir)bin\debug\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2016"
+if $(ConfigurationName) == Release copy "$(ProjectDir)bin\$(ConfigurationName)\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2016"
 copy "$(ProjectDir)PRSPKT_Apps.addin" "$(AppData)\Autodesk\Revit\Addins\2017"
-if $(ConfigurationName) == Debug copy "$(ProjectDir)bin\debug\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2017"</PostBuildEvent>
+if $(ConfigurationName) == Release copy "$(ProjectDir)bin\$(ConfigurationName)\PRSPKT_Apps.dll" "$(AppData)\Autodesk\Revit\Addins\2017"</PostBuildEvent>
   </PropertyGroup>
 </Project>

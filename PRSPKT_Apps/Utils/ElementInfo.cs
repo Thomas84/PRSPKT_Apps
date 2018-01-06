@@ -1,13 +1,17 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+#region Namespaces
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
+using PRSPKT_Apps;
 using System;
 using System.Linq;
+#endregion
 
-namespace PRSPKT_Apps
+
+namespace Utils
 {
     [Transaction(TransactionMode.Manual)]
     public class ElementInfo : IExternalCommand
@@ -24,13 +28,9 @@ namespace PRSPKT_Apps
                 if (doc.IsWorkshared)
                 {
                     var wti = WorksharingUtils.GetWorksharingTooltipInfo(doc, selection.Id);
-                    TaskDialog.Show(Tools.GetResourceManager("element_info"), string.Format(
-                        "Создал: {0}\n" +
-                        "Текущий владелец: {1}\n" +
-                        "Последний раз изменен: {2}",
-                        wti.Creator,
-                        wti.Owner,
-                        wti.LastChangedBy));
+                    TaskDialog.Show(Tools.GetResourceManager("element_info"),
+                        $"Создал: {wti.Creator}\n" + $"Текущий владелец: {wti.Owner}\n" +
+                        $"Последний раз изменен: {wti.LastChangedBy}");
                     return Result.Succeeded;
                 }
                 else

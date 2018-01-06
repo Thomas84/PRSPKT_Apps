@@ -14,7 +14,7 @@ using System.Windows;
 namespace Utils
 {
     [Transaction(TransactionMode.Manual)]
-    class Command : IExternalCommand
+    public class DeleteCorruptFile : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
@@ -25,7 +25,14 @@ namespace Utils
             {
                 try
                 {
-                    DeleteFile(UIdoc, t);
+                    if (doc.IsWorkshared)
+                    {
+                        DeleteFile(UIdoc, t);
+                    }
+                    else
+                    {
+                        TaskDialog.Show("Error", "Модель не общедоступная", TaskDialogCommonButtons.Ok);
+                    }
                     return Result.Succeeded;
                 }
                 catch (ErrorMessageException errorException)

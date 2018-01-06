@@ -1,10 +1,14 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+#region Namespaces
+
 using Autodesk.Revit.DB;
 using System;
 using System.Diagnostics;
 using System.Globalization;
+
+#endregion
 
 namespace PRSPKT_Apps.Common
 {
@@ -14,11 +18,11 @@ namespace PRSPKT_Apps.Common
         {
             get
             {
-                DateTime moment = DateTime.Now;
-                string year = moment.Year.ToString(CultureInfo.CurrentCulture);
-                string month = PadLeftZeros(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
-                string day = PadLeftZeros(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
-                return year + month + day;
+                var moment = DateTime.Now;
+                var year = moment.Year.ToString(CultureInfo.CurrentCulture);
+                var month = PadLeftZeros(moment.Month.ToString(CultureInfo.CurrentCulture), 2);
+                var day = PadLeftZeros(moment.Day.ToString(CultureInfo.CurrentCulture), 2);
+                return $"{year}-{month}-{day}";
             }
         }
 
@@ -59,11 +63,11 @@ namespace PRSPKT_Apps.Common
             }
             else
             {
-                return request + @"(" + (DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture) + @")";
+                return $"{request} ({(DateTime.Now.TimeOfDay.Ticks / 100000).ToString(CultureInfo.InvariantCulture)})";
             }
         }
 
-        private static bool ViewNameIsAvailable(Document doc, string request)
+        public static bool ViewNameIsAvailable(Document doc, string request)
         {
             using (var fec = new FilteredElementCollector(doc))
             {

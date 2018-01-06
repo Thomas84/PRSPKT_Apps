@@ -1,6 +1,13 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
+/* DoRmSergei.cs
+ * PRSPKT.ru
+ * © PRSPKT Architects, 2017
+ *
+ * This file contains the methods which are used by the 
+ * command.
+ */
 #region Namespaces
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -51,16 +58,16 @@ namespace Do_Rm
         }
 
 
-        private void DoRm(UIDocument UIdoc, Transaction t)
+        private static void DoRm(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
             int wall_count = 0;
             int room_count = 0;
-            t.Start("Простановка Rm_Этаж для Сергея ОВ");
-            //IList<Level> _levels = new FilteredElementCollector(_doc)
-            //    .OfCategory(BuiltInCategory.OST_Levels).Cast<Level>().ToList();
+            var errorTypeList = new List<string>();
 
-            IList<Room> _rooms = new FilteredElementCollector(_doc)
+            t.Start("Простановка Rm_Этаж для Сергея ОВ");
+
+            var rooms = new FilteredElementCollector(_doc)
                 .OfClass(typeof(SpatialElement))
                 .OfCategory(BuiltInCategory.OST_Rooms)
                 .Cast<Room>()
@@ -76,14 +83,47 @@ namespace Do_Rm
 
             try
             {
-                foreach (Room tempRoom in _rooms)
+                if (rooms.Count > 0)
                 {
-                    String _lvl = tempRoom.Level.Name;
-                    Parameter _rm = tempRoom.LookupParameter("Rm_Этаж");
-                    Parameter _gp = tempRoom.LookupParameter("GP_Этаж");
-                    room_count += 1;
-                    _rm.Set(_lvl);
-                    _gp.Set(_lvl);
+                    foreach (Room tempRoom in rooms)
+                    {
+                        String lvl = tempRoom.Level.Name;
+                        bool flag = false;
+
+                        if (tempRoom.LookupParameter("Rm_Этаж") != null)
+                        {
+                            Parameter rm = tempRoom.LookupParameter("Rm_Этаж");
+                            rm.Set(lvl);
+                            flag = true;
+                        }
+                        else
+                        {
+                            var e = Enum.GetName(typeof(ErrorEnum), ErrorEnum.Помещение_Rm_Этаж);
+                            if (!errorTypeList.Contains(e))
+                            {
+                                errorTypeList.Add(e);
+                            }
+
+                            if (tempRoom.LookupParameter("GP_Этаж") != null)
+                            {
+                                Parameter gp = tempRoom.LookupParameter("GP_Этаж");
+                                gp.Set(lvl);
+                                flag = true;
+                            }
+                            else
+                            {
+                                var e1 = Enum.GetName(typeof(ErrorEnum), ErrorEnum.Помещение_GP_Этаж);
+                                if (!errorTypeList.Contains(e1))
+                                {
+                                    errorTypeList.Add(e1);
+                                }
+                            }
+                            if (flag)
+                            {
+                                room_count += 1;
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception e)
@@ -93,11 +133,30 @@ namespace Do_Rm
 
             try
             {
-                foreach (Wall wall in walls)
+                if (walls.Count > 0)
                 {
-                    var _lvl = wall.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT).AsValueString();
-                    wall_count += 1;
-                    wall.LookupParameter("GP_Этаж").Set(_lvl);
+                    foreach (var wall in walls)
+                    {
+                        var flag = false;
+                        var lvl = wall.get_Parameter(BuiltInParameter.WALL_BASE_CONSTRAINT).AsValueString();
+                        if (wall.LookupParameter("GP_Этаж") != null)
+                        {
+                            wall.LookupParameter("GP_Этаж").Set(lvl);
+                            flag = true;
+                        }
+                        else
+                        {
+                            var e = Enum.GetName(typeof(ErrorEnum), ErrorEnum.Стены_GP_Этаж);
+                            if (!errorTypeList.Contains(e))
+                            {
+                                errorTypeList.Add(e);
+                            }
+                        }
+                        if (flag)
+                        {
+                            wall_count += 1;
+                        }
+                    }
                 }
             }
             catch (Exception e)
@@ -106,9 +165,24 @@ namespace Do_Rm
             }
 
             t.Commit();
+
+            string message_wall = string.Empty;
+            string message_room = string.Empty;
+            string message_error = string.Empty;
+
+            if (errorTypeList.Count > 0)
+            {
+                message_error = "Возможные ошибки: " + string.Join(", ", errorTypeList);
+            }
+
+            message_wall = wall_count == 0 ? "В стены ничего не вписано" : $"В стены вписан параметр GP_Этаж в количестве: {wall_count} шт.";
+            message_room = room_count == 0 ? "В помещения ничего не вписано" : $"В помещения вписан параметр Rm_Этаж и GP_Этаж: {room_count} шт.";
+
             TaskDialog.Show("Результат работы Сергей_ОВ",
-                "В стены вписан параметр GP_Этаж в количестве: " + wall_count.ToString() + " шт." + "\n" +
-                "В помещения вписан параметр Rm_Этаж и GP_Этаж: " + room_count.ToString() + " шт."
+                message_wall + "\n" +
+                message_room + "\n" +
+                message_error,
+                TaskDialogCommonButtons.Ok
                 );
         }
     }

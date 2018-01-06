@@ -11,7 +11,7 @@ using System.IO;
 
 namespace Utils
 {
-    [Transaction(TransactionMode.ReadOnly)]
+    [Transaction(TransactionMode.Manual)]
     public class OpenProjectFolder : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -26,7 +26,7 @@ namespace Utils
                     userVisiblePath = ModelPathUtils.ConvertModelPathToUserVisiblePath(doc.GetWorksharingCentralModelPath());
                 }
                 string _filePath = doc.PathName;
-                string filePath = userVisiblePath == null ? _filePath : userVisiblePath;
+                string filePath = userVisiblePath == string.Empty ? _filePath : userVisiblePath;
 
 
                 string _filedir = Path.GetDirectoryName(filePath);

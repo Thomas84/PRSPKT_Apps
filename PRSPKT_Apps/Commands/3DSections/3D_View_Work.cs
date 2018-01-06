@@ -1,7 +1,7 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
-/* keke_Work.cs
+/* 3D_View_Work.cs
  * PRSPKT.ru
  * © PRSPKT Architects, 2017
  *
@@ -9,27 +9,17 @@
  * command.
  */
 #region Namespaces
+
 using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Diagnostics;
 using Autodesk.Revit.ApplicationServices;
-using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using Autodesk.Revit.UI.Selection;
-using System.Resources;
-using System.Reflection;
-using System.Drawing;
-using System.Windows.Media.Imaging;
-using System.Windows.Interop;
 using WPF = System.Windows;
-using System.Linq;
-using Bushman.RevitDevTools;
+
 #endregion
 
 
-namespace PRSPKT_Apps._3DSections
+namespace PRSPKT_Apps.Commands._3DSections
 {
 
     public sealed partial class _3D_View
