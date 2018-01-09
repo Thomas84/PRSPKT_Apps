@@ -57,7 +57,6 @@ namespace Do_Rm
             }
         }
 
-
         private static void DoRm(UIDocument UIdoc, Transaction t)
         {
             Document _doc = UIdoc.Document;
@@ -75,6 +74,7 @@ namespace Do_Rm
                 .ToList();
 
             var walls = new FilteredElementCollector(_doc)
+                .OfClass(typeof(Wall))
                 .OfCategory(BuiltInCategory.OST_Walls)
                 .WhereElementIsNotElementType()
                 .Cast<Wall>()

@@ -67,7 +67,7 @@ namespace Utils
             string fullPath = Path.Combine(_filedir, _backupDir, _corruptFileName);
             if (File.Exists(fullPath))
             {
-                MessageBoxResult question = MessageBox.Show(string.Format("Удалить файл {0} ?", fullPath), "Удалить коррупцию", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                MessageBoxResult question = MessageBox.Show($"Удалить файл {fullPath} ?", "Удалить коррупцию", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 if (question == MessageBoxResult.OK)
                 {
                     t.Start("Удалить файл Corrupt");
@@ -86,7 +86,7 @@ namespace Utils
             }
             else
             {
-                MessageBox.Show(string.Format("Файл {0} не найден по пути {1}", _corruptFileName, fullPath), "Ошибка");
+                MessageBox.Show($"Файл {_corruptFileName} не найден по пути {fullPath}", "Ошибка");
             }
         }
 

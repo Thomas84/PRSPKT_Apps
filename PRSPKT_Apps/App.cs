@@ -4,6 +4,7 @@
 #region Namespaces
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -42,6 +43,8 @@ namespace PRSPKT_Apps
                     application.CreateRibbonPanel(tabName, Tools.GetResourceManager("tools_ribbon_panel_name"));
                 var sheetPanel =
                     application.CreateRibbonPanel(tabName, Tools.GetResourceManager("sheets_ribbon_panel_name"));
+                var cleanUpToolsPanel =
+                    application.CreateRibbonPanel(tabName, "Зачистка");
 
 
                 // Create icons in this panel
@@ -60,16 +63,29 @@ namespace PRSPKT_Apps
                 toolsPanel.AddSeparator();
                 toolsPanel.AddStackedItems(
                     CreatePerspUserView(dllPath),
-                    CreateUserView(dllPath));
+                    CreateUserView(dllPath),
+                    AuditViewNamesPushButtonData(dllPath));
                 toolsPanel.AddItem(CalcWallsArea(dllPath));
                 toolsPanel.AddItem(CalcHatchesArea(dllPath));
                 toolsPanel.AddItem(GetTotalLength(dllPath));
                 toolsPanel.AddSeparator();
                 toolsPanel.AddItem(OpenProjectFolder(dllPath));
-
+                
 
                 sheetPanel.AddItem(ElementInfo(dllPath));
                 sheetPanel.AddItem(PrintMe(dllPath));
+
+                PulldownButtonData cleanUpToolsPullDownButtonData = new PulldownButtonData(
+                    name: "CleanUpToolsPulldown",
+                    text: "Clean Up Tools");
+
+                RibbonItem stackOne = cleanUpToolsPanel.AddItem(cleanUpToolsPullDownButtonData);
+
+                PulldownButton cleanupPulldownButton = (PulldownButton)stackOne;
+
+                cleanupPulldownButton.AddPushButton(PurgeViews(dllPath));
+                cleanupPulldownButton.AddPushButton(PurgeLinePatterns(dllPath));
+                
 
                 return Result.Succeeded;
             }
@@ -84,7 +100,7 @@ namespace PRSPKT_Apps
         {
             var elementInfoButtonText = Tools.GetResourceManager("element_info");
             var pbd = new PushButtonData(
-                "cmdElementInfo", elementInfoButtonText, dll, "PRSPKT_Apps.ElementInfo");
+                "cmdElementInfo", elementInfoButtonText, dll, "Utils.ElementInfo");
             AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.information.png", 32, dll);
             pbd.ToolTip = Tools.GetResourceManager("element_info_tooltip");
             return pbd;
@@ -117,6 +133,16 @@ namespace PRSPKT_Apps
             var pbd = new PushButtonData("cmdDimAxies", elementInfoButtonText, dll, "DimAxies.DimAxies");
             AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.dimAxies.png", 32, dll);
             pbd.ToolTip = Tools.GetResourceManager("dimAxies_toolTip");
+            return pbd;
+        }
+
+        private static PushButtonData AuditViewNamesPushButtonData(string dll)
+        {
+            var elementInfoButtonText = "Названия видов";
+            var pbd = new PushButtonData("cmdAuditViewNames", elementInfoButtonText, dll,
+                "PRSPKT_Apps.Commands.AuditViewNamesCommand.AuditViewNamesCommand");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.dimensionTol_16.png", 16, dll);
+            pbd.ToolTip = "Красиво причесать названия видов";
             return pbd;
         }
 
@@ -182,6 +208,26 @@ namespace PRSPKT_Apps
                 "ElementsOnWorkset.WorksetExplorer");
             AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
             pbd.ToolTip = "Просмотр списка элементов (Id) в рабочих наборах";
+            return pbd;
+        }
+
+        private static PushButtonData PurgeViews(string dll)
+        {
+            var elementInfoButtonText = "Зачистка видов";
+            var pbd = new PushButtonData("cmdPurgeViews", elementInfoButtonText, dll,
+                "PRSPKT_Apps.Commands.PurgeViewsCommand.PurgeViewsCommand");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
+            pbd.ToolTip = "Зачистка видов по фильтру";
+            return pbd;
+        }
+
+        private static PushButtonData PurgeLinePatterns(string dll)
+        {
+            var elementInfoButtonText = "Зачистка линий";
+            var pbd = new PushButtonData("cmdPurgeLinePatterns", elementInfoButtonText, dll,
+                "PRSPKT_Apps.Commands.PurgeLinePatternsCommand.PurgeLinePatternsCommand");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.objectsOnWorkset.png", 32, dll);
+            pbd.ToolTip = "Зачистка типов линий по фильтру";
             return pbd;
         }
 

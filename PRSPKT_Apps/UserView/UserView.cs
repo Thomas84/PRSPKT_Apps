@@ -120,7 +120,7 @@ namespace UserView
 
         public static Element TryGetParameter(Element element, string p)
         {
-            var parameters = element.GetParameters("Раздел проекта");
+            var parameters = element.GetParameters(p);
             if (parameters.Count < 1)
             {
                 return element;
@@ -138,7 +138,7 @@ namespace UserView
             }
             else
             {
-                if (parameter.Set("Задание")) return element;
+                if (parameter.Set("ЗАДАНИЕ")) return element;
                 TaskDialog.Show("Ошибка", "Ошибка при задани Раздел проекта");
                 return null;
             }
