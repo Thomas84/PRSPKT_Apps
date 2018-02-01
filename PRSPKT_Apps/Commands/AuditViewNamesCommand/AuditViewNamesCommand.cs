@@ -11,12 +11,11 @@
 
 #region Namespaces
 
-using System;
-using System.Collections.Generic;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using WPF = System.Windows;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using InvalidOperationException = System.InvalidOperationException;
@@ -44,21 +43,21 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
 
         private readonly Regex _splitRegex = new Regex("_");
         //todo: this is passing numbering of the form
-        private readonly Regex _numberedDetailRegex = new Regex(@"^([А-Я][А-Я-][\d]{1,3}(-[А-Я]{1,3})?-\w{1,4})|([А-Я]{1,3}[\d]{1,2}(.[\d]{1,2})?[А-Яа-я]?-\w{1,4})$");
-        private readonly Regex _seg0UnplacedViewRegex = new Regex(@"^(\(К\)|DIM|\(П\)|\(З\)|PARENT|\(ПР\)|\(Э\))$"); // valid seg 0 values for unplaced views
-        private readonly Regex _seg1ViewPlanRegex = new Regex(@"^(ФР|ПЛН|ФрПЛН|ПЛН)(\(\w+\))?$"); // valid seg 1 values for plans
+        private readonly Regex _numberedDetailRegex = new Regex(@"^([А-Я][А-Я-][\d]{1,3}(-[А-Я]{1,3})?-\w{1,4})|([А-Я]{1,3}[\d]{1,2}(.[\d]{1,2})?|(ВН)|(Фасад)|(Разрез)|(РАЗРЕЗ))$");
+        //valid format for sheet/detail number on placed views
+        private readonly Regex _seg0UnplacedViewRegex = new Regex(@"^(\(Кв\)|\(П\)|\(З\)|3D|\(Персп\.\)|\(ПР\)|\(Э\))$"); // valid seg 0 values for unplaced views
+        private readonly Regex _seg1ViewPlanRegex = new Regex(@"^(ФР|ПЛН|ФрПЛН)(\(\w+\))?$"); // valid seg 1 values for plans
         private readonly Regex _seg1AreaPlanRegex = new Regex(@"^ЗОН(\(\w+\))?$");
         private readonly Regex _seg1RcPlanRegex = new Regex(@"^ПОТ(\(\w+\))?$"); // Потолки
-        private readonly Regex _seg1SectionRegex = new Regex(@"^(ФрРАЗ|РАЗ|СЕЧ|ВН.\d{1,3}(-\d{1,3})?(.\(\w+\))?)(\(\w+\))?$");
-        private readonly Regex _seg1ElevationRegex = new Regex(@"^(ФрФСД|ФСД|ИН|ВН.\d{1,3}(-\d{1,3})?(.\(\w+\))?)(\(\w+\))?$");
-        private readonly Regex _seg1ThreeDRegex = new Regex(@"^(3D|\(Персп.\))(\(\w+\))?$");
+        private readonly Regex _seg1SectionRegex = new Regex(@"^(ФрРАЗ|РАЗ|СЕЧ|ВН(.\(\w+\))?)(\(\w+\))?$");
+        private readonly Regex _seg1ElevationRegex = new Regex(@"^(ФрФСД|ФСД|ИН|ВН)(\(\w+\))?$");
+        private readonly Regex _seg1ThreeDRegex = new Regex(@"^(\w{1,20}?\s?)$");
         private readonly Regex _seg2LevelRegex = new Regex(@"^[А-Я]?\d{1,2}(.\d{1,2})?$");    //valid seg 2 values denoting a level
-        private readonly Regex _seg2ElevationRegex = new Regex(@"^(\d)(-)?$"); //valid seg 2 values denoting an elevation direction
-        private readonly Regex _seg2SectionRegex = new Regex(@"^(\d)(-)?$");
+        private readonly Regex _seg2ElevationRegex = new Regex(@"^(\d{0,2})-?(\d{0,2})(\s\(\w\))?|([А-Я]{1}\W?[А-Я]{1})$"); //valid seg 2 values denoting an elevation direction
+        private readonly Regex _seg2SectionRegex = new Regex(@"^(\d{0,2})-?(\d{0,2})(\s\(\w\))?|([А-Я]{1}\W?[А-Я]{1})$");
         private readonly Regex _default3DRegex = new Regex(@"^{3D( - [А-я]{2,20})?}|{3D( - [А-Я]{2,5}.[А-Я]{2,5}.[А-я]{2,10}})|{3D( - [A-z]{2,20})?}|{3D( - [A-Z]{2,20})?}$");
         // private Regex _levelNumberRegex = new Regex(@"^(\S* )?([A-B]?\d{1,3})$", RegexOptions.IgnoreCase);
 
-        // valid format for sheet/detail number on placed views
 
         /// <summary>
         /// This method implements the external command within 
@@ -167,25 +166,12 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
 
             #region Evaluation of ViewPlans
 
-            foreach (var docViewPlan in docViewPlans)
+            foreach (ViewPlan docViewPlan in docViewPlans)
             {
                 oldName = _splitRegex.Split(docViewPlan.Name).ToList();
                 newName = new List<string>();
-                if (oldName.Count() == 1)
-                {
-                    if (oldName[0].Contains("Этаж"))
-                    {
-                        var digit = oldName[0].Split(' ').ToList();
-                        digit.Remove("Этаж");
-                        newName.Add("(Э)_ПЛН_" + string.Join(" ", digit));
-                        TryRenameView(docViewPlan, newName);
-                        continue;
-                    }
 
-
-                }
-
-                if (oldName.Count() < 2 || oldName.Count() > 4) // plan names must have two to four segments
+                if (oldName.Count() > 4) // plan names must have two to four segments
                 {
                     _nonConformingViews.Add(docViewPlan);
                     continue;
@@ -193,7 +179,7 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
 
                 #region Evaluation of Segment0
 
-                var newSeg0 = GetSeg0(docViewPlan, oldName[0]);
+                string newSeg0 = GetSeg0(docViewPlan, oldName[0]);
                 if (newSeg0 != null)
                 {
                     newName.Add(newSeg0);
@@ -209,79 +195,117 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
                 #region Evaluation of Segment 1
 
                 // ViewPlans are permitted to have only two segments where they are large scale details
-                if (oldName.Count == 2)
-                    if ((ViewType.FloorPlan == docViewPlan.ViewType ||
-                         ViewType.CeilingPlan == docViewPlan.ViewType ||
-                         ViewType.Detail == docViewPlan.ViewType) &&
-                        docViewPlan.get_Parameter(BuiltInParameter.VIEW_SCALE_PULLDOWN_METRIC).AsInteger() <= 25)
-                    {
-                        if (oldName[1].Contains("Этаж"))
-                        {
-                            var digit = oldName[1].Split(' ').ToList();
-                            digit.Remove("Этаж");
-                            newName.Add("ПЛН_" + string.Join(" ", digit));
-                        }
-                        else newName.Add(oldName[1]);
-                        TryRenameView(docViewPlan, newName);
-                        continue;
-                    }
-                    else
-                    {
-                        _nonConformingViews.Add(docViewPlan);
-                        continue;
-                    }
-                else if (ViewType.FloorPlan == docViewPlan.ViewType)
-                    if (_seg1ViewPlanRegex.IsMatch(oldName[1])) // if conforms to a proper view type designation
-                    {
-                        if (oldName[1].Contains("Этаж"))
-                        {
-                            var digit = oldName[1].Split(' ').ToList();
-                            digit.Remove("Этаж");
-                            newName.Add("ПЛН_" + string.Join(" ", digit));
-                        }
-                        else newName.Add(oldName[1]);
-                    }
-                    else
-                    {
-                        _nonConformingViews.Add(docViewPlan);
-                        continue;
-                    }
-                else if (ViewType.CeilingPlan == docViewPlan.ViewType)
-                    if (_seg1RcPlanRegex.IsMatch(oldName[1]))
-                    {
-                        newName.Add(oldName[1]);
-                    }
-                    else
-                    {
-                        _nonConformingViews.Add(docViewPlan);
-                        continue;
-                    }
-                else if (ViewType.AreaPlan == docViewPlan.ViewType)
+                if ((ViewType.FloorPlan == docViewPlan.ViewType ||
+                     ViewType.CeilingPlan == docViewPlan.ViewType ||
+                     ViewType.Detail == docViewPlan.ViewType) &&
+                    docViewPlan.get_Parameter(BuiltInParameter.VIEW_SCALE_PULLDOWN_METRIC).AsInteger() <= 50)
                 {
-                    if (oldName[0].Contains("Этаж"))
+                    switch (oldName.Count)
                     {
-                        var digit = oldName[0].Split(' ').ToList();
-                        digit.Remove("Этаж");
-                        newName.Add("(Э)_ЗОН_" + string.Join(" ", digit));
-                        TryRenameView(docViewPlan, newName);
-                        continue;
+                        case 2:
+                            if (oldName[1].ToLower().Contains("этаж"))
+                            {
+                                newName.Add("ФрПЛН");
+                            }
+
+                            else if (oldName[1].ToLower().Contains("раз"))
+                            {
+                                newName.Add("ФрРАЗ");
+                            }
+                            else if (oldName[1].ToLower().Contains("фсд"))
+                            {
+                                newName.Add("ФрФСД");
+                            }
+                            else newName.Add(oldName[1]);
+                            break;
+                        case 3:
+                            newName.Add(oldName[1]);
+                            newName.Add(oldName[2]);
+                            break;
                     }
 
-                    if (_seg1AreaPlanRegex.IsMatch(oldName[1]))
-                    {
-                        newName.Add(oldName[1]);
-                    }
-                    else
-                    {
-                        _nonConformingViews.Add(docViewPlan);
-                        continue;
-                    }
+                    TryRenameView(docViewPlan, newName);
+                    continue;
                 }
-                else if (ViewType.Detail != docViewPlan.ViewType
-                ) //details are only permitted at larger scales as checked above
-                    throw new InvalidOperationException(docViewPlan.Name += " is of an unrecognized ViewType");
-                else
-                    _nonConformingViews.Add(docViewPlan);
+
+                switch (docViewPlan.ViewType)
+                {
+                    case ViewType.FloorPlan:
+                        if (oldName.Count() < 3)
+                        {
+                            if (oldName.Count == 1)
+                            {
+                                if (oldName[0].Contains("Этаж"))
+                                {
+                                    var digit = oldName[0].Split(' ').ToList();
+                                    digit.Remove("Этаж");
+                                    newName.Add("ПЛН_" + string.Join(" ", digit));
+                                    TryRenameView(docViewPlan, newName);
+                                    continue;
+                                }
+
+                            }
+                            if (oldName[1].Contains("Этаж"))
+                            {
+                                var digit = oldName[1].Split(' ').ToList();
+                                digit.Remove("Этаж");
+                                newName.Add("ПЛН_" + string.Join(" ", digit));
+                                TryRenameView(docViewPlan, newName);
+                                continue;
+                            }
+                        }
+                        if (_seg1ViewPlanRegex.IsMatch(oldName[1])) // if conforms to a proper view type designation
+                        {
+                            newName.Add(oldName[1]);
+                        }
+                        else
+                        {
+                            _nonConformingViews.Add(docViewPlan);
+                            continue;
+                        }
+
+                        break;
+                    case ViewType.CeilingPlan:
+                        if (_seg1RcPlanRegex.IsMatch(oldName[1]))
+                        {
+                            newName.Add(oldName[1]);
+                        }
+                        else
+                        {
+                            _nonConformingViews.Add(docViewPlan);
+                            continue;
+                        }
+
+                        break;
+                    case ViewType.AreaPlan:
+                        if (oldName[0].Contains("Этаж") && oldName.Count() == 1)
+                        {
+                            var digit = oldName[0].Split(' ').ToList();
+                            digit.Remove("Этаж");
+                            newName.Add("ЗОН_" + string.Join(" ", digit));
+                            TryRenameView(docViewPlan, newName);
+                            continue;
+                        }
+
+                        if (_seg1AreaPlanRegex.IsMatch(oldName[1]))
+                        {
+                            newName.Add(oldName[1]);
+                        }
+                        else
+                        {
+                            _nonConformingViews.Add(docViewPlan);
+                            continue;
+                        }
+
+                        break;
+                    default:
+                        if (ViewType.Detail != docViewPlan.ViewType
+                        ) //details are only permitted at larger scales as checked above
+                            throw new InvalidOperationException(docViewPlan.Name += " is of an unrecognized ViewType");
+                        else
+                            _nonConformingViews.Add(docViewPlan);
+                        break;
+                }
 
                 #endregion Evaluation of Segment 1
 
@@ -290,13 +314,7 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
                 //todo: add level verification
                 if (_seg2LevelRegex.IsMatch(oldName[2]))
                 {
-                    if (oldName[1].Contains("Фасад"))
-                    {
-                        var digit = oldName[1].Split(' ').ToList();
-                        digit.Remove("Фасад");
-                        newName.Add("ФСД_" + string.Join(" ", digit));
-                    }
-                    else newName.Add(oldName[2]);
+                    newName.Add(oldName[2]);
                 }
                 else
                 {
@@ -325,24 +343,9 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
             {
                 oldName = _splitRegex.Split(docViewSection.Name).ToList();
                 newName = new List<string>();
-                if (oldName.Count() == 1)
-                {
-                    if (oldName[0].Contains("Разрез"))
-                    {
-                        var digit = oldName[0].Split(' ').ToList();
-                        digit.Remove("Разрез");
-                        if (oldName[0].ToLower().Contains("задание"))
-                        {
-                            var d = digit.Where(q => !q.Contains("Задание")).ToList();
-                            newName.Add("(З)_РАЗ_" + string.Join(" ", d));
-                        }
-                        else newName.Add("(Э)_РАЗ_" + string.Join(" ", digit));
-                        TryRenameView(docViewSection, newName);
-                        continue;
-                    }
-                }
 
-                if (oldName.Count() < 2 || oldName.Count() > 4) // Section and elevation views must have between two and four segments
+
+                if (oldName.Count() > 4) // Section and elevation views must have between two and four segments
                 {
                     _nonConformingViews.Add(docViewSection);
                     continue;
@@ -368,13 +371,13 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
                 if (2 == oldName.Count)
                 {
                     if ((ViewType.Section == docViewSection.ViewType || ViewType.Detail == docViewSection.ViewType) &&
-                        docViewSection.get_Parameter(BuiltInParameter.VIEW_SCALE_PULLDOWN_METRIC).AsInteger() <= 25)
+                        docViewSection.get_Parameter(BuiltInParameter.VIEW_SCALE_PULLDOWN_METRIC).AsInteger() <= 50)
                     {
                         if (oldName[1].Contains("Разрез"))
                         {
                             var digit = oldName[1].Split(' ').ToList();
                             digit.Remove("Разрез");
-                            newName.Add("РАЗ_" + string.Join(" ", digit));
+                            newName.Add("ФрРАЗ_" + string.Join(" ", digit));
                         }
                         newName.Add(oldName[1]);
                         continue;
@@ -383,6 +386,39 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
                     _nonConformingViews.Add(docViewSection);
                     continue;
                 }
+
+                else if (oldName.Count() == 1)
+                {
+                    if (oldName[0].Contains("Разрез"))
+                    {
+                        var digit = oldName[0].Split(' ').ToList();
+                        digit.Remove("Разрез");
+
+                        newName.Add("РАЗ_" + string.Join(" ", digit));
+                        TryRenameView(docViewSection, newName);
+                        continue;
+                    }
+
+                    if (oldName[0].ToLower().Contains("вн"))
+                    {
+                        newName.Add(oldName[0]);
+                        TryRenameView(docViewSection, newName);
+                        continue;
+                    }
+                    if (oldName[0].ToLower().Contains("фасад"))
+                    {
+                        var str = oldName[0].Split(' ');
+                        str[0] = "ФСД";
+                        var other = string.Join("_", str);
+
+                        newName.Add(other);
+                        TryRenameView(docViewSection, newName);
+                        continue;
+                    }
+                    _nonConformingViews.Add(docViewSection);
+                    continue;
+                }
+
                 else if (ViewType.Elevation == docViewSection.ViewType && _seg1ElevationRegex.IsMatch(oldName[1]))
                 {
                     newName.Add(oldName[1]);
@@ -533,16 +569,19 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
             }
             else if (_nonConformingViews.Count != 0)
             {
-                _cmdResultMsg += "\nNon-Conforming:\n";
+                _cmdResultMsg += $"\nNon-Conforming {_nonConformingViews.Count} шт.:\n";
+                int count = 1;
                 foreach (var nonConformingView in _nonConformingViews)
                 {
-                    _cmdResultMsg += nonConformingView.Name + "\n";
+                    _cmdResultMsg += count + ". " + nonConformingView.Name + " - " + nonConformingView.ViewType + "\n";
+                    count += 1;
                 }
             }
 
-            t.Commit();
+            var result = TaskDialog.Show("View names", _cmdResultMsg, TaskDialogCommonButtons.Yes | TaskDialogCommonButtons.No, TaskDialogResult.Yes);
+            if (result == TaskDialogResult.Yes) t.Commit();
+            else t.RollBack();
 
-            TaskDialog.Show("View names", _cmdResultMsg);
         }
 
         /// <summary>
@@ -566,6 +605,7 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
             }
         }
 
+
         /// <summary>
         /// Returns Segment 0 for a view based on whether it is placed and whether its name indicates it should be placed
         /// </summary>
@@ -577,15 +617,46 @@ namespace PRSPKT_Apps.Commands.AuditViewNamesCommand
         {
             if (IsPlaced(view))
             {
+                if (
+                    oldSeg0.Split(' ')[0].ToLower() == "вн" ||
+                    oldSeg0.Split(' ')[0].ToUpper() == "ФАСАД" ||
+                oldSeg0.Split(' ')[0].ToUpper() == "РАЗРЕЗ"
+                    )
+                {
+                    return GetPlacedViewPrefix(view);
+                }
+                if (oldSeg0.Split(' ').Any(q => Regex.IsMatch(q.ToLower(), @"\(?З?(з)?адание\)?")))
+                {
+                    return "(З)";
+                }
+
                 if (_numberedDetailRegex.IsMatch(oldSeg0) || "(П)" == oldSeg0) return GetPlacedViewPrefix(view);
 
-                if ("(З)" == oldSeg0) // EXPORT and PRES are valid prefixes for a placed view
-                    return oldSeg0;
 
-                return null;
+                return "(З)" == oldSeg0 ? oldSeg0 : null;
             }
 
             if (_numberedDetailRegex.IsMatch(oldSeg0)) return "(П)"; // rename unplaced but numbered DOC view to DOC
+
+            /*if (((View)view).ViewType == ViewType.AreaPlan)
+            {
+                if (oldSeg0.Contains("Этаж")) return "(Кв)";
+            }*/
+            if (oldSeg0.Split(' ').Any(q => Regex.IsMatch(q.ToLower(), @"\(?З?(з)?адание\)?")))
+            {
+                return "(З)";
+            }
+
+            if (oldSeg0.ToLower().Contains("этаж")
+                || oldSeg0.ToLower().Contains("фасад")
+                || oldSeg0.ToLower().Contains("разрез")
+                || oldSeg0.ToLower().Contains("вн")
+                || oldSeg0.ToLower().Contains("bh")
+                || oldSeg0.ToLower().Contains("сечение")
+                )
+                return "(Э)";
+
+
 
             return _seg0UnplacedViewRegex.IsMatch(oldSeg0) ? oldSeg0 : null;
 

@@ -58,8 +58,8 @@ namespace PRSPKT_Apps
                 toolsPanel.AddItem(FloorEditButton(dllPath));
                 toolsPanel.AddStackedItems(
                     MakeGridWallDim(dllPath),
-                    MakeDimensionTolerance(dllPath),
-                    CleanImportLines(dllPath));
+                    GetWindowFromLegend(dllPath),
+                    MakeDimensionTolerance(dllPath));
                 toolsPanel.AddSeparator();
                 toolsPanel.AddStackedItems(
                     CreatePerspUserView(dllPath),
@@ -70,7 +70,7 @@ namespace PRSPKT_Apps
                 toolsPanel.AddItem(GetTotalLength(dllPath));
                 toolsPanel.AddSeparator();
                 toolsPanel.AddItem(OpenProjectFolder(dllPath));
-                
+
 
                 sheetPanel.AddItem(ElementInfo(dllPath));
                 sheetPanel.AddItem(PrintMe(dllPath));
@@ -85,7 +85,7 @@ namespace PRSPKT_Apps
 
                 cleanupPulldownButton.AddPushButton(PurgeViews(dllPath));
                 cleanupPulldownButton.AddPushButton(PurgeLinePatterns(dllPath));
-                
+
 
                 return Result.Succeeded;
             }
@@ -109,9 +109,9 @@ namespace PRSPKT_Apps
         private static PushButtonData PrintMe(string dll)
         {
             var pushButtonData = new PushButtonData(
-                name: "cmdPrintMe", 
-                text: Tools.GetResourceManager("printme_button_name"), 
-                assemblyName: dll, 
+                name: "cmdPrintMe",
+                text: Tools.GetResourceManager("printme_button_name"),
+                assemblyName: dll,
                 className: "PrintMe.PrintMe");
             AssignPushButtonImage(pushButtonData, "PRSPKT_Apps.Resources.printme.png", 32, dll);
             pushButtonData.ToolTip = Tools.GetResourceManager("printme_tooltip");
@@ -156,14 +156,15 @@ namespace PRSPKT_Apps
             return pbd;
         }
 
-        private static PushButtonData CleanImportLines(string dll)
+        private static PushButtonData GetWindowFromLegend(string dll)
         {
-            var elementInfoButtonText = "Clean IMPORT LP";
-            var pbd = new PushButtonData("cmdCleanLinePatterns", elementInfoButtonText, dll, "Utils.DeleteImportLines");
-            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.lines-pattern_16.png", 16, dll);
-            pbd.ToolTip = "Удалить типы линий, начинающиеся с IMPORT";
+            var elementInfoButtonText = "Дверь/окно с легенды";
+            var pbd = new PushButtonData("cmdGetWinFromLgnd", elementInfoButtonText, dll, "PRSPKT_Apps.Commands.GetFromLegend.GetWindowFromLegendCommand");
+            AssignPushButtonImage(pbd, "PRSPKT_Apps.Resources.window_16.png", 16, dll);
+            pbd.ToolTip = "Выделить окно с легенды";
             return pbd;
         }
+
 
         private static PushButtonData MakeGridWallDim(string dll)
         {

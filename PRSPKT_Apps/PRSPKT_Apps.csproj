@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="App.cs" />
     <Compile Include="Commands\AuditViewNamesCommand\AuditViewNamesCommand.cs" />
+    <Compile Include="Commands\GetFromLegend\GetWindowFromLegendCommand.cs" />
     <Compile Include="Commands\PurgeLinePatternsCommand\PurgeLinePatternsCommand.cs" />
     <Compile Include="Commands\PurgeViewsCommand\PurgeViewsCommand.cs" />
     <Compile Include="Common\About.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Utils\WallsTotalArea.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\door_16.png" />
+    <EmbeddedResource Include="Resources\window_16.png" />
     <EmbeddedResource Include="Resources\perspuserview_16.png" />
     <EmbeddedResource Include="Resources\userview_16.png" />
     <EmbeddedResource Include="Commands\3DSections\3D_View.resx">

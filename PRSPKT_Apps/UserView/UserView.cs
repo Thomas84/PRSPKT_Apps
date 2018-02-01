@@ -153,8 +153,8 @@ namespace UserView
 
             var name = srcView.Name;
             var prefix = srcView.ViewType != ViewType.ThreeD
-                ? "Задание"
-                : "Персп.";
+                ? "(З)_"
+                : "(Персп.)_";
             name = name.Replace(@"{", String.Empty).Replace(@"}", string.Empty);
             name = $"{prefix} от {MiscUtils.GetDateString} - {name}";
             return MiscUtils.ViewNameIsAvailable(doc, name)
@@ -171,8 +171,8 @@ namespace UserView
 
             var name = desc;
             var prefix = srcView.ViewType != ViewType.ThreeD
-                ? $"Задание для {pName} от "
-                : "Персп. от ";
+                ? $"(З)_{pName}_"
+                : "(Персп.)_";
             name = name.Replace(@"{", string.Empty).Replace(@"}", string.Empty);
             name = $"{prefix}{MiscUtils.GetDateString} - {name}";
             return MiscUtils.ViewNameIsAvailable(doc, name)
